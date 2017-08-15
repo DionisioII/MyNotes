@@ -1,0 +1,20 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Produttore demand driven</title>
+</head><body>La coppia prouttore-consumatore comandata da quest’ultimo può essere convenientemente reimplementata usando una funzione lazy:<br/>
+<br/>
+fun lazy {Produce N}<br/>
+N|{Produce N+1}<br/>
+end<br/>
+<br/>
+<span style="color: #ff0000">il consumatore dovrà solo prendere la coda della lista prodotta dal produttore</span>: automaticamente, la lista si espande. Eventualmente, lo stesso meccanismo può essere implementato usando un trigger (che è semplicemente una variante sintattica):<br/>
+<br/>
+<br/>
+declare<br/>
+fun lazy {Produce N}<br/>
+{N|Produce N+1}<br/>
+end<br/>
+Ns = {Produce 0} % era lo stream object<br/>
+{Browse Ns}</body></html>

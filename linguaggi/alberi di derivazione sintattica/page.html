@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Alberi di derivazione sintattica</title>
+</head><body><span style="color: #0000ff">La sintassi </span><span style="color: #ff0000">definisce la correttezza dei programmi</span>. Un’eventuale istruzione non corretta, infatti, non è fruibile perché non si,sa come interpretarla semanticamente. La validazione sintatticadi un programma, quindi, è condizione necessaria perché venga eseguito.<br/>
+La sintassi di un linguaggio di programmazione è definita condelle regole grammaticali. Due elementi:<br/>
+<br/>
+<ul><li><span style="color: #ff0000">Scanner<span style="color: #000000">: verifica la correttezza lessicale; riconosce sequenze di caratteri per trasformarle in tokens; &nbsp; lista di caratteri -&gt;lista di tokens</span></span></li>
+<li><span style="color: #ff0000">Parser: </span><span style="color: #000000">verifica la correttezza sintattica; riconosce sequenze di tokens per trasformarle in statements lista di tokens -&gt; albero di statement</span></li>
+</ul>
+<span style="color: #000000"><br/>
+<br/>
+</span><span style="color: #0000ff">STATEMENT<span style="color: #000000">: Istruzione del linguaggio</span></span><span style="color: #000000"><br/>
+</span><br/>
+Gli statement vengono rappresentati dal parser in una strutura ad albero: parse tree o albero di derivazione sintattica il quale rappresenta la struttura di tutti gli statement contenuti nel programma<br/>
+<br/>
+Le regole grammaticali indicano come comporre i token per formare delle frasi<br/>
+<br/>
+la definizione formale di una sintassi si esprime attraverso regole grammaticali<br/>
+<br/>
+2 tipi di grammatiche:<br/>
+<ul><li><span style="color: #0000ff">CFG <span style="color: #ff0000">: </span></span>i<span style="color: #ff0000">ndipendenti dal contesto</span></li>
+<li><span style="color: #0000ff">CSG: </span><span style="color: #ff0000">sensibili al contesto</span></li>
+</ul>
+<span style="color: #0000ff"><br/>
+</span><br/>
+<br/>
+<br/>
+<span style="color: #0000ff">CFG COME QUADRUPLA:<br/>
+<br/>
+quadrupla ( T , N , S, P ):<br/>
+<br/>
+</span><span style="color: #000000">T = insieme dei terminali<br/>
+<br/>
+N = insieme di simboli non terminali<br/>
+<br/>
+S = radice di un albero di derivazione sintattica<br/>
+<br/>
+P = Regole di produzione a-&gt; X con a appartiena a N e X appartiene N unito T<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+</span><span style="color: #0000ff">CFG COME EBNF:<br/>
+<br/>
+Nell' Extended backus-naur form le grammatiche sone espresse in espressioni.<br/>
+<br/>
+</span><span style="color: #000000">I simboli non terminali sono associati a regole del tipo: <br/>
+<br/>
+</span><span style="color: #ff0000">&lt;nonterminal&gt; ::= &lt;rule body&gt;</span><span style="color: #000000">&#09;&#09;es:</span>&#09;&#09;digit ::= 0|1|2|3|4|5|6|7|8|9|0 &#09;&#09;&#09;&#09;integer ::= &lt;digit&gt;{&lt;digit&gt;}<br/>
+<br/>
+<br/>
+in un’ottica generativa o evolutiva (top-down) si costruisce<br/>
+l’albero top-down, partendo dall’alto e specializzando via via<br/>
+la sequenza fino ad arrivare a una sequenza di soli terminali.<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+In un’ottica di riconoscimento (bottom-up) si costruisce l’al-<br/>
+bero partendo invece dal basso, dal risultato, che viene gene-<br/>
+ralizzato.<br/>
+<br/>
+<br/>
+<span style="color: #0000ff">Ambiguità:<br/>
+<br/>
+Un linguaggio è ambiguo se esiste almeno una sua frase<br/>
+generabile da due o più alberi di derivazione distinti<br/>
+<br/>
+</span><img src="image.png" width="496" height="250" /><br/>
+<br/>
+La soluzione generale consiste nel sostituire le regole che determinano l’ambiguità, sostituendole con regole più specifiche.<br/>
+<br/>
+Si introduce il concetto di termine: l’espressione ora è ricorsiva solo nel membro di sinistra, data la nuova definizione;poi l’operatore dell’espressione generale è l’addizione. In &lt;term&gt; viene definito come un intero oppure come un termine moltiplicato (&lt;mul-op&gt;) seguito da un intero. Le operazioni sono state inserite a due livelli diversi e specifici: più in alto l’addizione, per i termini in basso la moltiplicazione. In questo modo si elimina l’ambiguità.<br/>
+<br/>
+<br/>
+<br/>
+Tramite le regole grammaticali, si può definire la precedenza<br/>
+e l’associatività (che quindi attengono alla semantica):<br/>
+<ul><li>La precedenza è l’ordine di valutazione di operatori diversi in un’espressione;</li>
+</ul>
+<ul><li>L’associatività è l’ordine di valutazione di uno stesso operatore ricorrente più volte nella stessa espressione.</li>
+</ul>
+<br/>
+<br/>
+La precedenza può essere gestita ponendo l’operatore più prioritario più in basso nell’albero di derivazione sintattica, come appena visto. Questo perché, scendendo nell’albero, si definisconoconcetti sempre più specifici che devono essere applicati prima,per poi andare a definire dei concetti più generali(che sono più in alto).<br/>
+<br/>
+Per rendere l’associatività con le regole grammaticali definite, basta inserire la definizione ricorsiva a destra o a sinistra dell’operatore.<br/>
+</body></html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Modello demand driven</title>
+</head><body>produttore produce; consumatore consuma; Nel modello eager il produttore potrebbe produrre più di quanto necessario allora facciamo sì che il consumatore decida quanto il produttore deve produrre( <span style="color: #0000ff">demand-driven execution)<br/>
+</span><span style="color: #0000ff"><br/>
+</span><span style="color: #000000">Per realizzare un tale meccanismo si possono impiegare due<br/>
+tecniche:<br/>
+<ul><li>Esecuzione dataflow;</li>
+</ul>
+</span><ul><span style="color: #000000"><li>La concorrenza.</li>
+</span></ul>
+<br/>
+<br/>
+<br/>
+I due processi condividono la stessa struttura dati: lo stream.La struttura viene definita dal consumatore – una struttura vuota.<br/>
+Il produttore inserirà i valori nelle posizioni vuote. Il consumatore,quindi, definisce lo scheletro dello stream, dell’informazione di<br/>
+cui ha bisogno; il produttore lo popola.In àmbito dataflow, infatti, chi usa delle variabili unbound si sospende fino al momento in cui chiunque li popoli.<br/>
+Prima il processo che definisce i due processi concorrenti:<br/>
+<ul><li>Il produttore non sa quanto deve produrre, pertanto non</li>
+<li style="list-style-type: none">avrà un parametro che stabilisce il suo limite di produzione;</li>
+</ul>
+<ul><li>Tale parametro sarà di pertinenza del consumatore, che è</li>
+<li style="list-style-type: none">colui che definisce il numero di dati di cui ha bisogno.</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none">local Xs S in</li>
+<li style="list-style-type: none">thread {DProduce 0 Xs} end</li>
+<li style="list-style-type: none">thread S={DConsume Xs 0 10000} end</li>
+<li style="list-style-type: none">{Browse S}</li>
+<li style="list-style-type: none">end</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none">fun {DConsume ?Xs Acc Limit}</li>
+<li style="list-style-type: none">if Limit &gt; 0 then </li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none">Xs = X|Xr % Alla lista Xs viene assegnata una strutturadati, una lista unbound.</li>
+<li style="list-style-type: none">{DConsume Xr Acc+X Limit-1}</li>
+<li style="list-style-type: none">end</li>
+<li style="list-style-type: none">else Acc end</li>
+<li style="list-style-type: none">end</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none">proc {DProduce N Xs}</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none">case Xs of X|Xr then</li>
+<li style="list-style-type: none">X=N</li>
+<li style="list-style-type: none">{DProduce N+1 Xr}</li>
+<li style="list-style-type: none">end</li>
+<li style="list-style-type: none">end</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none"></li>
+</ul>
+</body></html>

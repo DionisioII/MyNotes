@@ -1,0 +1,229 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Processes</title>
+</head><body><span style="color: #0000ff"><span style="font-size: 12pt">Process Implementation</span></span><br/>
+To let the kernel manage processes, each process is represented by a process descrip-<br/>
+tor that includes information about the current state of the process.<br/>
+When the kernel stops the execution of a process, it saves the current contents of<br/>
+several processor registers in the process descriptor. These include:<br/>
+The program counter (PC) and stack pointer (SP) registers<br/>
+The general purpose registers<br/>
+The floating point registers<br/>
+The processor control registers (Processor Status Word) containing information<br/>
+about the CPU state<br/>
+The memory management registers used to keep track of the RAM accessed by<br/>
+the process<br/>
+When the kernel decides to resume executing a process, it uses the proper process<br/>
+descriptor fields to load the CPU registers. Because the stored value of the program<br/>
+counter points to the instruction following the last instruction executed, the process<br/>
+resumes execution at the point where it was stopped.<br/>
+When a process is not executing on the CPU, it is waiting for some event. Unix ker-<br/>
+nels distinguish many wait states, which are usually implemented by queues of<br/>
+process descriptors; each (possibly empty) queue corresponds to the set of processes<br/>
+waiting for a specific event.<br/>
+<br/>
+&nbsp;<br/>
+&nbsp;<span style="color: #0000ff">A <i>kernel control path</i>&nbsp;is the sequence of instructions executed by a <i><a href="http://www.linfo.org/kernel.html">kernel</a></i>&nbsp;to handle a <i>system call</i>, an <i>interrupt</i>&nbsp;or an <i>exception</i>. <br/>
+</span><br/>
+<span style="color: #0000ff"><span style="font-size: 13pt"><br/>
+</span></span><span style="color: #0000ff"><span style="font-size: 13pt">Process Address Space</span></span><br/>
+Each process runs in its private address space. A process running in User Mode refers<br/>
+to private stack, data, and code areas. When running in Kernel Mode, the process<br/>
+addresses the kernel data and code areas and uses another private stack.<br/>
+Because the kernel is reentrant, several kernel control paths—each related to a differ-<br/>
+ent process—may be executed in turn. In this case, each kernel control path refers to<br/>
+its own private kernel stack.<br/>
+While it appears to each process that it has access to a private address space, there<br/>
+are times when part of the address space is shared among processes. In some cases,<br/>
+this sharing is explicitly requested by processes; in others, it is done automatically by<br/>
+the kernel to reduce memory usage.<br/>
+If the same program, say an editor, is needed simultaneously by several users, the<br/>
+program is loaded into memory only once, and its instructions can be shared by all of<br/>
+the users who need it. Its data, of course, must not be shared, because each user will<br/>
+have separate data. This kind of shared address space is done automatically by the<br/>
+kernel to save memory.<br/>
+Processes also can share parts of their address space as a kind of interprocess com-<br/>
+munication, using the “shared memory” technique introduced in System V and sup-<br/>
+ported by Linux.<br/>
+Finally, Linux supports the mmap( ) system call, which allows part of a file or the<br/>
+information stored on a block device to be mapped into a part of a process address<br/>
+space. Memory mapping can provide an alternative to normal reads and writes for<br/>
+transferring data. If the same file is shared by several processes, its memory mapping<br/>
+is included in the address space of each of the processes that share it.<br/>
+<br/>
+<span style="color: #0000ff"><span style="font-size: 12pt">Synchronization and Critical Regions</span></span><br/>
+Implementing a reentrant kernel requires the use of synchronization. If a kernel con-<br/>
+trol path is suspended while acting on a kernel data structure, no other kernel con-<br/>
+trol path should be allowed to act on the same data structure unless it has been reset<br/>
+to a consistent state. Otherwise, the interaction of the two control paths could cor-<br/>
+rupt the stored information.<br/>
+For example, suppose a global variable V contains the number of available items of<br/>
+some system resource. The first kernel control path, A, reads the variable and deter-<br/>
+mines that there is just one available item. At this point, another kernel control path,<br/>
+B, is activated and reads the same variable, which still contains the value 1. Thus, B<br/>
+decreases V and starts using the resource item. Then A resumes the execution;<br/>
+because it has already read the value of V, it assumes that it can decrease V and take<br/>
+the resource item, which B already uses. As a final result, V contains –1, and two ker-<br/>
+nel control paths use the same resource item with potentially disastrous effects.<br/>
+When the outcome of a computation depends on how two or more processes are<br/>
+scheduled, the code is incorrect. We say that there is a race condition.<br/>
+In general, safe access to a global variable is ensured by using atomic operations. In<br/>
+the previous example, data corruption is not possible if the two control paths read<br/>
+and decrease V with a single, noninterruptible operation. However, kernels contain<br/>
+many data structures that cannot be accessed with a single operation. For example, it<br/>
+usually isn’t possible to remove an element from a linked list with a single operation,<br/>
+because the kernel needs to access at least two pointers at once. Any section of code<br/>
+that should be finished by each process that begins it before another process can<br/>
+enter it is called a critical region. *<br/>
+These problems occur not only among kernel control paths but also among pro-<br/>
+cesses sharing common data. Several synchronization techniques have been adopted.<br/>
+The following section concentrates on how to synchronize kernel control paths.<br/>
+<br/>
+<span style="color: #0000ff">Semaphores</span><br/>
+A widely used mechanism, effective in both uniprocessor and multiprocessor sys-<br/>
+tems, relies on the use of semaphores. A semaphore is simply a counter associated<br/>
+with a data structure; it is checked by all kernel threads before they try to access the<br/>
+data structure. Each semaphore may be viewed as an object composed of:<br/>
+An integer variable<br/>
+A list of waiting processes<br/>
+Two atomic methods: down( ) and up( )<br/>
+The down( ) method decreases the value of the semaphore. If the new value is less<br/>
+than 0, the method adds the running process to the semaphore list and then blocks<br/>
+(i.e., invokes the scheduler). The up( ) method increases the value of the semaphore<br/>
+and, if its new value is greater than or equal to 0, reactivates one or more processes in<br/>
+the semaphore list.<br/>
+Each data structure to be protected has its own semaphore, which is initialized to 1.<br/>
+When a kernel control path wishes to access the data structure, it executes the down( )<br/>
+method on the proper semaphore. If the value of the new semaphore isn’t negative,<br/>
+access to the data structure is granted. Otherwise, the process that is executing the<br/>
+kernel control path is added to the semaphore list and blocked. When another pro-<br/>
+cess executes the up( ) method on that semaphore, one of the processes in the sema-<br/>
+phore list is allowed to proceed.<br/>
+<br/>
+<span style="color: #0000ff"><span style="font-size: 12pt">Spin locks</span></span><br/>
+In multiprocessor systems, semaphores are not always the best solution to the syn-<br/>
+chronization problems. Some kernel data structures should be protected from being<br/>
+concurrently accessed by kernel control paths that run on different CPUs. In this<br/>
+case, if the time required to update the data structure is short, a semaphore could be<br/>
+very inefficient. To check a semaphore, the kernel must insert a process in the sema-<br/>
+phore list and then suspend it. Because both operations are relatively expensive, in<br/>
+the time it takes to complete them, the other kernel control path could have already<br/>
+released the semaphore.<br/>
+In these cases, multiprocessor operating systems use spin locks. A spin lock is very<br/>
+similar to a semaphore, but it has no process list; when a process finds the lock<br/>
+closed by another process, it “spins” around repeatedly, executing a tight instruction<br/>
+loop until the lock becomes open.<br/>
+Of course, spin locks are useless in a uniprocessor environment. When a kernel con-<br/>
+trol path tries to access a locked data structure, it starts an endless loop. Therefore,<br/>
+the kernel control path that is updating the protected data structure would not have<br/>
+a chance to continue the execution and release the spin lock. The final result would<br/>
+be that the system hangs.<br/>
+<br/>
+<span style="color: #0000ff"><span style="font-size: 12pt">Signals and Interprocess Communication</span></span><br/>
+Unix signals provide a mechanism for notifying processes of system events. Each<br/>
+event has its own signal number, which is usually referred to by a symbolic constant<br/>
+such as <span style="color: #ff0000">SIGTERM</span>&nbsp;. There are two kinds of system events:<br/>
+<span style="color: #ff0000">Asynchronous notifications</span><br/>
+For instance, a user can send the interrupt signal SIGINT to a foreground process<br/>
+by pressing the interrupt keycode (usually Ctrl-C) at the terminal.<br/>
+<span style="color: #ff0000">Synchronous notifications</span><br/>
+For instance, the kernel sends the signal SIGSEGV to a process when it accesses a<br/>
+memory location at an invalid address.<br/>
+The POSIX standard defines about 20 different signals, 2 of which are user-definable<br/>
+and may be used as a primitive mechanism for communication and synchronization<br/>
+among processes in User Mode. In general, a process may react to a signal delivery in<br/>
+two possible ways:<br/>
+Ignore the signal.<br/>
+Asynchronously execute a specified procedure (the signal handler).<br/>
+If the process does not specify one of these alternatives, the kernel performs a default<br/>
+action that depends on the signal number. The five possible default actions are:<br/>
+Terminate the process.<br/>
+Write the execution context and the contents of the address space in a file (core<br/>
+dump) and terminate the process.<br/>
+Ignore the signal.<br/>
+Suspend the process.<br/>
+Resume the process’s execution, if it was stopped.<br/>
+Kernel signal handling is rather elaborate, because the POSIX semantics allows pro-<br/>
+cesses to temporarily block signals. Moreover, the SIGKILL and SIGSTOP signals can-<br/>
+not be directly handled by the process or ignored.<br/>
+AT&amp;T’s Unix System V introduced other kinds of interprocess communication<br/>
+among processes in User Mode, which have been adopted by many Unix kernels:<br/>
+semaphores, message queues, and shared memory. They are collectively known as Sys-<br/>
+tem V IPC.<br/>
+The kernel implements these constructs as IPC resources. A process acquires a<br/>
+resource by invoking a shmget( ) , semget( ) , or msgget( ) system call. Just like files,<br/>
+IPC resources are persistent: they must be explicitly deallocated by the creator pro-<br/>
+cess, by the current owner, or by a superuser process.<br/>
+Semaphores are similar to those described in the section “Synchronization and Criti-<br/>
+cal Regions,” earlier in this chapter, except that they are reserved for processes in<br/>
+User Mode. Message queues allow processes to exchange messages by using the<br/>
+msgsnd( ) and msgrcv( ) system calls, which insert a message into a specific message<br/>
+queue and extract a message from it, respectively.<br/>
+The POSIX standard (IEEE Std 1003.1-2001) defines an IPC mechanism based on<br/>
+message queues, which is usually known as POSIX message queues. They are similar<br/>
+to the System V IPC’s message queues, but they have a much simpler file-based inter-<br/>
+face to the applications.<br/>
+Shared memory provides the fastest way for processes to exchange and share data. A<br/>
+process starts by issuing a shmget( ) system call to create a new shared memory hav-<br/>
+ing a required size. After obtaining the IPC resource identifier, the process invokes<br/>
+the shmat( ) system call, which returns the starting address of the new region within<br/>
+the process address space. When the process wishes to detach the shared memory<br/>
+from its address space, it invokes the shmdt( ) system call. The implementation of<br/>
+shared memory depends on how the kernel implements process address spaces.<br/>
+<span style="color: #0000ff"><span style="font-size: 12pt"><br/>
+</span></span><span style="color: #0000ff"><span style="font-size: 12pt">Process Management</span></span><br/>
+Unix makes a neat distinction between the process and the program it is executing.<br/>
+To that end, the fork( ) and _exit( ) system calls are used respectively to create a<br/>
+new process and to terminate it, while an exec( ) -like system call is invoked to load a<br/>
+new program. After such a system call is executed, the process resumes execution<br/>
+with a brand new address space containing the loaded program.<br/>
+The process that invokes a fork( ) is the parent, while the new process is its child.<br/>
+Parents and children can find one another because the data structure describing each<br/>
+process includes a pointer to its immediate parent and pointers to all its immediate<br/>
+children.<br/>
+The _exit( ) system call terminates a process. The kernel handles this system call by<br/>
+releasing the resources owned by the process and sending the parent process a<br/>
+SIGCHLD signal, which is ignored by default.<br/>
+<br/>
+<span style="color: #0000ff"><span style="font-size: 12pt"><br/>
+</span></span><span style="color: #0000ff"><span style="font-size: 12pt">Zombie processes</span></span><br/>
+How can a parent process inquire about termination of its children? The wait4( ) sys-<br/>
+tem call allows a process to wait until one of its children terminates; it returns the<br/>
+process ID (PID) of the terminated child.<br/>
+When executing this system call, the kernel checks whether a child has already ter-<br/>
+minated. A special zombie process state is introduced to represent terminated pro-<br/>
+cesses: a process remains in that state until its parent process executes a wait4( )<br/>
+system call on it. The system call handler extracts data about resource usage from the<br/>
+process descriptor fields; the process descriptor may be released once the data is col-<br/>
+lected. If no child process has already terminated when the wait4( ) system call is<br/>
+executed, the kernel usually puts the process in a wait state until a child terminates.<br/>
+Many kernels also implement a waitpid( ) system call, which allows a process to wait<br/>
+for a specific child process. Other variants of wait4( ) system calls are also quite<br/>
+common.<br/>
+It’s good practice for the kernel to keep around information on a child process until<br/>
+the parent issues its wait4( ) call, but suppose the parent process terminates without<br/>
+issuing that call? The information takes up valuable memory slots that could be used<br/>
+to serve living processes. For example, many shells allow the user to start a com-<br/>
+mand in the background and then log out. The process that is running the com-<br/>
+mand shell terminates, but its children continue their execution.<br/>
+The solution lies in a special system process called init, which is created during sys-<br/>
+tem initialization.<span style="color: #ff0000">&nbsp;When a process terminates, the kernel changes the appropriate<br/>
+</span><span style="color: #ff0000">process descriptor pointers of all the existing children of the terminated process to<br/>
+make them become children of init. This process monitors the execution of all its<br/>
+children and routinely issues wait4( ) system calls, whose side effect is to get rid of all<br/>
+orphaned zombies.<br/>
+</span><br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+</body></html>

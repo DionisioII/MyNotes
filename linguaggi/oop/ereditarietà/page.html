@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Ereditarietà</title>
+</head><body>L’ereditarietà è un principio mutuato dagli ADT:<br/>
+<ul><li>Un ADT può essere definito come variante di un altro ADT da</li>
+<li style="list-style-type: none">cui “eredita” le caratteristiche;</li>
+<li style="list-style-type: none"></li>
+<li>In tal modo, nel nuovo ADT basta definire le caratteristiche</li>
+<li style="list-style-type: none">diverse rispetto al vecchio e un riferimento a esso;</li>
+<li style="list-style-type: none"></li>
+<li>L’ADT più specializzato non rappresenta le caratteristiche</li>
+<li style="list-style-type: none">dell’ADT da cui eredita, ma definisce:</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none"></li>
+</ul>
+Il risultato è una definizione incrementale delle strutture dati,composte da elementi più semplici.<br/>
+<br/>
+i metodi e gli attributi di una classe sono ereditati da tutte le sottoclassi che da essa discendono<br/>
+<br/>
+<br/>
+<br/>
+<span style="color: #0000ff">override:I metodi/attributi definiti nella classe hanno precedenza su<br/>
+quelli di stesso nome (stesso label in Oz) definiti sulle superclassi.<br/>
+<br/>
+</span><span style="color: #000000">L’ereditarietà può essere:<br/>
+</span><ul><span style="color: #000000"><li>Singola: ogni sottoclasse deriva le sue caratteristiche da una</li>
+<li style="list-style-type: none">e una sola superclasse;</li>
+<li style="list-style-type: none"></li>
+<li>Multipla: una sottoclasse può derivare le sue caratteristiche</li>
+</span><li style="list-style-type: none"><span style="color: #000000">da più superclassi.</span></li>
+</ul>
+<br/>
+<span style="color: #0000ff">estensione non conservativa<br/>
+<br/>
+</span><span style="color: #000000">meccanismo di ereditarietà si devono rispettare due vincoli:<br/>
+</span><ul><span style="color: #000000"><li>grafo di ereditarietà aciclico</li>
+</span><li><span style="color: #000000">ogni metodo m deve avere un metodo univoco e deve essere riconducibile a una sola superclasse</span></li>
+</ul>
+<br/>
+<span style="color: #0000ff">Binding statico(usa il metodo che deriva dalla prima classe che, risalendo la catena di ereditarietà, presenta il<br/>
+metodo richiamato) e dinamico(class.meth)<br/>
+<br/>
+</span><span style="color: #0000ff">Forwardin e delegation: </span><span style="color: #ff0000">meccanismo di ereditarietà tra oggetti a run time<br/>
+</span><span style="color: #ff0000"><br/>
+</span><br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+</body></html>

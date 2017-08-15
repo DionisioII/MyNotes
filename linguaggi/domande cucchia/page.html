@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>domande cucchia</title>
+</head><body>Il&lt;prese dal gruppo di FB&gt; <br/>
+01 - Stato (implicito, esplicito, esplicito incapsulato)<br/>
+<br/>
+02 - Variabili single assignment <span style="color: #ff0000">: </span><span style="color: #0000ff">sas, value store, partial value, equivalence set</span><span style="color: #ff0000">(Una variabile può essere associata (bound) a un’altra variabi-<br/>
+</span><span style="color: #ff0000">le, unificando il valore delle due variabili); variabili dataflow<br/>
+<br/>
+</span><span style="color: #0000ff">(dataflow programming)</span><span style="color: #ff0000">: l’esecuzione si sospende o continua a seconda del flusso dei dati. Nel<br/>
+</span><span style="color: #ff0000">caso di programmazione concorrente, per esempio, se un pro-<br/>
+cesso deve fare operazioni con una variabile unbound, si sospen-<br/>
+de e si riattiverà fino a che un altro processo non imposti quella<br/>
+variabile.<br/>
+<br/>
+</span><span style="color: #ff0000">Il </span><span style="color: #0000ff">nondeterminismo </span><span style="color: #ff0000">è la condizione di certi programmi in cui,<br/>
+</span><span style="color: #ff0000">a parità di input, l’output non è determinato, può essere diverso.<br/>
+Tale problema si verifica in due condizioni:<br/>
+ Il linguaggio implementa lo stato (variabili non-single-assi-<br/>
+gnment);<br/>
+ Il linguaggio implementa la concorrenza.<br/>
+<br/>
+</span><br/>
+03 - Environment <br/>
+<br/>
+<br/>
+04 - Procedura di unificazione dettagliata, operatore di unificazione <br/>
+<br/>
+<br/>
+05 - Scope di una variabile <span style="color: #ff0000">: l’àmbito di un programma in cui la variabile è visibile e può essere usata. binding variabile tipo: statico, dinamico<br/>
+</span><span style="color: #ff0000"><br/>
+</span><span style="color: #0000ff">scope satico:</span><span style="color: #ff0000"><br/>
+</span><span style="color: #ff0000"><br/>
+– Il significato di una variabile è determinato dallo state-<br/>
+ment local che la definisce più interno;<br/>
+<br/>
+– Basta quindi analizzare il testo (che è una struttura stati-<br/>
+ca) del programma per derivare le informazioni, lo scope<br/>
+delle variabili di interesse.<br/>
+<br/>
+</span><span style="color: #0000ff">scope dinamico:</span><span style="color: #ff0000"><br/>
+</span><span style="color: #ff0000"><br/>
+– Il significato di una variabile è determinato dallo state-<br/>
+ment local più recente incontrato in fase di ese-<br/>
+cuzione;<br/>
+– Uno stesso programma quindi, a parità di sorgente, può<br/>
+avere un campo di visibilità della stessa variabile diver-<br/>
+so: se il programma segue un certo altro flusso, non<br/>
+è detto che quella dichiarazione sia l’ultima prima del-<br/>
+la dichiarazione della variabile, influendo quindi sulla<br/>
+variabile. <br/>
+scope dinamico rende difficile prevedere la semantica del programma; oz usa scope statico<br/>
+<br/>
+</span><span style="color: #0000ff">Risoluzione dei Riferimenti<br/>
+<br/>
+</span><span style="color: #0000ff">tight scope</span><span style="color: #ff0000">: evita conflitti identificatore di variabili</span><br/>
+<br/>
+<br/>
+06 - Closure, contextual environment <br/>
+<br/>
+<span style="color: #0000ff">closure : </span><span style="color: #ff0000">Il valore associato nello store a una procedura; Contiene : 1 definizione della procedura 2 environment a essa legato.<br/>
+</span><span style="color: #ff0000">Grazie alla closure si implementa il meccanismo di scope statico<br/>
+<br/>
+</span><span style="color: #0000ff">Contexual Environment: </span><span style="color: #ff0000">Quando una procedura viene definita, viene costruito un contextual environment (CE) che </span><span style="color: #00ff00">associa tutte le referenze ester-<br/>
+</span><span style="color: #00ff00">ne alla procedura</span><span style="color: #ff0000">, valutate relativamente all’àmbito in cui la pro-<br/>
+</span><span style="color: #ff0000">cedura è definita (e non eseguita: in tal caso lo scope sarebbe<br/>
+dinamico).<br/>
+Definita la CE, alla procedura viene associata una closure nello<br/>
+store.<br/>
+<br/>
+</span><br/>
+<br/>
+<br/>
+07 - ADT <span style="color: #ff0000">vedi pagina a parte</span><br/>
+<br/>
+<br/>
+<br/>
+08 - Thread e coroutine <span style="color: #ff0000">vedi cartella concorrenza</span><br/>
+<br/>
+<br/>
+09 - Embedding e dynamic linking <br/>
+<br/>
+<span style="color: #0000ff">Embedding: </span><span style="color: #00ffff">caratteristica, sempre legata all’HOP, di avere procedure values all’interno di strutture dati</span><span style="color: #ff0000">: si possono avere dei records, per esempio, in cui le features sono degli identificatori di variabile di tipo procedure values.<br/>
+</span><span style="color: #ff0000"><br/>
+3 domini applicativi:<br/>
+</span><ul><span style="color: #ff0000"><li>Capacità di costruire strutture dati parzialmente istanziate</li>
+<li style="list-style-type: none">(affine alla lazy execution):</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none"><ul><li style="list-style-type: none">– L’ultimo elemento di una struttura dati viene definito</li>
+<li style="list-style-type: none">attraverso una procedura che, se attivata, estende la</li>
+<li style="list-style-type: none">struttura stessa in maniera dinamica. Tale struttura dati</li>
+<li style="list-style-type: none">quindi ha una dimensione variabile nel tempo (delayed</li>
+<li style="list-style-type: none">evaluation);</li>
+<li style="list-style-type: none"></li>
+</ul>
+</li>
+<li>Moduli:</li>
+</span></ul>
+<ul><li style="list-style-type: none"><ul><span style="color: #ff0000"><li style="list-style-type: none">– Dei records che accorpano operatori (funzioni) tra di loro</li>
+<li style="list-style-type: none">correlati.</li>
+<li style="list-style-type: none"></li>
+</span></ul>
+</li>
+<span style="color: #ff0000"><li>Componenti software</li>
+</span></ul>
+<ul><li style="list-style-type: none"><ul><span style="color: #ff0000"><li style="list-style-type: none">– Delle procedure che hanno come parametri altre strutture dati di tipo modulo, che consentono di generare</li>
+<li style="list-style-type: none">dei moduli specializzati nel contesto in cui queste componenti vengono usate (e.g. installazione di software,</li>
+<li style="list-style-type: none">connessione con un DB: si adeguano in maniera automatica al contesto applicativo). Anche in questo caso,</li>
+<li style="list-style-type: none">come nei moduli, si tratta di una struttura dati in cui le componenti sono procedure.</li>
+</span></ul>
+</li>
+<span style="color: #ff0000"><li style="list-style-type: none"></li>
+<li style="list-style-type: none"></li>
+</span></ul>
+<span style="color: #0000ff">DINAMIC LINKING: </span><span style="color: #ff0000">tecnica di esecuzione del codice che prevede il caricamento in memoria di moduli di programma solo quando richiesti.<br/>
+</span><span style="color: #ff0000"><br/>
+Il linking dinamico è un’architettura di programma basata sul modello demand-driven.Se si struttura il programma in moduli, ognuno dei quali è un record con campi costituiti da funzioni elaborative, l’uso della lazy execution consente di realizzare il dynamic linking: solo quando quella funzione viene richiesta dal programma viene caricato il modulo necessario.<br/>
+<br/>
+<img src="image.png" width="337" height="200" /><br/>
+La struttura dell’applicazione è statica: usa un componente, poi un altro, poi un altro etc. All’atto del caricamento la struttura statica viene istanziata in modo tale che le componenti dinamiche, che hanno con sé una conoscenza della loro struttura teorica (i legami con altri componenti generici), vengono instanziate in<br/>
+</span><span style="color: #ff0000">modo da adattarsi al contesto in cui vengono applicate, creando i dovuti legami: si configurano dinamicamente, diventando componenti “statiche”.</span><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"></li>
+</ul>
+</li>
+</ul>
+<br/>
+10 - ADT sicuri, con particolare attenzione alla wrap e unwrap :<span style="color: #ff0000">&nbsp;vedi pagina a parte<br/>
+</span><br/>
+11 - Tipi di ereditarietà e funzionamento <span style="color: #ff0000">vedi OOP</span><br/>
+<br/>
+<br/>
+12 - Tipizzazione dei dati <span style="color: #ff0000">vedi adt<br/>
+</span><span style="color: #ff0000"><br/>
+</span><br/>
+13 - Schema a blocchi di un compilatore <br/>
+<br/>
+<br/>
+<br/>
+<span style="color: #ff0000">I tre elementi fondamentali sono i seguenti:</span><ul><li><span style="color: #0000ff">La sintassi:</span><span style="color: #ff0000">&nbsp;definisce la forma corretta del linguaggio;</span></li>
+<li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><span style="color: #ff0000"><li style="list-style-type: none">– Una qualunque istruzione è trasformabile in istruzioni</li>
+<li style="list-style-type: none">semplici del Kernel Language, che sarà lo strumento</li>
+<li style="list-style-type: none">per esprimere la semantica di qualunque linguaggio di</li>
+<li style="list-style-type: none">programmazione.</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none">Il Kernel Language consente di usare diversi modelli com-</li>
+<li style="list-style-type: none">putazionali all’interno di uno stesso programma (pro-</li>
+<li style="list-style-type: none">grammazione multiparadigma).</li>
+</span></ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul><li><span style="color: #0000ff">La semantica</span><span style="color: #ff0000">: definisce che cosa fanno le istruzioni del linguaggio;</span></li>
+<li><span style="color: #ff0000">&nbsp;</span><span style="color: #0000ff">La pragmatica</span><span style="color: #ff0000">: definisce quali sono le tecniche di programmazione del singolo linguaggio (come un certo linguaggio viene implementato sulle diverse macchine).</span></li>
+</ul>
+<br/>
+14 - Alberi di derivazione sintattica <span style="color: #ff0000">vedi a lato</span><br/>
+&nbsp;<br/>
+15 - Determinare un albero di derivazione sintattica di uno statement a partire da una serie di regole EBNF &nbsp;<span style="color: #ff0000">vedi alberi di derivazione sintattica</span><br/>
+16 - Semantica: cos'è, a cosa serve <span style="color: #ff0000">vedi semantica</span><br/>
+17 - Perché si ha bisogno di un KL <span style="color: #ff0000">vedi semantica</span><br/>
+18 - Macchina astratta e caratteristiche <span style="color: #ff0000">vedi semantica</span><br/>
+19 - SAS <br/>
+20 - Concetto di celle (con mutable store) <br/>
+21 - HOP: definizione, i 4 principi fondanti con esempio per ognuno; esempio dell'addizionatore <br/>
+22 - Gestione degli errori: definizione contesto, closure try-catch etc.<br/>
+&nbsp;23 - Sintassi <span style="color: #ff0000">vedi alberi di derivazione sintattica</span><br/>
+24 - FoldR e FoldL <span style="color: #ff0000">vedi high order programming</span><br/>
+25 - Programmazione relazionale <br/>
+26 - Programmazione basata su vincoli <br/>
+27 - Procedure Value <span style="color: #ff0000">vedi high order programming</span><br/>
+<span style="color: #ff0000"><br/>
+La definizione di procedura è una Procedure Value. Tale valore:<br/>
+<ul><li style="list-style-type: none">– È definito nello store;</li>
+<li style="list-style-type: none">– È formato da:</li>
+<li style="list-style-type: none">1. Corpo della procedura;</li>
+<li style="list-style-type: none">2. CE, il quale:</li>
+<li style="list-style-type: none">* Definisce le referenze esterne;</li>
+<li style="list-style-type: none">* È definito a partire dallo scope statico</li>
+<li style="list-style-type: none"></li>
+</ul>
+</span><span style="color: #ff0000">L’attivazione della procedura comporta:</span><ul><span style="color: #ff0000"><li style="list-style-type: none">1. Un test per la correttezza di tipo (dev’essere di tipo</li>
+<li style="list-style-type: none">procedura);</li>
+<li style="list-style-type: none">2. Un test per la corrispondenza dei parametri;</li>
+<li style="list-style-type: none">3. Uso del CE</li>
+<li style="list-style-type: none"></li>
+</span></ul>
+<span style="color: #ff0000">Nel contesto della programmazione dichiarativa, una proce-<br/>
+dura, che è un valore, è un tipo di dato al quale vengono<br/>
+associate delle istruzioni che ne determinano il valore, ese-<br/>
+guite all’interno di un CE che mappano le variabili free (quelle<br/>
+non dichiarate all’interno del contesto che identifica la proce-<br/>
+dura).<br/>
+Una procedura, quindi, non è solo una parte di codice, ma<br/>
+contiene anche una sorta di fotografia di un mondo che non<br/>
+esiste più, ma esisteva quando è stata definita la procedura.<br/>
+Le procedure associano i valori alle variabili libere, quindi,<br/>
+in base al contesto in cui le procedure stesse sono dichiarate.<br/>
+</span><span style="color: #ff0000">In fase di esecuzione usano questi valori.</span><ul><li style="list-style-type: none"></li>
+</ul>
+28 - Last call optimization <span style="color: #ff0000">vedi high order programming</span><br/>
+29 - Accumulatori <span style="color: #ff0000">vedi high order programmin</span><br/>
+30 - Concorrenza, non determinismo, causal order <span style="color: #ff0000">vedi concorrenza thread</span><br/>
+31 - Semantic statement <span style="color: #ff0000">vedi semantica</span></body></html>

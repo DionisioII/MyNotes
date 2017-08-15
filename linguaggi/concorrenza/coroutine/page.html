@@ -1,0 +1,15 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Coroutine</title>
+</head><body>Una <span style="color: #0000ff">coroutine C</span>&nbsp;è un <span style="color: #ff0000">thread non preemptive</span>: gli stessi processi che compongono il programma si attivano l’un l’altro, coreografando le loro attivazioni reciproche, senza aver bisogno di un’attività terza (lo scheduler) che centralizzi la gestione, astraendola dal programma, delle sue varie componenti parallele<br/>
+<ul><li>Creazione: <span style="color: #ff0000">C = {Spawn P};</span></li>
+</ul>
+<ul><li>Attivazione: <span style="color: #ff0000">{Resume C};</span></li>
+</ul>
+<br/>
+<br/>
+Non essendovi un’entità centrale che gestisce la concorrenza,è il programma stesso che deve prevedere la logica concorrenziale: il passaggio di controllo da una coroutine a un’altra è attivato dal codice delle coroutines stesse.<br/>
+<br/>
+</body></html>

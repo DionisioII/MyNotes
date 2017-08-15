@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Thread</title>
+</head><body>Un <span style="color: #0000ff">thread </span>è una <span style="color: #ff0000">porzione di codice in esecuzione.<br/>
+</span><span style="color: #ff0000"><br/>
+</span><span style="color: #000000">Un thread viene eseguito. . .<br/>
+</span><ul><span style="color: #000000"><li>...indipendentemente dagli altri</li>
+<li>...non appena le sueinstruzioni possono essere eseguite(modello dataflow)</li>
+</span><li><span style="color: #000000">...agendo sullo </span><span style="color: #ff0000">stesso sas</span><span style="color: #000000"></span></li>
+</ul>
+<br/>
+<span style="color: #0000ff">Semantic statement </span><span style="color: #000000">di thread ... end:<br/>
+</span><span style="color: #000000"><br/>
+</span><span style="color: #ff0000">(thread &lt;s 1 &gt; end, E)<br/>
+<br/>
+non suspending<br/>
+<br/>
+<br/>
+</span><span style="color: #000000">Differenti threads possono essere eseguiti in parallelo ma tutti operano sullo stesso SAS.<br/>
+<br/>
+Problema: Accesso in scrittura di diversi threads sullo stesso oggetto in memoria<br/>
+<br/>
+<br/>
+L’Execution State (ES) è una coppia (ST, σ) costituita da un<br/>
+semantic stack ST e da un SAS σ.<br/>
+<br/>
+</span><span style="color: #0000ff">Proprietà di ordinamento:</span><span style="color: #000000">&nbsp;una sequenza di valori (qui degli stati) può essere sempre organizzata in modo<br/>
+</span><span style="color: #000000">tale da poter affermare quale elemento viene temporalmente prima e quale viene dopo, rispetto a un elemento scelto,<br/>
+preso un qualsiasi istante di tempo.<br/>
+<br/>
+</span><span style="color: #0000ff">Causal Order:</span><span style="color: #000000">&nbsp;la sequenza degli ES (le “istantanee” della macchina astratta in un dato istante di<br/>
+</span><span style="color: #000000">tempo) che si alternano durante l’esecuzione del programma:<br/>
+<ul><li>In un programma sequenziae gli es sono tutti ordinati</li>
+<li>In un programma cocncorrente gli es del programma sono parzialmente ordinati; gli es del singolo thread sono totalmente ordinati</li>
+</ul>
+<br/>
+</span><span style="color: #0000ff">NON DETERMINISMO: </span><span style="color: #ff0000">Un’esecuzione è detta nondeterministica se esiste qualche suo passo nel quale bisogna operare una scelta sul possibile passo successivo.<br/>
+</span><span style="color: #ff0000"><br/>
+</span><span style="color: #000000">Il </span><span style="color: #0000ff">Modello dichiarativo concorrente </span><span style="color: #ff0000">non soffre di problemi relativi al non determinismo;</span><span style="color: #0000ff"><span style="color: #000000">&nbsp;Al termine dell'esecuzione di un programmma concorrente, indipendentemente dall'ordine di esecuzione delle istruzioni i valori nel sas sono gli stessi: questo perchè l'assegnamento di due valori diversi alla stessa variabile è una condizione d'errore nel modello dichiarativo.<br/>
+</span></span><span style="color: #0000ff"><span style="color: #000000"><br/>
+</span>MODELLO DICHIARATIVO CONCORRENTE:<br/>
+<span style="color: #000000"><ul><li>Terminazione totale: ultima istruzione eseguita</li>
+<li>Terminazione parziale: sospensione in attesa di un dati(ambito dataflow)</li>
+</ul>
+<br/>
+<br/>
+Un programma concorrente è dichiarativo se ogni volta che viene eseguito con uno stesso input produce uno dei<br/>
+seguenti risultati:<br/>
+<ul><li>Non termina (deve magari attendere un dato – meccani-</li>
+<li style="list-style-type: none">smo dataflow);</li>
+<li style="list-style-type: none"></li>
+<li>Termina (anche in modo parziale) e produce risultati equi-</li>
+<li style="list-style-type: none">valenti a ogni altra possibile esecuzione.</li>
+</ul>
+<br/>
+</span></span><span style="color: #000000"><br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+</span><span style="color: #ff0000"><br/>
+<br/>
+</span></body></html>

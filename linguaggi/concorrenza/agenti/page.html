@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Agenti</title>
+</head><body>Un modello di programmazione basato su agenti è il modelloclient/server:<br/>
+<ul><li>Server – processo che fornisce servizî sulla base di un meccanismo di interazione con chi li richiede:</li>
+<li style="list-style-type: none"><ul><li style="list-style-type: none">– Riceve messaggi;</li>
+<li style="list-style-type: none">– Risponde ai messaggi.</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none"></li>
+</ul>
+</li>
+<li>&nbsp;Client – processo che chiede servizî, inviando messaggi al-</li>
+<li style="list-style-type: none"><ul><li style="list-style-type: none">l’indirizzo noto del server;</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none"></li>
+</ul>
+</li>
+<li>&nbsp;Client e server vengono eseguiti in modo indipendente l’uno</li>
+<li style="list-style-type: none"><ul><li style="list-style-type: none">dall’altro.</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none"></li>
+</ul>
+</li>
+</ul>
+il MOdello di programmazione dichiarativa non è compatibile con quello ad agenti perchè è lascamente accoppiato; il canale comunicativo introduce il non determinismo<br/>
+<br/>
+<br/>
+<span style="color: #0000ff">il concetto di canale comunicativo asincrono:</span><span style="color: #ff0000">chi inserisce l’informazione è scorrelato da chi ne fruisce.(modello message-passing concorrente)</span><br/>
+<br/>
+Un agente è un’entità software che:<br/>
+<ul><li>&nbsp;Ha un’identità (e.g. l’URL che caratterizza un client o un</li>
+<li style="list-style-type: none">server);</li>
+<li style="list-style-type: none"></li>
+<li>Riceve messaggi (mailbox);</li>
+</ul>
+<ul><li>Elabora messaggi;</li>
+</ul>
+<ul><li>Risponde a messaggi (via indirizzo, identificativo del sen-</li>
+<li style="list-style-type: none">der).</li>
+<li style="list-style-type: none"></li>
+</ul>
+<br/>
+<span style="color: #0000ff">Port:</span><span style="color: #ff0000">&nbsp;ADT con 2 operatori: NewPort e send<br/>
+</span><span style="color: #ff0000"><br/>
+</span><br/>
+<br/>
+<br/>
+<br/>
+</body></html>

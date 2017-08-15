@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Ncat</title>
+</head><body><span style="color: #ff0000">ncat --exec /bin/bash --allow 127.0.0.1 -vnl 4444 --ssl &nbsp; </span>---&gt; exec indica il programma che deve essere eseguito a connessione avvenuta<ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none">allow indica l'indirizzo ip dal quale si accetta la connessione</li>
+<li style="list-style-type: none">-vnl verbose numeric listening setta in ascolto sulla porta 4444</li>
+<li style="list-style-type: none">-ssl indica che la connessione deve essere criptata con ssl</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<span style="color: #ff0000"><br/>
+</span><span style="color: #ff0000">ncat -v 127.0.0.1 4444 --ssl<span style="color: #000000">&nbsp; -----&gt; &nbsp; &nbsp;</span></span>-v sta per verbose<ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none">[indirizzo ip]</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;[porta]<br/>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;-ssl indica che la connessione deve es<span style="color: #191919">sere cri</span>ptata con ssl<br/>
+<br/>
+<span style="color: #ff0000">nmap &nbsp;-­‐v &nbsp;-­‐p&#09; &nbsp;80&#09; -­‐-­‐script=http-­‐vuln-­‐cve2010-­‐2861 &nbsp; &nbsp;192.168.11.210 &#09;</span><span style="color: #191919">-----&gt; to &nbsp; scan &nbsp; a &nbsp; Cold &nbsp; Fusion &nbsp; web &nbsp; server &nbsp; for &nbsp; a &nbsp; directory &nbsp; traversal &nbsp;</span><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><span style="color: #191919"><li style="list-style-type: none">&nbsp; &nbsp;vulnerability</li>
+</span><span style="color: #ff0000"><li style="list-style-type: none"></li>
+</span></ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<span style="color: #ff0000">nmap&#09;-­‐v &nbsp;-­‐p 21 -­‐-­‐script=ftp-­‐anon.nse &nbsp;192.168.11.200-­‐254 &nbsp;</span><span style="color: #000000">------&gt; The &nbsp;ftp-­‐‐anon &nbsp;NSE &nbsp;script &nbsp;lets &nbsp;us &nbsp;quickly scan &nbsp;a &nbsp;range &nbsp;of &nbsp;IP &nbsp;addresses &nbsp;for &nbsp;FTP &nbsp;servers &nbsp;that &nbsp;&#09;&#09;&#09;&#09;&#09;&#09;&#09;&#09;&#09;&#09;&#09;&#09;&#09;&#09;&#09;&#09;allow &nbsp;anonymous &nbsp;access. &nbsp;<br/>
+</span><span style="color: #000000"><br/>
+</span><span style="color: #ff0000">nmap &nbsp;-­‐v &nbsp;-­‐p&#09; &nbsp;139, 445 &nbsp;-­‐-­‐script=smb-­‐security-­‐mode &nbsp;192.168.11.236 </span><span style="color: #191919">------&gt; we &nbsp;can &nbsp;check &nbsp;the &nbsp;security &nbsp;level &nbsp;</span><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><span style="color: #191919"><li style="list-style-type: none">&nbsp; &nbsp; of &nbsp;an &nbsp;SMB &nbsp;server &nbsp;with &nbsp;the &nbsp;smb-­‐‐security-­‐‐mode &nbsp;NSE &nbsp;script</li>
+</span></ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<span style="color: #ff0000"><li style="list-style-type: none"></li>
+</span></ul>
+<span style="color: #ff0000">nmap -­‐v &nbsp;-­‐p &nbsp;80 &nbsp;-­‐-­‐script=http-­‐vuln-­‐cve2011-­‐3192 &nbsp;192.168.11.205-­‐210&#09;<span style="color: #191919">-----&gt;to &nbsp; verify &nbsp; that &nbsp; all &nbsp; domain &nbsp; web &nbsp; servers &nbsp; have &nbsp; been &nbsp;</span></span><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><span style="color: #ff0000"><li style="list-style-type: none"><ul><span style="color: #191919">&nbsp; patched &nbsp;against &nbsp;CVE-­‐‐2011-­‐‐3192 40 , &nbsp;an &nbsp;Apache &nbsp;denial &nbsp;of &nbsp;service &nbsp;vulnerability. &nbsp;</span></ul>
+&nbsp; </li>
+</span></ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</body></html>

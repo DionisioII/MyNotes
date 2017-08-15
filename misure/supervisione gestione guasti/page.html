@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Supervisione gestione guasti</title>
+</head><body><span style="font-size: 10pt"><span style="color: #000000">La supervisione di un processo tecnologico ha il compito di mostrare lo stato presente di un processo, indicare stati non desderati o non permessi e intraprendere le dovute azioni per riportare il sistema nello stato desiderato</span></span><span style="font-size: 12pt"><span style="color: #0000ff"><br/>
+</span></span><span style="font-size: 12pt"><span style="color: #0000ff"><br/>
+</span><span style="color: #0000ff">Supervisione classica</span><br/>
+</span><span style="font-size: 10pt">realizzata tramite politiche di “limit checking” (controllodel limite) su alcune importanti variabili di processo<br/>
+(e.g.: forza, velocità, pressione, ecc ...): gli “allarmi”sono generati se i valori limiti vengono superati, e<br/>
+l’azione di correzione è eseguita dall’operatore umano oppure dal sistema automatizzato &nbsp;====&gt; <span style="color: #ff0000">ritardi nell'individuazione o indeterminabilità del guasto<br/>
+</span><span style="color: #ff0000"><span style="color: #000000"><br/>
+</span><span style="color: #000000">fasi supervisione classica:</span><br/>
+<br/>
+</span><span style="color: #0000ff">Monitoraggio</span><span style="color: #ff0000">: le variabili misurate sono confrontate rispetto ai limiti di tolleranza, e gli allarmi<br/>
+</span><span style="color: #ff0000">sono generati di conseguenza per l’operatore.<br/>
+</span><span style="color: #0000ff">Azione manuale</span><span style="color: #ff0000">: dopo la generazione dell’allarme l’operatore deve prendere le opportune<br/>
+</span><span style="color: #ff0000">contromisure per limitare gli effetti negativi dell’anomalia sul processo.<br/>
+</span><span style="color: #0000ff">Protezione automatica</span><span style="color: #ff0000">: se l’allarme è relativo ad una variabile pericolosa di processo, allora la<br/>
+</span><span style="color: #ff0000">contromisura può essere attivata direttamente dal sistema automatico; il processo viene<br/>
+commutato in uno stato detto “stato sicuro”, tipicamente uno spegnimento di emergenza.<br/>
+</span><span style="color: #0000ff">Scelta dei limiti</span><span style="color: #ff0000">: viene fatto un compromesso tra la minima variazione apprezzabile e i falsi<br/>
+</span><span style="color: #ff0000">allarmi dovuti alla fluttuazione delle variabili.<br/>
+<br/>
+</span><span style="color: #0000ff">problemi supervisione classica:</span><span style="color: #ff0000"></span><span style="color: #ff0000"><ul><li>efficace solo in condizione di regime</li>
+<li>sensibili solo per ampie variazioni</li>
+<li>doccia allarmi</li>
+<li>ritardi nell'individuazione o indeterminabilità del guasto</li>
+</ul>
+<br/>
+<br/>
+<br/>
+</span></span><span style="color: #0000ff"><span style="font-size: 12pt">Moderna teoria del controllo automatico: SUPERVISIONE E GESTIONE DEI GUASTI</span><span style="font-size: 10pt"><br/>
+</span><span style="font-size: 10pt"><br/>
+</span></span><span style="font-size: 10pt"><span style="color: #000000">efficienti metodi di rilevamento e diagnosi guasti:<br/>
+</span></span><ul><span style="font-size: 10pt"><span style="color: #000000"><li>modelli matematici di processi e segnali</li>
+<li>metodi di identificazione e stima</li>
+<li>sistemi “intelligenti”</li>
+</span></span></ul>
+<br/>
+Il sistema di supervisione opera rilevando possibili scostamenti dal funzionamento normale del processo causati da guasti o errori; la variazione dell'uscitapuò essere causata anche da disturbi non misurabili o rumore, quindi bisogna distinguere gli effetti dei guasti da quelli del rumore<br/>
+<br/>
+<br/>
+Nei sistemi a ciclo chiuso le variazioni dell'uscite sono parzialmente bilanciate dal sistema di controllo C, quindi bisogna monitorare sia l'uscita che l'ingresso<br/>
+<br/>
+<span style="color: #0000ff">Generazione feature</span><span style="color: #ff0000">: segnale caratteristico dalla cui analisi è possibile estrapolare l’informazione<br/>
+</span><span style="color: #ff0000">diagnostica (e.g.: stato stimato, parametro identificato, ecc ...).<br/>
+</span><span style="color: #0000ff">Individuazione guasto</span><span style="color: #ff0000">: analisi dei segnali caratteristici per capire se il sistema è in stato di<br/>
+</span><span style="color: #ff0000">funzionamento corretto oppure è affetto da guasto.<br/>
+</span><span style="color: #0000ff">Diagnosi guasto</span><span style="color: #ff0000">: utilizzo di tecniche diagnostiche per determinare la tipologia, grandezza e<br/>
+</span><span style="color: #ff0000">posizione del guasto.<br/>
+</span><span style="color: #0000ff">Valutazione del guasto</span><span style="color: #ff0000">: classificazione del guasto nelle diverse classi di rischio.<br/>
+</span><span style="color: #0000ff">Decisione: </span><span style="color: #ff0000">in base alla classe di rischio del fault classificato e del suo possibile grado di pericolo, è<br/>
+</span><span style="color: #ff0000">possibile scegliere la contromisura (manuale o automatica) da adottare.<br/>
+</span><br/>
+<span style="color: #0000ff">Vantaggi:</span><ul><span style="color: #0000ff"><li>Indivisuazione tempestiva di piccoli guasti con bruschi cambiamenti</li>
+<li>diagnosi di guasti su attuatori, processicomponenti,sensori anche in ciclo chiuso</li>
+<li>supervisione del processo anche durante la fase transitoria</li>
+</span></ul>
+<br/>
+<br/>
+</body></html>

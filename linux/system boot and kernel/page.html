@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>system boot and kernel</title>
+</head><body>The Linux Kernel is often misunderstood or not even known about. To help everyone out we can go over some basics of the Kernel and help you to understand things better.<br/>
+<br/>
+There are many aspects of the Kernel which will help you to understand the concept of the Kernel.<br/>
+<br/>
+<b>General</b><br/>
+<br/>
+When a system is booted up there are several things occurring before the Operating System (OS) loads. The boot process is performed in the following six stages:<br/>
+<ul><li>&nbsp;Basic Input/Output System (BIOS)</li>
+<li>Master Boot Record (MBR)</li>
+<li>GRand Unified Bootloader (GRUB)</li>
+<li>Linux Kernel</li>
+<li>Init</li>
+<li>Runlevel</li>
+</ul>
+<br/>
+<b>NOTE:</b>&nbsp;I am using the BIOS as Step 1, but UEFI does exist as well. Of course, I am assuming the use of GRUB, but there are others which can be placed in this slot. No matter the boot loader the function is similar.<br/>
+<br/>
+Let’s look over these six items in simple terms so we can look further into the Kernel.<br/>
+<br/>
+<b>Basic Input/Output System BIOS</b><br/>
+<br/>
+The BIOS is firmware that performs hardware initialization when the system is powered-on. The BIOS will initialize and test system hardware. The BIOS contains enough information to load a driver for the keyboard and sometimes a mouse. When entering the BIOS settings you can use the keyboard and maybe the mouse to save specific settings in the CMOS.<br/>
+<br/>
+Within the BIOS settings (CMOS) is the boot device order. Control will be passed to each boot device in order of priority. Each device will be checked for a Master Boot Record (MBR). When one is found the BIOS passes control to the devices MBR.<br/>
+<br/>
+<b>Master Boot Record (MBR)</b><br/>
+<br/>
+The Master Boot Record (MBR) is technically not required in some cases, but the MBR is a boot sector placed at the beginning of a fixed or removable disk. The MBR contains the data to let the system know about the partitions on a disk. There is also executable code which is a loader (boot loader). Not all partitions contain a boot loader and the if no boot loader is found then an OS will not be loaded. The MBR will exist without the executable code or boot loader. Do not confuse the MBR and the boot loader.<br/>
+<br/>
+<br/>
+<br/>
+<b>NOTE: </b>&nbsp;An MBR is not present on non-partitioned media such as floppies and similar storage devices. You may have noticed that all new systems do not contain a floppy drive.<br/>
+<br/>
+Imagine partitioning and formatting a hard disk but not installing an OS. When an OS is installed the execution code for a boot loader will then be placed in the MBR. With no OS the system will not boot properly. The MBR exists without the boot loader.<br/>
+<br/>
+<b>GRand Unified Bootloader (GRUB)</b><br/>
+<br/>
+The first stage of the boot loader is placed in the MBR which calls the main boot loader which is installed on a boot partition (/boot). GRUB, if configured to do so, will show a menu and allow you to pass control to a specific Kernel. This feature allows a system to have multiple Operating Systems installed on it. The GRUB Configuration file is stored at ‘/boot/grub/grub.conf’.<br/>
+<br/>
+Keep in mind that there may be multiple menu items for the same OS. Each entry can pass options to the Kernel which can either load the OS or perform diagnostics. Once a menu item is selected or the default is accepted then control is passed to the specified Kernel.<br/>
+<br/>
+<b>Kernel</b><br/>
+<br/>
+When the Kernel has control the Initial RAM Disk (‘initrd’) is used as a temporary root file system until the Kernel is booted. Once booted the Kernel then mounts the real root file system. The location of the ROOT file system is passed from GRUB has an option ‘root=’. The Kernel as drivers included to access hard drive partitions as well as some other hardware. The drivers compiled into the Kernel allows it to mount other file systems.<br/>
+<br/>
+The Kernel will then execute ‘/sbin/init’.<br/>
+<br/>
+<b>Init</b><br/>
+<br/>
+Since ‘init’ is the first program loaded by the Kernel it will have the Process ID (PID) of 1.<br/>
+<br/>
+The ‘init’ program will check the ‘/etc/inittab’ file to determine the Linux runlevel. Once checked, programs are loaded at the specified runlevel.<br/>
+<br/>
+<b>Runlevel</b><br/>
+<br/>
+The runlevels are as follows:<br/>
+<ul><li>&nbsp;0 – halt</li>
+<li>1 – Single user mode</li>
+<li>2 – Multiuser, without NFS</li>
+<li>3 – Full multiuser mode</li>
+<li>4 – unused</li>
+<li>5 – X11</li>
+<li>6 – reboot</li>
+</ul>
+Programs set to auto-start at boot time can be found in one of the following:<br/>
+<br/>
+Run level 0 – /etc/rc.d/rc0.d/<br/>
+<ul><li>&nbsp;Run level 1 – /etc/rc.d/rc1.d/</li>
+<li>Run level 2 – /etc/rc.d/rc2.d/</li>
+<li>Run level 3 – /etc/rc.d/rc3.d/</li>
+<li>Run level 4 – /etc/rc.d/rc4.d/</li>
+<li>Run level 5 – /etc/rc.d/rc5.d/</li>
+<li>Run level 6 – /etc/rc.d/rc6.d/</li>
+</ul>
+To see the default runlevel you can execute the following in a Terminal:<br/>
+<br/>
+<i>runlevel</i><br/>
+<br/>
+<b>Kernel </b><br/>
+<br/>
+From the previous information on the Kernel you should have a basic understanding of it to get the system running.<br/>
+<br/>
+Once the system is running, the Kernel has control of the software and hardware. No access to hardware is done directly by an application or conflicts would occur. If two applications were accessing the hard drive and one locked it to exclusive rights then no other application could access the hard drive. Applications call functions from the OS Library. The Library is a set of instructions, usually written in C, and manage the necessary abilities of the programs. For instance, a function could request a file from the hard drive.<br/>
+<br/>
+The Library function will then make System Calls. System Calls are made to the Kernel which in turn provide the information requested. For example, if the function needs a file then the Library will make the System Call to open a file, read the file and close the file when done. The Kernel will perform the file operations and return the data which was read from the file.<br/>
+<br/>
+The Kernel also tracks all the hardware in the system or that which is connected to it. Even if there isn’t a driver for a device, the device is still listed by the Kernel.<br/>
+<br/>
+To see a listing of hardware, use the command ‘lshw’ which is ‘list hardware’.<br/>
+<br/>
+To see specific hardware listings check the following list:<br/>
+<br/>
+<ul><li>&nbsp;lspci – PCI device</li>
+<li>lsusb – USB devices</li>
+<li>lsblk – Block devices (devices from which you read blocks of data)</li>
+<li>lscpu – CPU information</li>
+<li>lsdev – other system devices</li>
+<li>lsipc – information on process communication (ability of processes to communicate with one another)</li>
+<li>lslogins – specify a user name and get information about the user’s login</li>
+<li>lsinitramfs – specify the initram file and the contents will be displayed</li>
+<li>lslocks – shows the system locks incurred by the Kernel</li>
+<li>lsof – list of open files (opened by system calls, of course)</li>
+</ul>
+If you open a Terminal and execute ‘lshw’ you can see a listing of all the hardware known by the Kernel. To get a better visual you can run the command ‘lshw -html &gt; hardware.html’ and then open the new file with a browser since the output is in an HTML format.<br/>
+<br/>
+Not all the commands can output to an HTML format. Most of the listed programs will only output to standard text. With some commands you can use the option ‘-v’ to provide more details, or verbose, information. Such as the command ‘lsusb’. You can use the command ‘lsusb -v’ to see more detailed information on the USB hardware. Some of these commands will produce more information if you run it with ROOT privileges.<br/>
+<br/>
+Play around with the commands and see the details on your system.<br/>
+<br/>
+<b>The Initial RamDisk (initrd)</b><br/>
+<br/>
+The ‘initrd’ file is found in the folder ‘/boot’ and has a name starting with ‘initrd.img-’. The remainig portion of the name is the version number. If you perform the command ‘ls /boot/initrd.img-*’ you will see a listing of all the ‘initrd’ files on the system. Of course, only one is used. Other files listed may be previous versions which have been updated to a newer version. If there is a listing of more than one file then you can determine which one is being used with the command ‘uname -r’. The version listed is that of the Kernel. The results of the ‘uname -r’ command will be the rest of the file name.<br/>
+<br/>
+For example, if I ran the command ‘uname -r’ and received the response of ‘4.4.0-79-generic’ then the ‘initrd’ file name is ‘initrd.img-4.4.0-79-generic’.<br/>
+<br/>
+If you wanted to see the contents of the ‘initrd’ file you can run the command ‘lsinitramfs’ with the file name. An example is ‘lsinitramfs /boot/initrd.img-4.4.0-79-generic’. As you may guess, the ‘initrd’ file is compressed so it can be read faster.<br/>
+<br/>
+Do not modify or delete the ‘initrd’ file or the system may not boot.<br/>
+<br/>
+The Kernel file is in the same folder as the ‘initrd’ and starts with ‘vmlinuz-’. The end of the file name is the Kernel version number given by the command ‘uname -r’.<br/>
+<br/>
+For example, from above the result of the command ‘uname-r’ was ‘ 4.4.0-79-generic’. The Kernel file name is ‘vmlinuz- 4.4.0-79-generic’ To see the information about the Kernel file you can perform the command ‘ls -l vmlinuz-*’. Find the file for your current running version and you can see the file size.<br/>
+<br/>
+It is imperative that the Kernel is not deleted or modified without knowledge of what you are doing or the system may not boot.<br/>
+<br/>
+I hope this helps with your understanding of the workings of the Kernel as well as the physical files used for booting your system. </body></html>

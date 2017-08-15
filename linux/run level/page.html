@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Run level</title>
+</head><body><br/>
+&nbsp;A <i>runlevel</i>&nbsp;is a preset operating state on a <a href="http://www.linfo.org/unix-like.html">Unix-like</a>&nbsp;<a href="http://www.linfo.org/operating_system.html">operating system</a>. <br/>
+&nbsp;<br/>
+&nbsp;A system can be <i><a href="http://www.linfo.org/boot.html">booted into</a></i>&nbsp;(i.e., started up into) any of several runlevels, each of which is represented by a single digit integer. Each runlevel designates a different system configuration and allows access to a different combination of <i><a href="http://www.linfo.org/process.html">processes</a></i>&nbsp;(i.e., <a href="http://www.linfo.org/instance.html">instances</a>&nbsp;of executing <a href="http://www.linfo.org/program.html">programs</a>). <br/>
+&nbsp;<br/>
+&nbsp;The are differences in the runlevels according to the operating system. Seven runlevels are supported in the standard <a href="http://www.linfo.org/linuxdef.html">Linux</a>&nbsp;<i><a href="http://www.linfo.org/kernel.html">kernel</a></i>&nbsp;(i.e., core of the operating system). They are: <br/>
+<br/>
+0 - System halt; no activity, the system can be safely powered down. <br/>
+1 - Single user; rarely used. <br/>
+2 - Multiple users, no NFS (network <a href="http://www.linfo.org/filesystem.html">filesystem</a>); also used rarely. <br/>
+3 - Multiple users, <i><a href="http://www.linfo.org/command_line.html">command line</a></i>&nbsp;(i.e., all-text mode) <a href="http://www.linfo.org/interface.html">interface</a>; the standard runlevel for most Linux-based <a href="http://www.linfo.org/server.html">server</a>&nbsp;hardware. <br/>
+4 - User-definable <br/>
+5 - Multiple users, <a href="http://www.linfo.org/gui.html">GUI</a>&nbsp;(graphical user interface); the standard runlevel for most Linux-based desktop systems. <br/>
+6 - <a href="http://www.linfo.org/reboot.html">Reboot</a>; used when restarting the system. <br/>
+&nbsp;<br/>
+&nbsp;By default Linux boots either to runlevel 3 or to runlevel 5. The former permits the system to run all services except for a GUI. The latter allows all services including a GUI. <br/>
+&nbsp;<br/>
+&nbsp;In addition to the standard runlevels, users can modify the preset runlevels or even create new ones if desired. Runlevels 2 and 4 are usually used for user defined runlevels. <br/>
+&nbsp;<br/>
+&nbsp;The program responsible for altering the runlevel is <i>init</i>, and it can be called using the <i>telinit</i>&nbsp;<a href="http://www.linfo.org/command.html">command</a>. For example, changing from runlevel 3 to runlevel 5, which allows the GUI to be started, can be accomplished by the <i><a href="http://www.linfo.org/root.html">root</a></i>&nbsp;(i.e., administrative) user by issuing the following command: <br/>
+&nbsp; <br/>
+&nbsp;telinit 5 <br/>
+&nbsp; <br/>
+&nbsp;Booting into a different runlevel can help solve certain problems. For example, if a change made in the <i><a href="http://www.linfo.org/x.html">X Window System</a></i>&nbsp;configuration on a machine that has been set up to boot into a GUI has rendered the system unusable, it is possible to temporarily boot into a <i><a href="http://www.linfo.org/console.html">console</a></i>&nbsp;(i.e., all-text mode) runlevel (i.e., runlevels 3 or 1) in order to repair the error and then reboot into the GUI. The X Window System is a widely used system for managing GUIs on single <a href="http://www.linfo.org/computer.html">computers</a>&nbsp;and on <a href="http://www.linfo.org/network.html">networks</a>&nbsp;of computers. <br/>
+&nbsp;<br/>
+&nbsp;Likewise, if a machine will not boot due to a damaged configuration <a href="http://www.linfo.org/file.html">file</a>&nbsp;or will not allow <a href="http://www.linfo.org/login_def.html">logging in</a>&nbsp;because of a corrupted <i><a href="http://www.linfo.org/etc_passwd.html">/etc/passwd</a></i>&nbsp;file (which stores user names and other <a href="http://www.linfo.org/data.html">data</a>&nbsp;about users) or because of a forgotten password, the problem can solved by first booting into single-user mode (i.e. runlevel 1). <br/>
+&nbsp;<br/>
+&nbsp;The <i><a href="http://www.linfo.org/runlevel_command.html">runlevel command</a></i>&nbsp;can be used to find both the current runlevel and the previous runlevel by merely typing the following and pressing the Enter key: <br/>
+&nbsp; <br/>
+&nbsp;/sbin/runlevel <br/>
+&nbsp; <br/>
+&nbsp;The runlevel <i><a href="http://www.linfo.org/executable.html">executable file</a></i>&nbsp;(i.e., the ready-to-run form of the program) is typically located in the <i><a href="http://www.linfo.org/sbin.html">/sbin</a></i>&nbsp;<a href="http://www.linfo.org/directory.html">directory</a>, which contains mostly administrative tools and which by default is not in the user's <a href="http://www.linfo.org/path_env_var.html">PATH</a>&nbsp;(i.e., the list of directories in which the system searches for programs). Thus, it is usually necessary to type the <i><a href="http://www.linfo.org/absolute_pathname.html">full path</a></i>&nbsp;of the command as shown above rather than just the name of the command itself. <br/>
+&nbsp;<br/>
+&nbsp;The default runlevel for a system is specified in the <i>/etc/inittab</i>&nbsp;file, which will contain an entry such as <i>id:3:initdefault:</i>&nbsp;if the system starts in runlevel 3, or <i>id:5:initdefault:</i>&nbsp;if it starts in runlevel 5. This file can be easily (and safely) read with a command such as <i><a href="http://www.linfo.org/cat.html">cat</a></i>, i.e., <br/>
+&nbsp; <br/>
+&nbsp;cat /etc/inittab <br/>
+&nbsp; <br/>
+&nbsp;As an alternative to telinit, the runlevel into which the system boots can be changed by modifying /etc/inittab manually with a <a href="http://www.linfo.org/text_editor.html">text editor</a>. However, it is generally easier and safer (i.e., less chance of accidental damage to the file) to use telinit. It is always wise to make a backup copy of /etc/inittab or any other configuration file before attempting to modify it manually. <br/>
+&nbsp; <br/>
+<br/>
+<br/>
+&nbsp;<br/>
+<br/>
+<br/>
+&nbsp;<br/>
+<br/>
+<br/>
+</body></html>

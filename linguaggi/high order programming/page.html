@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>High order programming</title>
+</head><body><span style="color: #0000ff">astrazione procedurale </span>l<span style="color: #ff0000">a capacità di raggruppare una serie di statements in un unico<br/>
+</span><span style="color: #ff0000">blocco di programma identificato da un nome che:<br/>
+<ul><li><span style="color: #000000">può essere eseguito più volte richiamandone il nome</span></li>
+<span style="color: #000000"><li>può operaresu dati diversi definiti parametri</li>
+</span></ul>
+<span style="color: #000000"><br/>
+<br/>
+le procedure sono un esempio di astrazione procedurale.<br/>
+<br/>
+2 caratteristiche: <ul><li>gestione automatica del punto di ritorno</li>
+<li>parametrizzazione del blocco di istruzioni tramite i parametri</li>
+</ul>
+<br/>
+<br/>
+<br/>
+Identificatori free o bound( se dichiarato all'interno di una local, proc case)<br/>
+<br/>
+</span><span style="color: #000000">una istruzione uò essere eseguita se tutti gli identificatori sono bound (</span>Closed-form statement<span style="color: #000000">)<br/>
+</span><span style="color: #000000"><br/>
+I riferimenti esterni alla procedura vengono, variabili free assumono valore in base al contesto rispetto al quale vengono dichiarate<br/>
+<br/>
+scope statico: il significato di una variabile è determinato dallo statement local più interno che la definisce<br/>
+<br/>
+scope dinamico: """" dallo statement local più recente che lo definisce<br/>
+<br/>
+</span>Nello store il valore associato ad una procedura è una closure<span style="color: #000000"><br/>
+</span><span style="color: #000000"><br/>
+</span></span><span style="font-size: 12pt"><span style="color: #0000ff">closure</span></span><span style="color: #0000ff">:</span><span style="color: #000000"><span style="color: #ff0000">&nbsp;2 elementi:</span></span><span style="color: #000000"><span style="color: #ff0000"><ul><li>istruzioni</li>
+<li>environment</li>
+</ul>
+<br/>
+</span></span><span style="background-color: #ffff00"><span style="color: #000000"><span style="color: #ff0000">Quando una procedura viene definita, viene costruito un </span></span><span style="color: #0000ff">contextual</span><span style="color: #000000"><span style="color: #ff0000">&nbsp;</span></span><span style="color: #0000ff">environment (CE)</span><span style="color: #000000"><span style="color: #ff0000">&nbsp;che associa tutte le referenze esterne alla procedura, valutate relativamente all’àmbito in cui la procedura è definita<br/>
+</span></span><span style="color: #000000"><span style="color: #ff0000"><span style="background-color: #ffffff"><br/>
+Definita la CE alla procedura viene assegnata una closure nello store<br/>
+<br/>
+Quindi la definiione di una procedura è un procedure value che:</span></span></span><span style="background-color: #ffffff"><ul><span style="color: #000000"><span style="color: #ff0000"><li>è definito nello store</li>
+<li>ha associato una closure che contetiene istruzioni e CE</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none"></li>
+</span></span><span style="color: #0000ff"><li style="list-style-type: none"><span style="font-size: 14pt">HIGH HORDER PROGRAMMING</span></li>
+</span></ul>
+<span style="color: #000000"><span style="color: #ff0000"><br/>
+<br/>
+<br/>
+</span></span></span><span style="color: #000000"><span style="color: #ff0000">insieme delle tecniche di programmazione basate su procedure values<br/>
+<br/>
+<span style="background-color: #ffffff">high order fa riferimento all'ordine di una procedura; se una procedura ha 0 argomenti di tipo procedura ha ordine 0, se ha almeno una procedura di ordine n-1 viene definita di ordine n-1<br/>
+<br/>
+</span><br/>
+</span></span></span><span style="color: #ff0000">È l’environment contestuale che consente di dichiarare una funzione anonima in grado di recuperare i valori delle variabili free definiti al momento della sua dichiarazione.<br/>
+</span><br/>
+<br/>
+4 operazioni alla base dell'high order programming:<br/>
+<ul><li>Procedural abstraction: la capacità di trasformare qualunque statement in una prcedura <span style="color: #ff0000">&lt;S&gt; -&gt; P = proc {$} &lt;S&gt; end</span></li>
+<li>generecity: la capacità di un linguaggio di passare procedure values come parametri all'attivazione di una procedura</li>
+<li style="list-style-type: none"><ul><span style="color: #ff0000"><li style="list-style-type: none">Rendere una funzione generica richiede che ogni entità spe-</li>
+<li style="list-style-type: none">cifica (operatori, valori) nel corpo della funzione venga ridefinita</li>
+<li style="list-style-type: none">come parametro della funzione stessa. In questo modo, le entità</li>
+<li style="list-style-type: none">vengono astratte dalla funzione.</li>
+<li style="list-style-type: none"></li>
+</span><li style="list-style-type: none"></li>
+</ul>
+</li>
+<li>Instantiation: la capacità di un linguaggio di ottenere procedure values come risultato all'attivazione di una procedura</li>
+<li style="list-style-type: none"><ul><span style="color: #ff0000"><li style="list-style-type: none">Ciò consente di ottenere, come risultato di un’attivazione di</li>
+<li style="list-style-type: none">una procedura generica, una procedura specializzata come istan-</li>
+</span><li style="list-style-type: none"><span style="color: #ff0000">ziazione dello scheletro di partenza</span></li>
+</ul>
+</li>
+<li>Embedding: lacapacità di inserire procedure values all'interno delle strutture dati</li>
+</ul>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<span style="color: #0000ff">Folding : </span><span style="color: #ff0000">Schema comune che consiste nell'applicare lo stesso operatore agli elementi di una lista<br/>
+</span><span style="color: #ff0000"><br/>
+<span style="color: #000000">il principio è che lo scheletro elaborativo di partenza è ottimizzato ed è<br/>
+quindi consigliabile porlo alla base di una tecnica di programmazione, alla base di un modo di affrontare i problemi relativi<br/>
+</span><span style="color: #000000">alle liste (una sorta di design pattern).</span><br/>
+</span><br/>
+<br/>
+per implementare una funzione di folding è necessario indicare:<ul><li>valore iniziale</li>
+<li>operatore da applicare</li>
+</ul>
+<br/>
+si distingue associatività a destra e a sinistra<br/>
+<br/>
+<br/>
+fun {FoldR Xs F S}<ul><li style="list-style-type: none"></li>
+<li style="list-style-type: none">case Xs of</li>
+<li style="list-style-type: none">nil then S</li>
+<li style="list-style-type: none">[] X|Xr then {F X {FoldR Xr F S}}</li>
+<li style="list-style-type: none"></li>
+</ul>
+end<br/>
+<br/>
+fun {FoldL Xs F S}<ul><li style="list-style-type: none"></li>
+<li style="list-style-type: none">case Xs of</li>
+<li style="list-style-type: none">nil then S</li>
+<li style="list-style-type: none">[] X|Xr then {Foldl Xr {F X S}}</li>
+</ul>
+<br/>
+end<br/>
+<br/>
+<br/>
+complessità spaziale lineare della foldr è O(n), quella della foldl è O(1)<br/>
+<br/>
+<br/>
+<span style="background-color: #ffff00">una funzione è tailrecursive se ha lachiamata ricorsiva come ultima istruzione, hanno una dimensione fissa dell'execution stack</span><br/>
+<br/>
+Foldl è tail recursive<br/>
+<br/>
+<span style="color: #0000ff">LAST CALL OPTIMIZATION: </span><span style="color: #ff0000">tecnica di programmazione che trasforma, ove possibile, una procedura ricorsiva in una iterativa<br/>
+</span><span style="color: #ff0000"><br/>
+</span><span style="color: #000000">Le procedure iterative vengono eseguite con una dimensione costante dell'execution stack; sono tail recursive<br/>
+</span><span style="color: #000000">la loro caratteristica è di avere la chiamata ricorsiva comeultimo statement nel corpo della procedura</span><br/>
+<br/>
+<br/>
+<span style="color: #0000ff">Accumulare i risultati parziali tramite opportune strutture dati è una tecnica che consente di rendere più efficienti le implemen-<br/>
+</span><span style="color: #0000ff">tazioni algoritmiche.</span><br/>
+<br/>
+<br/>
+Accumulatore: è una struttura dati usata per memorizzare i risultati parziali di un’elaborazione.<br/>
+<br/>
+è <span style="color: #0000ff">state invariant</span><span style="color: #000000">, cioè:<br/>
+</span><ul><span style="color: #000000"><li>una proprietà valida in tutti gli stati dell'elaborazione</li>
+<li>esiste fin dall'inizio del processo elaborativo</li>
+<li>viene trasformato a ogni passo</li>
+<li>alla fine corrisponde al risultato finale</li>
+</span></ul>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+</body></html>

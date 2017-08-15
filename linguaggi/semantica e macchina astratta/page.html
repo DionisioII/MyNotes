@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Semantica e macchina astratta</title>
+</head><body>La semantica definisce il significato associato alle istruzioni del linguaggio. Deve essere:<ul><li>espressiva</li>
+<li>semplice</li>
+<li>deve fornire supporto alle decisioni al programmatore ( correttezza, uso di memoria...)</li>
+</ul>
+<br/>
+<br/>
+Usiamo il <span style="color: #0000ff">modello semantico del kernel language; </span><span style="color: #ff0000">il concetto è quello di esprimere la semantica di un linguaggio esprimendo quella di un linguaggio più semplice a patto che questo abbia i costrutti mappabili uno a uno con quelli del linguaggio di interesse.<br/>
+</span><br/>
+Il vantaggio sta nel considerare un linguaggio “kernel”, un linguaggio con un set di istruzioni ridotto e quindi semplificato, per cui sarà più facile definire la semantica di queste istruzioni. Per ogni istruzione del Kernel Language, quindi, si avrà una semantica definita e se ne avrà una per la stessa istruzione nel linguaggio considerato.<br/>
+<br/>
+<br/>
+<span style="font-size: 14pt"><span style="color: #0000ff">KERNEL LANGUAGE:<br/>
+<br/>
+</span></span><span style="font-size: 10pt"><span style="color: #000000">gli obbiettivi di un kernel language sono:<br/>
+<ul><li>definire un linguaggio semplice</li>
+<li>definire il suo computation model</li>
+<li>definire come i costrutti del linguaggio manipolano i dati( la sua semantica)</li>
+<li>mappare i costrutti del LdP con quelli del kernel language con astrazioni linguistiche e sintatict sugar</li>
+</ul>
+<br/>
+</span><span style="color: #000000">Un’</span><span style="color: #0000ff">astrazione linguistica</span><span style="color: #000000">&nbsp;è la descrizione astratta della natura di un’istruzione. definisce concetti a livello astratto che il programmatore usa per la codifica dialgoritmi<br/>
+</span></span><ul><li>ogni astrazione linguistica va ricondotta a costrutti del kernel language</li>
+</ul>
+<br/>
+I sintatict sugar sono scorciatoie sintattiche definite in un linguaggio per migliorare la leggibilità del codice<br/>
+<br/>
+<span style="color: #ff0000">Si hanno due mondi: <span style="background-color: #00ff00">il linguaggio reale, del quale si vuole descrivere la semantica, </span>e <span style="background-color: #ffff00">il linguaggio kernel, del quale si ha la semantica formalmente espressa.</span></span><br/>
+si prenderà un’astrazione linguistica del linguaggio reale, verrà tradotta in costrutti del kernel language per i quali si ha una semantica definita<br/>
+<br/>
+<br/>
+<br/>
+Il <span style="background-color: #00ff00"><span style="color: #0000ff">modello computazionale dichiarativo</span></span>&nbsp;rappresenterà la base dalla quale si svilupperanno gli altri modelli, che saranno espressi<br/>
+in funzione di questo, sottraendo o aggiungendo caratteristiche.<ul><li style="list-style-type: none"></li>
+</ul>
+Modello computazionale dichiarativo caratterizzato da:<br/>
+<ul><li>modalità di rappresentazione dei valori basata sul sas: variabili e valori</li>
+<li>per la semantica si definisce un kernel language</li>
+<li>un environment che lega identificatori di variabili al sas</li>
+<li>Processo di esecuzione degli statement basata sull'execution stack; il sas viene modificato da una serie di passi</li>
+</ul>
+<br/>
+<br/>
+Sas<br/>
+<br/>
+Partial Values. strutture dati che possono avere componenti unbound<br/>
+<br/>
+I valori, rappresentati genericamente con &lt;v&gt;, possono essere delle procedure, dei record o dei numeri.<ul><li style="list-style-type: none"></li>
+</ul>
+Il nonterminale procedura è proc<br/>
+<br/>
+le procedure, qui, sono strutture dati; le procedure sono un<br/>
+valore di tipo procedura: le procedure sono valori.<br/>
+<span style="background-color: #ffa300"><br/>
+Il record è l’unico tipo di dato strutturato predefinito del KL (gli<br/>
+altri deriveranno tutti da esso).<br/>
+<br/>
+</span><span style="color: #0000ff">Unificazione: l’operatore tenta di unificare i due operandi a sinistra e a destra dell’operatore. </span><span style="color: #ff0000">semantica:gli argomenti vengono resi uguali (unificati) quando possibile.</span><br/>
+<br/>
+<br/>
+Il Kernel Language avrà una sola struttura di controllo iterativo: la procedura.<br/>
+<br/>
+<br/>
+<br/>
+<span style="font-size: 14pt"><span style="color: #0000ff">MACCHINA ASTRATTA:<br/>
+<br/>
+</span></span><span style="font-size: 10pt"><span style="color: #000000">il modello di semantica usato è un ibrido tra semantica assiomatica e operazionale.Si esprime la semantica assiomatica di un’istruzione tramite una transizione di stato per effetto dell’esecuzione di quella istruzione.A questa interpretazione va affiancato un modello di macchina a stati che rappresenti lo stato e i meccanismi di se-<br/>
+quenzializzazione delle istruzioni che un qualunque calcolatore reale vuole implementare. Al concetto di transizione di<br/>
+stato, quindi, si aggiunge anche un modello di calcolatore astratto, una macchina astratta (parte di semantica operazionale), realizzando un ibrido tra semantica assiomatica e operazionale.<br/>
+<br/>
+la macchina astratta è un modello di esecuzione basato sui seguenti concetti:<br/>
+<ul><li>Environment &#09;per mettere in correlazione larappresentazione d'informazione a livello di linguaggio con quella a livello di memoria</li>
+</ul>
+<ul><li>Semantic statement&#09;una coppia &lt;statement, environment&gt;: lega un istruzione all'environment</li>
+</ul>
+<ul><li>Uno stack per sequenzializzare l'esecuzione delle istruzioni, dei sematic statement</li>
+</ul>
+<ul><li>Execution state&#09;&#09;&#09;coppia &lt;SS,Sas&gt; che esprime quello che rimane da fare (SS) e quello che è stato già fatto (SaS)</li>
+</ul>
+<ul><li>Elaborazione che è una sequenza di execution states</li>
+</ul>
+<br/>
+<br/>
+</span><span style="color: #0000ff"><br/>
+Semantic statement: <br/>
+<br/>
+</span><div style="text-align: left">Lo statement semantico è un oggetto che permette di legare<br/>
+uno statement a un environment: non si potrebbero altrimenti<br/>
+istanziare le variabili presenti nello statement.<br/>
+Formalmente:<br/>
+</div></span><ul><span style="font-size: 10pt"><div style="text-align: left"><li>&nbsp;È una coppia (&lt;s&gt;, E), costituita da:</li>
+<li style="list-style-type: none"><ul><li style="list-style-type: none">1. Uno statement &lt;s&gt;;</li>
+<li style="list-style-type: none">2. Un environment E.</li>
+<li style="list-style-type: none"></li>
+</ul>
+</li>
+<li style="list-style-type: none">Per definire come viene eseguito occorre:</li>
+<li style="list-style-type: none"></li>
+<li>Un environment E per il mapping degli identificatori;</li>
+<li style="list-style-type: none"><ul><li style="list-style-type: none">– L’environment può cambiare per effetto dell’esecuzio-</li>
+<li style="list-style-type: none">ne, e quindi è potenzialmente diverso per ogni state-</li>
+<li style="list-style-type: none">ment.</li>
+<li style="list-style-type: none"></li>
+</ul>
+</li>
+<li>&nbsp;Uno store per l’associazione dei valori:</li>
+<li style="list-style-type: none">– È un SAS;</li>
+</div></span><div style="text-align: left"><li style="list-style-type: none"><span style="font-size: 10pt">– Tutti gli statement modificano lo stesso store.</span><span style="color: #000000"></span></li>
+</div><li style="list-style-type: none"></li>
+</ul>
+<br/>
+<br/>
+<br/>
+<br/>
+</body></html>

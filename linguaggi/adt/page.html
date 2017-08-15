@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ADT</title>
+</head><body><span style="color: #0000ff">uno strumento formale, svincolato dal particolare linguaggio, che consente di esprimere i dati in maniera indipendente dai<br/>
+vincoli imposti dal linguaggio.<br/>
+Con uno strumento astratto si possono definire delle carat-<br/>
+teristiche generiche del tipo di un dato che sono instanziabili<br/>
+in un qualunque linguaggio, indipendentemente da come verrà<br/>
+implementato.<br/>
+<br/>
+<br/>
+</span><span style="color: #0000ff">Si caratterizza il tipo di dato che serve e si implementano gli operatori che agiscono su tale dato.</span>&nbsp;Se la rappresentazione dei dati cambia, il resto del programma non cambia.<br/>
+<br/>
+Ogni algoritmo sfrutta delle <span style="color: #ff0000">rappresentazioni di strutture dati;</span><br/>
+<span style="background-color: #ffff00">ogni dato deve essere tipizzato, cioè associato a un tipo, a delle<br/>
+</span><span style="background-color: #ffff00">strutture dati più o meno complesse.</span><br/>
+Una corretta tipizzazione aiuta a creare una gerarchia dei ti-<br/>
+pi, consentendo di metterli in relazione in ottica di sviluppo di<br/>
+un processo software: i tipi complessi possono essere definiti in<br/>
+funzione dei tipi semplici. Il codice risultato è più pulito e più<br/>
+facilmente manutenibile.<br/>
+<ul><li>Ogni dato, in un linguaggio di programmazione evoluto, ha</li>
+<li style="list-style-type: none">associato un tipo, che ne definisce le caratteristiche in rela-</li>
+<li style="list-style-type: none">zione al tipo di dato astratto corrispondente;</li>
+<span style="color: #0000ff"><li style="list-style-type: none"></li>
+</span><li><span style="color: #191919">Molte funzioni elaborative possono essere defin</span>ite a partire</li>
+<li style="list-style-type: none">dal tipo dei dati</li>
+<li style="list-style-type: none"></li>
+</ul>
+<br/>
+<span style="color: #0000ff">TIPI POLIMORFICI: </span><span style="color: #ff0000">tale definizione è indipendente dai tipi semplici che lo compongo-<br/>
+</span><span style="color: #ff0000">no. In questo modo si rende il tipo indipendente dalle possibili<br/>
+evoluzioni dei tipi più primitivi.<br/>
+<ul><li style="list-style-type: none">&lt;list T&gt; ::= nil | T|&lt;List T&gt;: <span style="color: #000000">lista polimorfa, rappresenta tutte le liste di qualunque tipo di dato T siano i dati in esso memorizzati.</span></li>
+</ul>
+<span style="color: #000000"><br/>
+Basando l’approccio sulla tipizzazione del dato, quindi sull’in-<br/>
+dividuazione delle sue caratteristiche, si struttura il codice in<br/>
+funzione di tale tipizzazione: esempio lista di liste<br/>
+<br/>
+<br/>
+<br/>
+</span></span><span style="color: #0000ff"><span style="background-color: #ffffff">ADT:<br/>
+</span></span><span style="color: #000000"><span style="color: #ff0000"><br/>
+Il tipo astratto di dato T &nbsp;è costituito da una<br/>
+terna:<br/>
+</span></span><ul><span style="color: #ff0000"><li style="list-style-type: none">T :&lt; S , F , C &gt;</li>
+<span style="color: #000000"><li style="list-style-type: none"></li>
+</span></span></ul>
+<span style="color: #ff0000"><span style="color: #000000">dove<br/>
+</span><ul><span style="color: #000000"><li>S è l’insieme di dominî {V 1 , . . . , V n }; uno dei dominî è</li>
+<li style="list-style-type: none">il dominio che rappresenta l’insieme di valori del tipo di</li>
+<li style="list-style-type: none">dato T e viene chiamato dominio d’interesse;</li>
+<li style="list-style-type: none"></li>
+<li>F è l’insieme di funzioni (o operazioni) {F 1 , . . . , F n } che</li>
+<li style="list-style-type: none">mappa valori di un codominio in un valore del dominio:</li>
+<li style="list-style-type: none">F  : V  1 × V  2 × . . . × V  h → V k</li>
+<li style="list-style-type: none"></li>
+<li>C è l’insieme di elementi che denotano valori significativi</li>
+<li style="list-style-type: none">nel dominio di interesse: le costanti significative per i</li>
+</span><li style="list-style-type: none"><span style="color: #000000">reali devono essere reali, per stringhe stringhe, etc</span></li>
+</ul>
+<br/>
+<br/>
+<span style="color: #000000">Impostare un programma sulla definizione degli adt è efficace perchè:<br/>
+</span><ul><li><span style="color: #000000">E' sufficente conoscere le singole interfacce degli adt(</span><span style="color: #0000ff">INCAPSULAMENTO</span><span style="color: #000000">)</span></li>
+<span style="color: #000000"><li>Il software può essere realizzato indipendentementne da come gli adt sono implementati(si usano le funzioni delle interfacce)</li>
+<li>I diversi moduli software possono essere realizzati indiendentemente se interagiscono solo a livello di interfaccia</li>
+</span></ul>
+<span style="color: #000000"><br/>
+<br/>
+Esempio 8 (Stack). <br/>
+Si supponga di avere bisogno di una strut-<br/>
+tura dati di tipo stack. Si definirà allora l’ADT relativo a uno<br/>
+stack di elementi di tipo T, il tipo StackT.<br/>
+ Si definiscono i dominî:<br/>
+– Insieme di elementi di tipo T (quali tipi T sono am-<br/>
+messi);<br/>
+– Insieme degli stack di elementi di tipo T (StackT,<br/>
+dominio d’interesse);<br/>
+– Insieme dei valori booleani (Bool, per le funzioni di<br/>
+verifica).<br/>
+ Le operazioni da implementare sul tipo (× sta per il pro-<br/>
+dotto cartesiano):<br/>
+– Push (StackT × T<br/>
+– Pop (StackT<br/>
+→<br/>
+– IsEmpty (StackT<br/>
+→<br/>
+StackT);<br/>
+StackT × T);<br/>
+→<br/>
+Bool).<br/>
+ Costanti significative:<br/>
+– Stack vuoto (NewStack).<br/>
+Nel caso dello stack, le proprietà algebriche, degli invarian-<br/>
+ts, possono essere:<br/>
+ {IsEmpty {NewStack}} → true<br/>
+ Per ogni E ed S vale:<br/>
+– {Pop {Push S E}} → (S E)<br/>
+Quindi, per esempio, {Pop {EmptyStack}} dà errore.<br/>
+Queste proprietà danno indicazioni su come semanticamen-<br/>
+</span><span style="color: #000000">te le operazioni devono essere realizzate.</span><br/>
+<br/>
+Esempio 9: DIZIONARIO<br/>
+<br/>
+ Dominî:<br/>
+– Dict insieme dei dizionarî<br/>
+– Value insieme dei valori<br/>
+– Feature insieme delle features (chiavi)<br/>
+– Bool dominî accessorî<br/>
+ Operazioni:<br/>
+– DictMember (Dict×Feature → Bool)<br/>
+– DictAccess (Dict×Feature → Value)<br/>
+– DictAdjoin (Dict×Feature×Value → Dict)<br/>
+ Costanti significative:<br/>
+– EmptyDict Dizionario vuoto<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+</span><br/>
+</body></html>

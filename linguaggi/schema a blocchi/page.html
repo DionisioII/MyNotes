@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Schema a blocchi</title>
+</head><body>traduttori traducono testo scritto in un linguaggio di programmazione in codice eseguibile sulla macchina<br/>
+<br/>
+due tipi:<ul><li>interpreti</li>
+<li>compilatori</li>
+</ul>
+<br/>
+un interprete traduce ed esegue istruzione per istruzione un programma, mentre un compilatore crea prima un blocco di codice eseguibile che dovrà essere consumato da un altro modulo posto a valle del processo di traduzione (l’esecutore,appunto).<br/>
+<br/>
+<br/>
+<br/>
+<img src="image.png" width="533" height="350" /><br/>
+<br/>
+<br/>
+<span style="color: #0000ff">Tavola dei simboli:</span><span style="color: #ff0000">è un repository di informazioni necessarie ai diversi moduli per il processo di traduzione. Viene<br/>
+</span><span style="color: #ff0000">rappresentata come una matrice: a ogni riga corrisponde un token; le colonne invece rappresentano le caratteristiche dei varî token:<br/>
+</span><ul><li style="list-style-type: none"><ul><li style="list-style-type: none"><span style="color: #ff0000">– L’analizzatore lessicale (lo scanner), </span><span style="color: #000000">quando produce un</span></li>
+<li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><span style="color: #000000"><li style="list-style-type: none">token, inserisce una riga nella tavola e inizializza la co-</li>
+<li style="list-style-type: none">lonna ID all’identificatore del token;</li>
+</span><span style="color: #ff0000"><li style="list-style-type: none"></li>
+</span></ul>
+</li>
+</ul>
+</li>
+<li style="list-style-type: none"><span style="color: #ff0000">– L’analizzatore sintattico (il parser LL o LR) d</span><span style="color: #000000">ai token for-</span></li>
+<li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><span style="color: #000000"><li style="list-style-type: none">ma gli statement, inserendo nella tavola i riferimenti per</li>
+</span><li style="list-style-type: none"><span style="color: #000000">la costruzione del parse tree;</span></li>
+</ul>
+</li>
+</ul>
+</li>
+<li style="list-style-type: none"><span style="color: #ff0000">– L’analizzatore semantico statico, </span><span style="color: #000000">a partire dalla tradu-</span></li>
+<li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><span style="color: #000000"><li style="list-style-type: none">zione fatta dal parser secondo una CFG, produrrà nuove</li>
+<li style="list-style-type: none">righe verificando le regole contestuali.</li>
+<li style="list-style-type: none"></li>
+</span></ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<span style="color: #000000">Il </span><span style="color: #0000ff">Generatore di codice intermedio </span><span style="color: #ff0000">produce, coi dati della tabella dei simboli, un codice intermedio a partire dal codice<br/>
+</span><span style="color: #ff0000">sorgente del programma. Il generatore però agisce secondo un punto di vista locale,codificando il sorgente istruzione per istruzione senza tener conto del punto di vista globale.<br/>
+<br/>
+</span><span style="color: #ff0000">L’</span><span style="color: #0000ff">ottimizzatore</span><span style="color: #ff0000">, che fornisce spunti di ottimizzazione dell codice intermedio, per esempio eliminando le ridondanze;<br/>
+</span><span style="color: #ff0000"><br/>
+</span><span style="color: #ff0000">Il </span><span style="color: #0000ff">generatore di codice oggetto</span><span style="color: #ff0000">&nbsp;applica le operazioni di ottimizzazione suggerite.<br/>
+</span><span style="color: #ff0000"><br/>
+<br/>
+</span><span style="color: #000000">I varî analizzatori del processo non lavorano sequenzialmente, ma in un contesto di concorrenza<br/>
+</span><span style="color: #ff0000"><br/>
+</span><span style="color: #000000">Solo i primi tre moduli possono generare condizioni d’errore.<br/>
+<br/>
+</span><span style="color: #0000ff">Il processo di interpretazione:<br/>
+<br/>
+</span><img src="image 2.png" width="483" height="300" /><br/>
+<ul><li>Il processo di interpretazione è praticamente equivalente al ciclo Fetch/Decode/Execute di una CPU;</li>
+<li>Nella fase di decodifica sono incluse l’analisi sintattica, quella lessicale e quella semantica statica;</li>
+<li>La selezione del codice avviene a partire dall’istruzione decodificata, grazie a delle “librerie” di codice sorgente.</li>
+</ul>
+<span style="color: #ff0000"><br/>
+<br/>
+<br/>
+</span><span style="color: #0000ff">Compilatori VS Interpreti:<br/>
+<ul><li>La velocità di esecuzione</li>
+<li>La facilità del debugging</li>
+<li>L’efficienza d’uso della memoria del programma eseguito</li>
+<li>Portabilità del programma &nbsp;interpretato</li>
+</ul>
+<br/>
+<br/>
+<br/>
+SCHEMI DI TRADUZIONE:<br/>
+</span><ul><li><span style="color: #ff0000">Interprete con preprocessore; il pre-procesore per esempio elimina commenti</span></li>
+</ul>
+<span style="color: #ff0000"><br/>
+</span><img src="image 3.png" width="618" height="100" /><span style="color: #0000ff"><br/>
+</span><span style="color: #ff0000"><br/>
+</span><br/>
+<ul><li><span style="color: #ff0000">Compilatore Classico; linker per esempio printf in c</span></li>
+</ul>
+<span style="color: #ff0000"><br/>
+</span><br/>
+<img src="image 4.png" width="769" height="100" /><br/>
+<br/>
+<ul><li><span style="color: #ff0000">Compilatore con uotput in assembler:</span></li>
+</ul>
+<br/>
+<img src="image 5.png" width="750" height="100" /><br/>
+<br/>
+<ul><li>variante con preprocessore(Si inserisce un preprocessore a monte del compilatore nello</li>
+<li>schema di 2.2.4. In questo modo, si aggiungono nuove funziona-</li>
+<li>lità al programma compilato, che si adatta alla macchina su cui</li>
+<li>gira (per esempio le direttive di compilazione, che modificano il</li>
+<li>sorgente in base a certe condizioni, come il valore di una variabile</li>
+<li>globale di quella particolare macchina).)</li>
+</ul>
+<img src="image 6.png" width="1055" height="100" /><br/>
+<br/>
+<ul><li><span style="color: #ff0000">Compilatore in un linguaggio intermedio:</span></li>
+</ul>
+<img src="image 7.png" width="1105" height="100" /><br/>
+<br/>
+<br/>
+<ul><li><span style="color: #ff0000">Compilatore just in time ( si usa nella programmazione a oggetti, libreria dinamica con i metodi compilati delle classi)</span></li>
+</ul>
+<img src="image 8.png" width="572" height="100" /><br/>
+<ul><li><span style="color: #ff0000">Compilatore per linguaggi interpretati:</span></li>
+</ul>
+<br/>
+<img src="image 9.png" width="565" height="100" /><br/>
+<br/>
+È stato pensato per compilare un programma scritto in un lin-<br/>
+guaggio che può essere solamente interpretato. Il compilatore<br/>
+cerca di tradurre il più possibile del codice sorgente che gli vie-<br/>
+ne fornito, ma alcune istruzioni che devono essere tradotte a run<br/>
+time le ignorerà (per questo si parla di un <span style="color: #ff0000">compilatore parziale</span>).<br/>
+Sarà l’esecutore che dovrà verificare la presenza di queste istru-<br/>
+zioni non tradotte: se le troverà, richiamerà l’interprete, che le<br/>
+tradurrà e poi le fornirà all’esecutore per completare la traduzio-<br/>
+ne e quindi l’esecuzione. Sono complessi da implementare, ma<br/>
+cercano di avere i vantaggi di entrambi i tipi di traduttori.<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+</body></html>

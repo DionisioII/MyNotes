@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Memory Addresses</title>
+</head><body><span style="color: #0000ff">Memory Addresses</span><br/>
+Programmers casually refer to a memory address as the way to access the contents of<br/>
+a memory cell. But when dealing with 80 × 86 microprocessors, we have to distin-<br/>
+guish three kinds of addresses:<br/>
+<br/>
+<span style="color: #0000ff">Logical address</span><br/>
+Included in the machine language instructions to specify the address of an oper-<br/>
+and or of an instruction. This type of address embodies the well-known 80 × 86<br/>
+segmented architecture that forces MS-DOS and Windows programmers to<br/>
+divide their programs into segments. Each logical address consists of a segment<br/>
+and an offset (or displacement) that denotes the distance from the start of the seg-<br/>
+ment to the actual address.<br/>
+<br/>
+A logical address consists of two parts: a segment identifier and an offset that speci-<br/>
+fies the relative address within the segment. The segment identifier is a 16-bit field<br/>
+called the Segment Selector &nbsp;while the offset is a 32-bit field.<br/>
+<br/>
+To make it easy to retrieve segment selectors quickly, the processor provides segmen-<br/>
+tation registers whose only purpose is to hold Segment Selectors; these registers are<br/>
+called cs , ss , ds , es , fs , and gs . Although there are only six of them, a program can<br/>
+reuse the same segmentation register for different purposes by saving its content in<br/>
+memory and then restoring it later.<br/>
+Three of the six segmentation registers have specific purposes:<br/>
+cs The code segment register, which points to a segment containing program<br/>
+instructions<br/>
+ss The stack segment register, which points to a segment containing the current<br/>
+program stack<br/>
+ds The data segment register, which points to a segment containing global and<br/>
+static data<br/>
+The remaining three segmentation registers are general purpose and may refer to<br/>
+arbitrary data segments.<br/>
+The cs register has another important function: it includes a 2-bit field that specifies<br/>
+the Current Privilege Level (CPL) of the CPU. The value 0 denotes the highest privi-<br/>
+lege level, while the value 3 denotes the lowest one. Linux uses only levels 0 and 3,<br/>
+which are respectively called Kernel Mode and User Mode.<br/>
+<br/>
+<span style="color: #0000ff">Linear address (also known as virtual address)<br/>
+</span><br/>
+A single 32-bit unsigned integer that can be used to address up to 4 GB—that is,<br/>
+up to 4,294,967,296 memory cells. Linear addresses are usually represented in<br/>
+hexadecimal notation; their values range from 0x00000000 to 0xffffffff .<br/>
+<br/>
+<span style="color: #0000ff">Physical address</span><br/>
+Used to address memory cells in memory chips. They correspond to the electri-<br/>
+cal signals sent along the address pins of the microprocessor to the memory bus.<br/>
+Physical addresses are represented as 32-bit or 36-bit unsigned integers.<br/>
+The Memory Management Unit (MMU) transforms a logical address into a linear<br/>
+address by means of a hardware circuit called a segmentation unit; subsequently, a<br/>
+second hardware circuit called a paging unit transforms the linear address into a<br/>
+physical address (see Figure 2-1).<br/>
+<br/>
+<br/>
+<br/>
+<span style="color: #0000ff"><span style="font-size: 15pt"><br/>
+</span></span><span style="color: #0000ff"><span style="font-size: 15pt">Segment Descriptors</span></span><br/>
+Each segment is represented by an 8-byte Segment Descriptor that describes the seg-<br/>
+ment characteristics. Segment Descriptors are stored either in the Global Descriptor<br/>
+Table (GDT) or in the Local Descriptor Table (LDT).<br/>
+Usually only one GDT is defined, while each process is permitted to have its own LDT if<br/>
+it needs to create additional segments besides those stored in the GDT. The address and<br/>
+size of the GDT in main memory are contained in the gdtr control register, while the<br/>
+address and size of the currently used LDT are contained in the ldtr control register.<br/>
+<span style="color: #0000ff"><span style="font-size: 12pt"><br/>
+<br/>
+</span></span><span style="color: #0000ff"><span style="font-size: 12pt">Segmentation in Linux</span></span><br/>
+All Linux processes running in User Mode use the same pair of segments to address<br/>
+instructions and data. These segments are called user code segment and user data seg-<br/>
+ment, respectively. Similarly, all Linux processes running in Kernel Mode use the<br/>
+same pair of segments to address instructions and data: they are called kernel code<br/>
+segment and kernel data segment, respectively. Table 2-3 shows the values of the Seg-<br/>
+ment Descriptor fields for these four crucial segments.<br/>
+The corresponding Segment Selectors are defined by the macros _ _USER_CS , _ _USER_DS ,<br/>
+_ _KERNEL_CS , and _ _KERNEL_DS , respectively. To address the kernel code segment, for<br/>
+instance, the kernel just loads the value yielded by the _ _KERNEL_CS macro into the cs<br/>
+segmentation register.<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+</body></html>

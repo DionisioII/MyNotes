@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>ADT secure</title>
+</head><body>obiettivo della programmazione basata su ADT è r<span style="color: #0000ff">endere l’uso del dato indipendente dalla sua implementazione</span>: si deve poter accedere al dato solo attraverso la sua<br/>
+interfaccia;<br/>
+<br/>
+Il <span style="color: #ff0000">problema </span>nasce quando l’i<span style="color: #ff0000">mplementazione è visibile a tutti<br/>
+</span><span style="color: #ff0000">gli utilizzatori:</span>&nbsp;è possibile accedere al dato senza passare<br/>
+per l’interfaccia<br/>
+<br/>
+Conseguenze: il programma che usa l’ADT<br/>
+<br/>
+– È difficile da mantenere:<br/>
+<br/>
+* Cambiare l’implementazione dello stack implica il<br/>
+malfunzionamento del codice che sfrutta la rappre-<br/>
+sentazione interna (e.g. l’uso della citata Length())<br/>
+dell’ADT.<br/>
+<br/>
+– È soggetto all’inserimento di codice malevolo:<br/>
+<br/>
+* Se la rappresentazione interna di un ADT è esposta<br/>
+al mondo, è possibile manipolare il dato direttamen-<br/>
+te con effetti negativi intenzionalmente voluti.<br/>
+<br/>
+<span style="color: #ff0000">Soluzione:</span>Bisogna implementare un adt sicuro: all'adt viene associato un contesto solo all'interno del quale è possibile accedere alla rappresentazione intenr a dei dati<br/>
+<br/>
+Due possibili implementazioni:<br/>
+<br/>
+<span style="color: #0000ff">Staztionary Value: &nbsp;</span><span style="color: #191919">All’ADT è associato un contesto solo all’interno del quale è possibile accedere alla sua implementazione.<br/>
+</span><ul><span style="color: #ff0000"><li style="list-style-type: none">Si crea un contesto solo all’interno del quale le operazioni di</li>
+<li style="list-style-type: none">manipolazione del dato sono consentite; al di fuori di</li>
+<li style="list-style-type: none">tale contesto non sono consentite.</li>
+<li style="list-style-type: none"></li>
+</span></ul>
+<span style="color: #0000ff">Mobile Value: </span><span style="color: #191919">esiste un set limitato di operazioni che possono estrarre/inserire l’implementazione nel contesto in cui è sicura.<br/>
+</span><span style="color: #191919">La sequenza d’uso è<br/>
+1. Estrazione;<br/>
+2. Elaborazione;<br/>
+</span>3.Inserimento<br/>
+<br/>
+<ul><span style="color: #ff0000"><li style="list-style-type: none">il valore non è situato in un contesto sicuro fisso, ma sta in un contenitore che, se non viene aperto,non permette l’accesso a quanto v’è dentro; può essere</li>
+</span><li style="list-style-type: none"><span style="color: #ff0000">aperto solo da chi ha l’autorizzazione. Tale contenitore rappresenta una sorta di cassaforte che può essere spostata senza compromettere il dato al suo interno.</span></li>
+</ul>
+<br/>
+<br/>
+<span style="color: #000000">Le implementazione dei secure adt sono 4:<br/>
+<br/>
+Funzione di supporto :{NewWrapper Wrap Unwrap}<br/>
+<br/>
+</span><span style="color: #0000ff">StateLess:<br/>
+</span><ul><li><span style="color: #00ff00">Declarative unbundled:</span></li>
+<span style="color: #000000"><span style="color: #00ff00"><li style="list-style-type: none"><ul><li style="list-style-type: none">sicurezza applicata al dato, valore di tipo mobile</li>
+</ul>
+</li>
+<li style="list-style-type: none">{NewWrapper Wrap Unwrap}</li>
+<li style="list-style-type: none"><ul><li style="list-style-type: none"></li>
+</ul>
+</li>
+<li style="list-style-type: none">fun {NewStack} {Wrap nil} end</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none">fun {Push S E} {Wrap E|{Unwrap S}} end</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none">fun {Pop S ?E}</li>
+<li style="list-style-type: none">case {Unwrap S} of</li>
+<li style="list-style-type: none">X|S1 then</li>
+<li style="list-style-type: none">E=X</li>
+<li style="list-style-type: none">{Wrap S1} end</li>
+<li style="list-style-type: none">end</li>
+<li style="list-style-type: none">fun {IsEmpty S} {Unwrap S} == nil end</li>
+<li style="list-style-type: none">in</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none">Stack = stack(new:NewStack push:Push pop:Pop isEmpty:</li>
+<li style="list-style-type: none">IsEmpty)</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none">% ... resto del programma</li>
+<li style="list-style-type: none">end</li>
+</span></span></ul>
+<span style="color: #00ff00"><ul><span style="color: #000000"><li style="list-style-type: none"></li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none"></li>
+</span><li style="list-style-type: none"><ul><li style="list-style-type: none"></li>
+</ul>
+</li>
+<li>Declarative Bundled:</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none"><ul><span style="color: #000000"><li style="list-style-type: none">Il dato è stationary: quindi abbiamo un contesto all'interno del quale è possibile accedere al dato</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none">local</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none">fun {StackObject S}</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none"><ul><li style="list-style-type: none">fun {Push X} {StackObject X|S} end</li>
+<li style="list-style-type: none">fun {Pop ?E}</li>
+<li style="list-style-type: none"><ul><li style="list-style-type: none">case S of</li>
+<li style="list-style-type: none">X|S1 then</li>
+<li style="list-style-type: none">E=X</li>
+</ul>
+</li>
+</ul>
+</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none"><ul><li style="list-style-type: none"><ul><li style="list-style-type: none">{StackObject S1}</li>
+</ul>
+</li>
+</ul>
+</li>
+<li style="list-style-type: none">end</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none">fun {IsEmpty} S==nil end</li>
+<li style="list-style-type: none">in</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none">stack(push:Push pop:Pop isEmpty:IsEmpty)</li>
+<li style="list-style-type: none">end</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none">in</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none">fun {NewStack} {StackObject nil} end</li>
+<li style="list-style-type: none">end</li>
+</span><li style="list-style-type: none"></li>
+</ul>
+</li>
+</ul>
+<span style="color: #000000"><br/>
+</span></span><span style="color: #0000ff">Stateful:</span><span style="color: #00ff00"><span style="color: #000000"><br/>
+</span></span><span style="color: #00ff00"><ul><li>Stateful Unbundled:</li>
+<span style="color: #000000"><li style="list-style-type: none">Valore di tipo mobile:</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none">declare</li>
+<li style="list-style-type: none">local Wrap Unwrap</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none">% costruzione della cassaforte</li>
+<li style="list-style-type: none">{NewWrapper Wrap Unwrap}</li>
+<li style="list-style-type: none">fun {NewStack} {Wrap {NewCell nil}} end</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none">proc {Push S E} C={Unwrap S} in C := E|@C end</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none">fun {Pop S}</li>
+<li style="list-style-type: none"><ul><li style="list-style-type: none">C={Unwrap S} in</li>
+<li style="list-style-type: none">case @C of</li>
+<li style="list-style-type: none"><ul><li style="list-style-type: none">X|S1 then</li>
+<li style="list-style-type: none">C := S1</li>
+<li style="list-style-type: none">X</li>
+</ul>
+</li>
+<li style="list-style-type: none">end</li>
+</ul>
+</li>
+<li style="list-style-type: none"></li>
+</span></ul>
+<span style="color: #000000"></span></span><ul><span style="color: #00ff00"><span style="color: #000000"><li style="list-style-type: none">end</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none">fun {IsEmpty S}</li>
+<li style="list-style-type: none"><ul><li style="list-style-type: none">@{Unwrap S} == nil</li>
+</ul>
+</li>
+<li style="list-style-type: none">end</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none">in</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none">Stack = stack(new:NewStack push:Push pop:Pop isEmpty:IsEmpty)</li>
+<li style="list-style-type: none"></li>
+</span><li style="list-style-type: none"><span style="color: #000000">end</span></li>
+<li style="list-style-type: none"></li>
+<li>Stateful Bundled:</li>
+<li style="list-style-type: none"></li>
+<span style="color: #000000"><li style="list-style-type: none">fun {NewStack}</li>
+<li style="list-style-type: none"><ul><li style="list-style-type: none">C = {NewCell nil}</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none">proc {Push E} C := E|@C end</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none">fun {Pop}</li>
+<li style="list-style-type: none"><ul><li style="list-style-type: none">case @C of</li>
+<li style="list-style-type: none">X|S1 then</li>
+<li style="list-style-type: none">C := S1</li>
+<li style="list-style-type: none">X</li>
+<li style="list-style-type: none">end</li>
+</ul>
+</li>
+<li style="list-style-type: none">end</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none">fun {IsEmpty}</li>
+<li style="list-style-type: none"><ul><li style="list-style-type: none">@C == nil</li>
+</ul>
+</li>
+<li style="list-style-type: none">end</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none">in</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none">stack(push:Push pop:Pop isEmpty:IsEmpty)</li>
+</ul>
+</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none">end</li>
+<li style="list-style-type: none"></li>
+<li style="list-style-type: none">Una chiamata diventa, semplicemente:</li>
+<li style="list-style-type: none"></li>
+</span><li style="list-style-type: none"><span style="color: #000000">E = {S.pop}</span></li>
+</span><li style="list-style-type: none"><ul><li style="list-style-type: none"></li>
+</ul>
+</li>
+</ul>
+<br/>
+<br/>
+<br/>
+<br/>
+</body></html>

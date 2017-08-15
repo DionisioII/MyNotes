@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Gestione degli errori</title>
+</head><body>Nei linguaggi di programmazione moderni è previsto un mec-<br/>
+canismo per gestire le eccezioni :<br/>
+1 che avvengono durante l’esecuzione di un programma.<br/>
+2 Nel codice bisogna intercettare tali eccezioni e saperle gestire adeguatamente.<br/>
+<br/>
+meccanismo di exception handling che gestisce 2 tipologie di errore:<br/>
+<ul><li>Interno: legato al codice tipo una divisione per 0</li>
+<li>estero : legato all'ambiente di esecuzione( tipo un file non esistente)</li>
+</ul>
+<br/>
+obbiettivo della gestione degli errori: rivelare e gestire la condizione d'errore senza interrompere l'esecuzione del programma<br/>
+<br/>
+al verificarsi dell'errore, l'ambiente di esecuzione deve:<ul><li>individuare e identificare l'errore</li>
+<li>passare il controllo a un modulo apposito, passandogli informazioni sull'errore (exception handler)</li>
+</ul>
+<br/>
+strategia basata su confinamento dell'errore<br/>
+<br/>
+<span style="background-color: #ffff00"><span style="color: #ff0000">L’errore dev’essere gestito da un contesto, partendo da quello<br/>
+che lo genera; se questo non è in grado di gestirlo, l’errore viene<br/>
+passato al contesto immediatamente più esterno e così via; que-<br/>
+sto processo di risalita termina finché non si trova un contesto<br/>
+che è in grado di identificare l’errore e quindi gestirlo.<br/>
+</span></span><br/>
+se non si trova un contesto adeguato il si risalgono tutti contesti applicativi fino a finire al sistema operativo<br/>
+<br/>
+Quindi un errore resta visibile solo all'interno del componente che lo ha generato se questo è in grado di gestirlo; all'infuori del componente se questo non è in grado di gestirlo internamente<br/>
+<br/>
+<br/>
+</body></html>
