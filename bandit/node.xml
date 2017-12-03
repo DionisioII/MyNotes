@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<node>
+<version>6</version>
+<dict>
+  <key>expanded</key><true/>
+  <key>title</key><string>bandit</string>
+  <key>nodeid</key><string>4ec43cb5-ce73-4df1-b223-463204176f43</string>
+  <key>modified_time</key><integer>1512160048</integer>
+  <key>version</key><integer>6</integer>
+  <key>content_type</key><string>application/x-notebook-dir</string>
+  <key>created_time</key><integer>1512160048</integer>
+  <key>info_sort_dir</key><integer>1</integer>
+  <key>order</key><integer>13</integer>
+  <key>info_sort</key><string>order</string>
+</dict>
+</node>

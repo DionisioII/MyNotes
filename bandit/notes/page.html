@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>notes</title>
+</head><body>&nbsp;<br/>
+Using - as a filename to mean stdin/stdout is a convention that a lot of programs use. It is not a special property of the filename. The kernel does not recognise - as special so any system calls referring to - as a filename will use - literally as the filename.<br/>
+&nbsp;<br/>
+With bash redirection, - is not recognised as a special filename, so bash will use that as the literal filename.<br/>
+&nbsp;<br/>
+When cat sees the string - as a filename, it treats it as a synonym for stdin. To get around this, you need to alter the string that cat sees in such a way that it still refers to a file called -. The usual way of doing this is to prefix the filename with a path - ./-, or /home/Tim/-. This technique is also used to get around similar issues where command line options clash with filenames, so a file referred to as ./-e does not appear as the -e command line option to a program, for example.<br/>
+&nbsp;<br/>
+<br/>
+<br/>
+&lt;--------------------------------&gt;<br/>
+<br/>
+<br/>
+<tt>&nbsp;tr 'A-Z' 'a-z' &lt;fnord.txt | tr -cs 'a-z' '\n' | sort | uniq | comm -23 - /usr/share/dict/words </tt><br/>
+&nbsp;<br/>
+What this does is pass the contents of fnord.txt to the <tt>tr</tt>&nbsp;command to translate uppercase letters to lowercase; the output from that is piped to another <tt>tr</tt>&nbsp;command that turns everything except lowercase letters into line breaks (effectively putting each word on a seperate line); that's piped to <tt>sort</tt>&nbsp;which puts the lines (words) in alphabetical order; that's piped to <tt>uniq</tt>, which gets rid of duplicate words; that's piped to <tt>comm</tt>, which compares the words to the dictionary, and prints whatever's not in the dictionary. (Unfortunately, this tends to include plurals, past tense verbs, words that came into use after 1934... it's really not a very good spellchecker.) <br/>
+<br/>
+&lt;------------------------------------&gt;<br/>
+<br/>
+sort data.txt | uniq -u -----------------&gt; The uniq command! When the data is sorted the -u flag can be used to print only the unique lines.</body></html>

@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Files</title>
-</head><body>Processes can access only “opened” files. To open a file, the process invokes the sys-<br/>
+</head><body><div style="text-align: left">Processes can access only “opened” files. To open a file, the process invokes the sys-<br/>
 tem call:<br/>
 <br/>
 fd = open(path, flag, mode)<br/>
@@ -11,9 +11,9 @@ fd = open(path, flag, mode)<br/>
 This system call creates an “open file” object and returns an identifier called a <span style="color: #0000ff">file<br/>
 </span><span style="color: #0000ff">descriptor.</span>&nbsp;An open file object contains:<br/>
 <br/>
-Some file-handling data structures, such as a set of flags specifying how the file<br/>
-has been opened, an offset field that denotes the current position in the file from<br/>
-which the next operation will take place (the so-called file pointer), and so on.<br/>
+Some file-handling data structures, such as <span style="background-color: #ffff00">a set of flags specifying how the file<br/>
+</span><span style="background-color: #ffff00">has been opened, an offset field that denotes the current position in the file from<br/>
+</span><span style="background-color: #ffff00">which the next operation will take place (the so-called file pointer),</span>&nbsp;and so on.<br/>
 Some pointers to kernel functions that the process can invoke. The set of permit-<br/>
 ted functions depends on the value of the flag parameter.<br/>
 <br/>
@@ -29,9 +29,9 @@ chronization among the I/O operations issued by the processes on the same file.<
 However, several system calls such as flock( ) are available to allow processes to<br/>
 synchronize themselves on the entire file or on portions of it (see Chapter 12).<br/>
 To create a new file, the process also may invoke the creat( ) system call, which is<br/>
-handled by the kernel exactly like open( ) .<br/>
+</div><div style="text-align: left">handled by the kernel exactly like open( ) .</div><br/>
 <br/>
-<span style="color: #0000ff"><span style="font-size: 15pt">Accessing an opened file</span></span><br/>
+<span style="font-size: 15pt"><span style="color: #0000ff">Accessing an opened file</span></span><br/>
 Regular Unix files can be addressed either sequentially or randomly, while device<br/>
 files and named pipes are usually accessed sequentially. In both kinds of access, the<br/>
 kernel stores the file pointer in the open file object—that is, the current position at<br/>
@@ -70,7 +70,7 @@ succeed in reading all count bytes. The returned nread value specifies the numbe
 bytes effectively read. The file pointer also is updated by adding nread to its previous<br/>
 value. The write( ) parameters are similar.<br/>
 <br/>
-<span style="color: #0000ff"><span style="font-size: 14pt">Closing a file</span></span><br/>
+<span style="font-size: 14pt"><span style="color: #0000ff">Closing a file</span></span><br/>
 When a process does not need to access the contents of a file anymore, it can invoke<br/>
 the system call:<br/>
 res = close(fd);<br/>
@@ -78,7 +78,7 @@ which releases the open file object corresponding to the file descriptor fd . Wh
 process terminates, the kernel closes all its remaining opened files.<br/>
 <br/>
 <br/>
-<span style="color: #0000ff"><span style="font-size: 17pt">Renaming and deleting a file</span></span><br/>
+<span style="font-size: 17pt"><span style="color: #0000ff">Renaming and deleting a file</span></span><br/>
 To rename or delete a file, a process does not need to open it. Indeed, such opera-<br/>
 tions do not act on the contents of the affected file, but rather on the contents of one<br/>
 or more directories. For example, the system call:<br/>

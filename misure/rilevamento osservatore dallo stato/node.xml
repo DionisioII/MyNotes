@@ -4,12 +4,12 @@
 <dict>
   <key>title</key><string>Rilevamento osservatore dallo stato</string>
   <key>nodeid</key><string>976fccb7-9938-4ea1-a192-ac4546e19b1f</string>
-  <key>modified_time</key><integer>1503061742</integer>
+  <key>modified_time</key><integer>1507523349</integer>
   <key>version</key><integer>6</integer>
   <key>content_type</key><string>text/xhtml+xml</string>
   <key>created_time</key><integer>1503044756</integer>
   <key>info_sort_dir</key><integer>1</integer>
-  <key>order</key><integer>11</integer>
+  <key>order</key><integer>10</integer>
   <key>info_sort</key><string>order</string>
 </dict>
 </node>

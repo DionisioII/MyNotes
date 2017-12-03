@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Nmap</title>
+</head><body>Nmap Target Selection &nbsp; Scan a single IP nmap 192.168.1.1 &nbsp; Scan a host nmap www.testhostname.com &nbsp;Scan a range of IPs nmap 192.168.1.1-20 &nbsp; Scan a subnet nmap 192.168.1.0/24 &nbsp; Scan targets from a text file nmap -iL list-of-ips.txt &nbsp; <br/>
+These are all default scans, which will scan 1000 TCP ports. Host discovery will take place.<br/>
+&nbsp;<br/>
+<br/>
+<br/>
+&nbsp;Nmap Port Selection &nbsp; Scan a single Port nmap -p 22 192.168.1.1 &nbsp; Scan a range of ports nmap -p 1-100 192.168.1.1 &nbsp;Scan 100 most common ports (Fast) nmap -F 192.168.1.1 &nbsp; Scan all 65535 ports nmap -p- 192.168.1.1 &nbsp; <br/>
+<br/>
+<br/>
+&nbsp;Nmap Port Scan types &nbsp; Scan using TCP connect nmap -sT 192.168.1.1 &nbsp; Scan using TCP SYN scan (default) nmap -sS 192.168.1.1 &nbsp;Scan UDP ports nmap -sU -p 123,161,162 192.168.1.1 &nbsp; Scan selected ports - ignore discovery nmap -Pn -F 192.168.1.1 &nbsp; <br/>
+Privileged access is required to perform the default SYN scans. If privileges are insufficient a TCP connect scan will be used. A TCP connect requires a full TCP connection to be established and therefore is a slower scan. Ignoring discovery is often required as many firewalls or hosts will not respond to PING, so could be missed unless you select the -Pn parameter. Of course this can make scan times much longer as you could end up sending scan probes to hosts that are not there.<br/>
+&nbsp;<br/>
+Take a look at the <a href="https://hackertarget.com/nmap-tutorial/">Nmap Tutorial</a>&nbsp;for a detailed look at the scan process.<br/>
+&nbsp;<br/>
+<br/>
+<br/>
+&nbsp;Service and OS Detection &nbsp; Detect OS and Services nmap -A 192.168.1.1 &nbsp; Standard service detection nmap -sV 192.168.1.1 &nbsp;More aggressive Service Detection nmap -sV --version-intensity 5 192.168.1.1 &nbsp; Lighter banner grabbing detection nmap -sV --version-intensity 0 192.168.1.1 &nbsp; <br/>
+Service and OS detection rely on different methods to determine the operating system or service running on a particular port. The more aggressive service detection is often helpful if there are services running on unusual ports. On the other hand the lighter version of the service will be much faster as it does not really attempt to detect the service simply grabbing the banner of the open service.<br/>
+&nbsp;<br/>
+<br/>
+<br/>
+&nbsp;Nmap Output Formats &nbsp; Save default output to file nmap -oN outputfile.txt 192.168.1.1 &nbsp; Save results as XML nmap -oX outputfile.xml 192.168.1.1 &nbsp;Save results in a format for grep nmap -oG outputfile.txt 192.168.1.1 &nbsp; Save in all formats nmap -oA outputfile 192.168.1.1 &nbsp; <br/>
+The default format could also be saved to a file using a simple file redirect command &gt; file. Using the -oN option allows the results to be saved but also can be monitored in the terminal as the scan is under way. <br/>
+&nbsp;<br/>
+<br/>
+<br/>
+&nbsp;Digging deeper with NSE Scripts &nbsp; Scan using default safe scripts nmap -sV -sC 192.168.1.1 &nbsp; Get help for a script nmap --script-help=ssl-heartbleed &nbsp; Scan using a specific NSE script nmap -sV -p 443 –script=ssl-heartbleed.nse 192.168.1.1 &nbsp;Scan with a set of scripts nmap -sV --script=smb* 192.168.1.1</body></html>

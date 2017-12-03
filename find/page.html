@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Find</title>
+</head><body>&nbsp;<br/>
+find lets you do anything from finding all your .jpg files to seeing “<i>all of Michael’s text documents that have the execute bit set and have been modified since yesterday.</i>” And when combined with exec or xargs, a properly constructed command can make quick work of some very heavy tasks.<br/>
+&nbsp;Options <br/>
+First thing we need to do is understand how find works. Here are some of the key options:<br/>
+&nbsp;<ul><li>&nbsp;<b>-o</b>&nbsp;: the OR operation to string multiple search criteria together</li>
+<li><b>-name</b>&nbsp;: find files by name</li>
+<li><b>-iname</b>&nbsp;: find files by name, ignoring case</li>
+<li><b>-type f</b>&nbsp;: find only files</li>
+<li><b>-type d</b>&nbsp;: find only directories</li>
+<li><b>-size</b>&nbsp;: find by size</li>
+<li><b>-mtime</b>&nbsp;: find by modified time</li>
+<li><b>-mtime</b>&nbsp;: find by modified time</li>
+<li>-atime : when the file was last accessed</li>
+<li>-ctime: when the file’s permissions were last changed</li>
+<li>-mtime: when the file’s data was last modified</li>
+</ul>
+<br/>
+<br/>
+<br/>
+<span style="color: #ff0000">find . &nbsp;-name nasa -type d</span><br/>
+<br/>
+<span style="color: #ff0000">find . &nbsp;-name *disc*</span><br/>
+<br/>
+<br/>
+f<span style="color: #ff0000">ind . -name “*.jpg”</span>&nbsp;---&gt; search from current directory<br/>
+<br/>
+<span style="color: #ff0000">find / -name “*.jpg” </span>-----&gt;search all filesystem<br/>
+<br/>
+<span style="color: #ff0000">find . -user daniel</span>&nbsp;----&gt; find by user<br/>
+<br/>
+<span style="color: #ff0000">find &nbsp;. -type d </span>----&gt; find only directories<br/>
+<br/>
+<span style="color: #ff0000">find ~/Movies/ -size +1024M</span>&nbsp;-----&gt;find only files greater than 1 megabyte<br/>
+<br/>
+<span style="color: #ff0000">find /etc/ -user root -mtime 1 </span>---&gt; show me what content owned by root have been modified within the last minute<br/>
+<br/>
+<span style="color: #ff0000">find ~ -perm 777 </span>----&gt; find everything in my home directory with wide open permissions<br/>
+<br/>
+<br/>
+<br/>
+Xargs vs. Exec <br/>
+What’s the fun in finding a bunch of stuff if you’re not going to do something with it? While it’s interesting to say, “find me stuff”, it’s far more useful to say, “<i>Take every text file owned by ex-employee Jason that’s hasn’t been accessed in 60 days and move it to a remote backup folder.</i>“<br/>
+&nbsp;<br/>
+Many use find in conjunction with exec, which then runs on the results. This is usually acceptable, but I prefer to use xargs because it executes more elegantly.<br/>
+&nbsp;<br/>
+xargs, unlike exec, executes all arguments as a single command instead of running multiple commands. So if I run&gt;:<br/>
+&nbsp;<br/>
+<span style="color: #ff0000">find . -name something -exec ls -l {} ;</span><br/>
+&nbsp;<br/>
+…I will ultimately be running ls as many times as there are contents in my home directory. But if I run this instead:<br/>
+&nbsp;<br/>
+&nbsp;<span style="color: #ff0000">find . -name something | xargs -0 ls</span><br/>
+&nbsp;<br/>
+…I will only run ls once, with the directory contents as arguments. While on modern computers the performance gain on this is often trivial, I simply prefer the aesthetic of it.<br/>
+&nbsp;<br/>
+[ NOTE: The -print0 option terminates results with a null character instead of the default newline, making it cleaner and less likely to balk in many cases related to spaces, special characters, etc. in the input. ]<br/>
+&nbsp;<br/>
+Here are some examples.<br/>
+<br/>
+&nbsp;Delete all files now owned by valid users <br/>
+<span style="color: #ff0000">find / -nouser | xargs -0 rm</span><br/>
+<br/>
+&nbsp;Find image files and move them to the pictures directory <br/>
+<br/>
+f<span style="color: #ff0000">ind ~/Desktop -name “*.jpg” -o -name “*.gif” -o -name “*.png” -print0 | xargs -0 mv –target-directory ~/Pictures</span><br/>
+<br/>
+&nbsp;Correct the permissions on your web directory <br/>
+<br/>
+<span style="color: #ff0000">f</span>i<span style="color: #ff0000">nd /your/webdir/ -type d -print0 &nbsp;| &nbsp;xargs -0 chmod 755;<br/>
+</span><span style="color: #ff0000"><br/>
+</span><span style="color: #ff0000">find /your/webdir -type f &nbsp;| &nbsp;xargs chmod 644</span><br/>
+<br/>
+&nbsp;Find files that have been modified within the last month and copy them somewhere <br/>
+<br/>
+<span style="color: #ff0000">find /etc/ -mtime -30 | xargs -0 cp /a/path<br/>
+<br/>
+</span><br/>
+As units you can use:<br/>
+&nbsp;<ul><li>&nbsp;b – for 512-byte blocks (this is the default if no suffix is used)</li>
+<li>c – for bytes</li>
+<li>w – for two-byte words</li>
+<li>k – for Kilobytes (units of 1024 bytes)</li>
+<li>M – for Megabytes (units of 1048576 bytes)</li>
+<li>G – for Gigabytes (units of 1073741824 bytes)</li>
+</ul>
+<br/>
+f<span style="color: #ff0000">ind /home/ -type f -size 6579c -exec ls {} \; </span><span style="color: #000000"><br/>
+</span><span style="color: #000000"><br/>
+</span><br/>
+&nbsp;</body></html>
