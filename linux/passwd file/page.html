@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Passwd file</title>
+</head><body>Understanding /etc/passwd File Format Posted on <a href="https://www.cyberciti.biz/faq/understanding-etcpasswd-file-format/">February 22, 2006</a>in Categories <a href="https://www.cyberciti.biz/faq/category/linux/">Linux</a>, <a href="https://www.cyberciti.biz/faq/category/linux-unix-file-formats/">Linux / UNIX File Formats</a>, <a href="https://www.cyberciti.biz/faq/category/unix/">UNIX</a>&nbsp;last updated August 2, 2017<br/>
+<br/>
+<a href="https://www.cyberciti.biz/faq/category/linux/"><img src="https://www.cyberciti.biz/media/new/category/old/linux-logo.png" /></a>Can you explain <b>/etc/passwd</b>&nbsp;file format for Linux and Unix-like operating systems?<br/>
+&nbsp;<br/>
+&nbsp;/etc/passwd file stores essential information, which is required during login i.e. user account information. /etc/passwd is a text file, which contains a list of the system’s accounts, giving for each account some useful information like user ID, group ID, home directory, shell, etc. It should have general read permission as many utilities like ls use it to map user IDs to user names, but write access only for the superuser/root account.<br/>
+<br/>
+&nbsp; <br/>
+<br/>
+<br/>
+Understanding fields in /etc/passwd<br/>
+The /etc/passwd contains one entry per line for each user (or user account) of the system. All fields are separated by a colon (:) symbol. Total seven fields as follows. Generally, passwd file entry looks as follows (click to enlarge image):<br/>
+<br/>
+<div style="text-align: center"><a href="https://www.cyberciti.biz/media/ssb.images/uploaded_images/passwd-file-791527.png"><img src="https://www.cyberciti.biz/media/ssb.images/uploaded_images/passwd-file-791527.png" /></a><br/>
+</div><div style="text-align: center">&nbsp;(Fig.01: /etc/passwd file format – click to enlarge)</div><br/>
+<br/>
+<ul><li><b>Username</b>: It is used when user logs in. It should be between 1 and 32 characters in length.</li>
+<li><b>Password</b>: An x character indicates that encrypted password is stored in /etc/shadow file. Please note that you need to use the passwd command to computes the hash of a password typed at the CLI or to store/update the hash of the password in /etc/shadow file.</li>
+<li><b>User ID (UID)</b>: Each user must be assigned a user ID (UID). UID 0 (zero) is reserved for root and UIDs 1-99 are reserved for other predefined accounts. Further UID 100-999 are reserved by system for administrative and system accounts/groups.</li>
+<li><b>Group ID (GID)</b>: The primary group ID (stored in /etc/group file)</li>
+<li><b>User ID Info</b>: The comment field. It allow you to add extra information about the users such as user’s full name, phone number etc. This field use by finger command.</li>
+<li><b>Home directory</b>: The absolute path to the directory the user will be in when they log in. If this directory does not exists then users directory becomes /</li>
+<li><b>Command/shell</b>: The absolute path of a command or shell (/bin/bash). Typically, this is a shell. Please note that it does not have to be a shell.</li>
+</ul>
+Task: See User List<br/>
+/etc/passwd is only used for local users. To see list of all users, simply use the <a href="https://www.cyberciti.biz/faq/linux-unix-appleosx-bsd-cat-command-examples/">cat command</a>:<br/>
+&nbsp;$ cat /etc/passwd<br/>
+&nbsp;To search for a username called tom, use the <a href="https://www.cyberciti.biz/faq/howto-use-grep-command-in-linux-unix/">grep command</a>:<br/>
+&nbsp;$ grep tom /etc/passwd<br/>
+&nbsp;OR<br/>
+&nbsp;$ grep -w '^tom' /etc/passwd<br/>
+&nbsp;Sample outputs:<br/>
+tom:x:1000:1000:Vivek Gite:/home/vivek:/bin/bashSee /etc/passwd file permission<br/>
+The permission on the /etc/passwd file should be read only to users (-rw-r–r–) and the owner must be root:<br/>
+&nbsp;$ ls -l /etc/passwd<br/>
+&nbsp;Sample outputs:<br/>
+-rw-r--r-- 1 root root 2659 Sep 17 01:46 /etc/passwdReading /etc/passwd file<br/>
+You can read /etc/passwd file using the <a href="https://bash.cyberciti.biz/guide/While_loop">while loop</a>&nbsp;and <a href="https://bash.cyberciti.biz/guide/$IFS">IFS separator</a>&nbsp;as follows:<br/>
+<span style="color: #666666">#!/bin/bash</span>&nbsp;<span style="color: #666666"># seven fields from /etc/passwd stored in $f1,f2...,$f7</span>&nbsp;<span style="color: #666666"># </span>&nbsp;<span style="color: #000000">while</span>&nbsp;<span style="color: #007800">IFS</span>=: <span style="color: #c20cb9">read</span>&nbsp;<span style="color: #660033">-r</span>&nbsp;f1 f2 f3 f4 f5 f6 f7 <span style="color: #000000">do</span>&nbsp;<span style="color: #7a0874">echo</span>&nbsp;<span style="color: #ff0000">"User <span style="color: #007800">$f1</span>&nbsp;use <span style="color: #007800">$f7</span>&nbsp;shell and stores files in <span style="color: #007800">$f6</span>&nbsp;directory."</span>&nbsp;<span style="color: #000000">done</span>&nbsp;<span style="color: #000000">&lt;</span>&nbsp;<span style="color: #000000">/</span>etc<span style="color: #000000">/</span><span style="color: #c20cb9">passwd</span>Your password is stored in /etc/shadow file<br/>
+Your encrpted password is not stored in /etc/passwd file. It is stored in /etc/shadow file. In the good old days there was no great problem with this general read permission. Everybody could read the encrypted passwords, but the hardware was <a href="https://www.cyberciti.biz/faq/unix-linux-password-cracking-john-the-ripper/">too slow to crack a well-chosen password</a>, and moreover, the basic assumption used to be that of a friendly user-community.<br/>
+Almost, all modern Linux / UNIX line operating systems use some sort of the shadow password suite, where /etc/passwd has asterisks (*) instead of encrypted passwords, and the <a href="https://www.cyberciti.biz/faq/understanding-etcshadow-file/">encrypted passwords are in /etc/shadow</a>&nbsp;which is readable by the superuser only.<br/>
+Common commands that uses /etc/passwd files<br/>
+Here is a list of commands:<br/>
+<ul><li>passwd command</li>
+<li>su command</li>
+<li>sulogin command</li>
+<li>getent command</li>
+<li>login command</li>
+<li>pwck command</li>
+<li>pwunconv command</li>
+<li>chpasswd command</li>
+<li>chsh command</li>
+<li>chfn command</li>
+<li>useradd command</li>
+<li>userdel command</li>
+</ul>
+This entry is <b>1</b>&nbsp;of <b>3</b>&nbsp;in the <b>Linux / UNIX System's Accounts Files Tutorial</b>&nbsp;series. Keep reading the rest of the series:<ul><li>Understanding /etc/passwd File Format</li>
+<li><a href="https://www.cyberciti.biz/faq/understanding-etcshadow-file/">Understanding /etc/shadow file</a></li>
+<li><a href="https://www.cyberciti.biz/faq/understanding-etcgroup-file/">Understanding /etc/group file</a></li>
+</ul>
+</body></html>

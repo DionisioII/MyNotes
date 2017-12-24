@@ -1,0 +1,308 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Crontab</title>
+</head><body>&nbsp; &nbsp; Cron<br/>
+&nbsp; <br/>
+This file is an introduction to cron, it covers the basics of what cron does,<br/>
+and how to use it.<br/>
+&nbsp; <br/>
+What is cron?<br/>
+&nbsp; <br/>
+Cron is the name of program that enables unix users to execute commands or<br/>
+scripts (groups of commands) automatically at a specified time/date. It is<br/>
+normally used for sys admin commands, like &nbsp;makewhatis , which builds a<br/>
+search database for the &nbsp;man -k &nbsp;command, or for running a backup script, <br/>
+but can be used for anything. A common use for it today is connecting to <br/>
+the internet and downloading your email.<br/>
+<br/>
+This file will look at Vixie Cron, a version of cron authored by Paul Vixie.<br/>
+&nbsp; <br/>
+How to start Cron<br/>
+&nbsp; <br/>
+Cron is a daemon, which means that it only needs to be started once, and will <br/>
+lay dormant until it is required. A Web server is a daemon, it stays dormant <br/>
+until it gets asked for a web page. The cron daemon, or &nbsp;crond , stays dormant <br/>
+until a time specified in one of the config files, or &nbsp;crontabs .<br/>
+<br/>
+On most Linux distributions crond is automatically installed and entered into <br/>
+the start up scripts. To find out if it's running do the following:<br/>
+&nbsp;<br/>
+cog@pingu $ ps aux | grep crond<br/>
+root &nbsp; &nbsp; &nbsp; 311 &nbsp;0.0 &nbsp;0.7 &nbsp;1284 &nbsp;112 ? &nbsp; &nbsp; &nbsp; &nbsp;S &nbsp; &nbsp;Dec24 &nbsp; 0:00 crond<br/>
+cog &nbsp; &nbsp; &nbsp; 8606 &nbsp;4.0 &nbsp;2.6 &nbsp;1148 &nbsp;388 tty2 &nbsp; &nbsp; S &nbsp; &nbsp;12:47 &nbsp; 0:00 grep crond<br/>
+&nbsp;<br/>
+The top line shows that crond is running, the bottom line is the search<br/>
+we just run.<br/>
+<br/>
+If it's not running then either you killed it since the last time you rebooted,<br/>
+or it wasn't started.<br/>
+<br/>
+To start it, just add the line &nbsp;crond &nbsp;to one of your start up scripts. The <br/>
+process automatically goes into the back ground, so you don't have to force<br/>
+it with &nbsp;&amp;amp; . Cron will be started next time you reboot. To run it without <br/>
+rebooting, just type &nbsp;crond &nbsp;as root:<br/>
+&nbsp;<br/>
+root@pingu # crond<br/>
+&nbsp;<br/>
+With lots of daemons, (e.g. httpd and syslogd) they need to be restarted <br/>
+after the config files have been changed so that the program has a chance <br/>
+to reload them. Vixie Cron will automatically reload the files after they <br/>
+have been edited with the &nbsp;crontab &nbsp;command. Some cron versions reload the<br/>
+files every minute, and some require restarting, but Vixie Cron just loads <br/>
+the files if they have changed.<br/>
+&nbsp; <br/>
+Using cron<br/>
+&nbsp; <br/>
+There are a few different ways to use cron (surprise, surprise). <br/>
+<br/>
+In the &nbsp;/etc &nbsp;directory you will probably find some sub directories called <br/>
+' cron.hourly ', ' cron.daily ', ' cron.weekly ' and ' cron.monthly '. If you place <br/>
+a script into one of those directories it will be run either hourly, daily, <br/>
+weekly or monthly, depending on the name of the directory. <br/>
+<br/>
+If you want more flexibility than this, you can edit a crontab (the name <br/>
+for cron's config files). The main config file is normally &nbsp;/etc/crontab .<br/>
+On a default RedHat install, the crontab will look something like this:<br/>
+&nbsp;<br/>
+root@pingu # cat /etc/crontab<br/>
+SHELL=/bin/bash<br/>
+PATH=/sbin:/bin:/usr/sbin:/usr/bin<br/>
+MAILTO=root<br/>
+HOME=/<br/>
+<br/>
+# run-parts<br/>
+01 * * * * root run-parts /etc/cron.hourly<br/>
+02 4 * * * root run-parts /etc/cron.daily<br/>
+22 4 * * 0 root run-parts /etc/cron.weekly<br/>
+42 4 1 * * root run-parts /etc/cron.monthly<br/>
+&nbsp;<br/>
+The first part is almost self explanatory; it sets the variables for cron.<br/>
+<br/>
+&nbsp;SHELL &nbsp;is the 'shell' cron runs under. If unspecified, it will default to <br/>
+the entry in the &nbsp;/etc/passwd &nbsp;file.<br/>
+<br/>
+&nbsp;PATH &nbsp;contains the directories which will be in the search path for cron <br/>
+e.g if you've got a program 'foo' in the directory /usr/cog/bin, it might <br/>
+be worth adding /usr/cog/bin to the path, as it will stop you having to use<br/>
+the full path to 'foo' every time you want to call it.<br/>
+<br/>
+&nbsp;MAILTO &nbsp;is who gets mailed the output of each command. If a command cron is <br/>
+running has output (e.g. status reports, or errors), cron will email the output <br/>
+to whoever is specified in this variable. If no one if specified, then the <br/>
+output will be mailed to the owner of the process that produced the output.<br/>
+<br/>
+&nbsp;HOME &nbsp;is the home directory that is used for cron. If unspecified, it will <br/>
+default to the entry in the &nbsp;/etc/passwd &nbsp;file.<br/>
+<br/>
+Now for the more complicated second part of a crontab file.<br/>
+An entry in cron is made up of a series of fields, much like the /etc/passwd<br/>
+file is, but in the crontab they are separated by a space. There are normally<br/>
+seven fields in one entry. The fields are:<br/>
+&nbsp;<br/>
+minute hour dom month dow user cmd<br/>
+&nbsp;<br/>
+&nbsp;minute &#09;This controls what minute of the hour the command will run on,<br/>
+&#09; and is between '0' and '59'<br/>
+&nbsp;hour &#09;This controls what hour the command will run on, and is specified in<br/>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;the 24 hour clock, values must be between 0 and 23 (0 is midnight)<br/>
+&nbsp;dom &#09;This is the Day of Month, that you want the command run on, e.g. to<br/>
+&#09; run a command on the 19th of each month, the dom would be 19.<br/>
+&nbsp;month &#09;This is the month a specified command will run on, it may be specified<br/>
+&#09; numerically (0-12), or as the name of the month (e.g. May)<br/>
+&nbsp;dow &#09;This is the Day of Week that you want a command to be run on, it can<br/>
+&#09; also be numeric (0-7) or as the name of the day (e.g. sun).<br/>
+&nbsp;user &#09;This is the user who runs the command.<br/>
+&nbsp;cmd &#09;This is the command that you want run. This field may contain <br/>
+&#09; multiple words or spaces.<br/>
+<br/>
+If you don't wish to specify a value for a field, just place a &nbsp;* &nbsp;in the <br/>
+field.<br/>
+<br/>
+e.g. <br/>
+01 * * * * root echo "This command is run at one min past every hour"<br/>
+17 8 * * * root echo "This command is run daily at 8:17 am"<br/>
+17 20 * * * root echo "This command is run daily at 8:17 pm"<br/>
+00 4 * * 0 root echo "This command is run at 4 am every Sunday"<br/>
+* 4 * * Sun root echo "So is this"<br/>
+42 4 1 * * root echo "This command is run 4:42 am every 1st of the month"<br/>
+01 * 19 07 * root echo "This command is run hourly on the 19th of July"<br/>
+&nbsp;<br/>
+Notes:<br/>
+<br/>
+Under dow 0 and 7 are both Sunday.<br/>
+<br/>
+If both the dom and dow are specified, the command will be executed when<br/>
+either of the events happen. <br/>
+e.g. <br/>
+* 12 16 * Mon root cmd <br/>
+Will run cmd at midday every Monday and every 16th, and will produce the <br/>
+same result as both of these entries put together would:<br/>
+&nbsp;* 12 16 * * root cmd<br/>
+* 12 * * Mon root cmd <br/>
+<br/>
+Vixie Cron also accepts lists in the fields. Lists can be in the form, 1,2,3 <br/>
+(meaning 1 and 2 and 3) or 1-3 (also meaning 1 and 2 and 3).<br/>
+e.g.<br/>
+&nbsp;59 11 * * 1,2,3,4,5 root backup.sh <br/>
+Will run backup.sh at 11:59 Monday, Tuesday, Wednesday, Thursday and Friday,<br/>
+as will:<br/>
+&nbsp;59 11 * * 1-5 root backup.sh &nbsp;<br/>
+<br/>
+Cron also supports 'step' values.<br/>
+A value of &nbsp;*/2 &nbsp;in the dom field would mean the command runs every two days<br/>
+and likewise, &nbsp;*/5 &nbsp;in the hours field would mean the command runs every <br/>
+5 hours.<br/>
+e.g. <br/>
+&nbsp;* 12 10-16/2 * * root backup.sh <br/>
+is the same as:<br/>
+&nbsp;* 12 10,12,14,16 * * root backup.sh <br/>
+<br/>
+&nbsp;*/15 9-17 * * * root connection.test <br/>
+Will run connection.test every 15 mins between the hours or 9am and 5pm<br/>
+<br/>
+Lists can also be combined with each other, or with steps:<br/>
+&nbsp;* 12 1-15,17,20-25 * * root cmd <br/>
+Will run cmd every midday between the 1st and the 15th as well as the 20th <br/>
+and 25th (inclusive) and also on the 17th of every month.<br/>
+&nbsp;* 12 10-16/2 * * root backup.sh <br/>
+is the same as:<br/>
+&nbsp;* 12 10,12,14,16 * * root backup.sh <br/>
+<br/>
+When using the names of weekdays or months, it isn't case sensitive, but only<br/>
+the first three letters should be used, e.g. Mon, sun or Mar, jul.<br/>
+<br/>
+Comments are allowed in crontabs, but they must be preceded with a '#', and<br/>
+must be on a line by them self. &nbsp;<br/>
+<br/>
+&nbsp; <br/>
+Multiuser cron<br/>
+&nbsp; <br/>
+As Unix is a multiuser OS, some of the apps have to be able to support <br/>
+multiple users, cron is one of these. Each user can have their own crontab<br/>
+file, which can be created/edited/removed by the command &nbsp;crontab . This<br/>
+command creates an individual crontab file and although this is a text file,<br/>
+as the &nbsp;/etc/crontab &nbsp;is, it shouldn't be edited directly. The crontab file is<br/>
+often stored in &nbsp;/var/spool/cron/crontabs/&amp;lt;user&amp;gt; &nbsp;(Unix/Slackware/*BSD), <br/>
+&nbsp;/var/spool/cron/&amp;lt;user&amp;gt; &nbsp;(RedHat) or &nbsp;/var/cron/tabs/&amp;lt;user&amp;gt; &nbsp;(SuSE), <br/>
+but might be kept elsewhere depending on what Un*x flavor you're running.<br/>
+<br/>
+To edit (or create) your crontab file, use the command &nbsp;crontab -e , and this<br/>
+will load up the editor specified in the environment variables &nbsp;EDITOR &nbsp;or <br/>
+&nbsp;VISUAL , to change the editor invoked on Bourne-compliant shells, try: <br/>
+&nbsp;cog@pingu $ export EDITOR=vi <br/>
+On C shells:<br/>
+&nbsp;cog@pingu $ setenv EDITOR vi <br/>
+You can of course substitute vi for the text editor of your choice.<br/>
+<br/>
+Your own personal crontab follows exactly the same format as the main<br/>
+&nbsp;/etc/crontab &nbsp;file does, except that you need not specify the &nbsp;MAILTO &nbsp;<br/>
+variable, as this entry defaults to the process owner, so you would be mailed<br/>
+the output anyway, but if you so wish, this variable can be specified.<br/>
+You also need not have the user field in the crontab entries. e.g.<br/>
+&nbsp;<br/>
+min hr dom month dow cmd<br/>
+&nbsp;<br/>
+Once you have written your crontab file, and exited the editor, then it will<br/>
+check the syntax of the file, and give you a chance to fix any errors.<br/>
+<br/>
+If you want to write your crontab without using the crontab command, you can<br/>
+write it in a normal text file, using your editor of choice, and then use the<br/>
+crontab command to replace your current crontab with the file you just wrote.<br/>
+e.g. if you wrote a crontab called cogs.cron.file, you would use the cmd<br/>
+&nbsp;<br/>
+cog@pingu $ crontab cogs.cron.file<br/>
+&nbsp;<br/>
+to replace your existing crontab with the one in cogs.cron.file.<br/>
+<br/>
+You can use <br/>
+&nbsp;<br/>
+cog@pingu $ crontab -l <br/>
+&nbsp;<br/>
+to list your current crontab, and<br/>
+&nbsp;<br/>
+cog@pingu $ crontab -r<br/>
+&nbsp;<br/>
+will remove (i.e. delete) your current crontab.<br/>
+<br/>
+Privileged users can also change other user's crontab with:<br/>
+&nbsp;<br/>
+root@pingu # crontab -u &nbsp;<br/>
+&nbsp;<br/>
+and then following it with either the name of a file to replace the <br/>
+existing user's crontab, or one of the -e, -l or -r options.<br/>
+<br/>
+According to the documentation the &nbsp;crontab &nbsp;command can be confused by the <br/>
+&nbsp;su &nbsp;command, so if you running a &nbsp;su 'ed shell, then it is recommended you <br/>
+use the -u option anyway.<br/>
+&nbsp; <br/>
+Controlling Access to cron<br/>
+&nbsp; <br/>
+Cron has a built in feature of allowing you to specify who may, and who <br/>
+may not use it. It does this by the use of &nbsp;/etc/cron.allow &nbsp;and &nbsp;/etc/cron.deny <br/>
+files. These files work the same way as the allow/deny files for other <br/>
+daemons do. To stop a user using cron, just put their name in cron.deny, to<br/>
+allow a user put their name in the cron.allow. If you wanted to prevent all<br/>
+users from using cron, you could add the line &nbsp;ALL &nbsp;to the cron.deny file:<br/>
+&nbsp;<br/>
+root@pingu # echo ALL &amp;gt;&amp;gt;/etc/cron.deny<br/>
+&nbsp;<br/>
+If you want user &nbsp;cog &nbsp;to be able to use cron, you would add the line &nbsp;cog &nbsp;<br/>
+to the cron.allow file:<br/>
+&nbsp;<br/>
+root@pingu # echo cog &amp;gt;&amp;gt;/etc/cron.allow<br/>
+&nbsp;<br/>
+If there is neither a cron.allow nor a cron.deny file, then the use of cron<br/>
+is unrestricted (i.e. every user can use it). &nbsp;If you were to put the name of<br/>
+some users into the cron.allow file, without creating a cron.deny file, it<br/>
+would have the same effect as creating a cron.deny file with ALL in it.<br/>
+This means that any subsequent users that require cron access should be <br/>
+put in to the cron.allow file. &nbsp;<br/>
+&nbsp; <br/>
+Output from cron<br/>
+&nbsp; <br/>
+As I've said before, the output from cron gets mailed to the owner of the<br/>
+process, or the person specified in the &nbsp;MAILTO &nbsp;variable, but what if you<br/>
+don't want that? If you want to mail the output to someone else, you can<br/>
+just pipe the output to the command &nbsp;mail .<br/>
+e.g.<br/>
+&nbsp; <br/>
+cmd | mail -s "Subject of mail" user<br/>
+&nbsp;<br/>
+If you wish to mail the output to someone not located on the machine, in the<br/>
+above example, substitute &nbsp;user &nbsp;for the email address of the person who <br/>
+wishes to receive the output.<br/>
+<br/>
+If you have a command that is run often, and you don't want to be emailed <br/>
+the output every time, you can redirect the output to a log file (or <br/>
+&nbsp;/dev/null , if you really don't want the output).<br/>
+e,g<br/>
+&nbsp;<br/>
+cmd &amp;gt;&amp;gt; log.file<br/>
+&nbsp;<br/>
+Notice we're using two &nbsp;&amp;gt; &nbsp;signs so that the output appends the log file and <br/>
+doesn't clobber previous output.<br/>
+The above example only redirects the standard output, not the standard error,<br/>
+if you want all output stored in the log file, this should do the trick:<br/>
+&nbsp;<br/>
+cmd &amp;gt;&amp;gt; logfile 2&amp;gt;&amp;amp;1<br/>
+&nbsp;<br/>
+You can then set up a cron job that mails you the contents of the file at<br/>
+specified time intervals, using the cmd:<br/>
+&nbsp;<br/>
+mail -s "logfile for cmd" &amp;lt;log.file<br/>
+&nbsp; <br/>
+<br/>
+Now you should be able to use cron to automate things a bit more.<br/>
+A future file going into more detail, explaining the differences between <br/>
+the various different crons and with more worked examples, is planned.<br/>
+<br/>
+&nbsp; <br/>
+Additional Reference:<br/>
+&nbsp; <br/>
+&nbsp;Man pages: &nbsp; cron(8) crontab(5) crontab(1) <br/>
+<br/>
+&nbsp;Book: &nbsp; _Running Linux_ (O'Reilly ISBN: 1-56592-469-X) <br/>
+<br/>
+&lt;/pre&gt;</body></html>
