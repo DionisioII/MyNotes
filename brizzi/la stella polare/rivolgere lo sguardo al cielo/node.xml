@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<node>
+<version>6</version>
+<dict>
+  <key>title</key><string>rivolgere lo sguardo al cielo</string>
+  <key>nodeid</key><string>5fa7a1a9-b900-4f59-8ed4-a93423547f19</string>
+  <key>modified_time</key><integer>1525616507</integer>
+  <key>version</key><integer>6</integer>
+  <key>content_type</key><string>text/xhtml+xml</string>
+  <key>created_time</key><integer>1524915599</integer>
+  <key>order</key><integer>0</integer>
+</dict>
+</node>

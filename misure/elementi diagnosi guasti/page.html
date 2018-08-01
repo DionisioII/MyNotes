@@ -36,11 +36,11 @@ stato, residuo, ecc ...).<br/>
 <img src="screenshot 3.png" /><img src="screenshot 4.png" /><br/>
 <img src="screenshot 5.png" /><img src="screenshot 6.png" /><br/>
 <br/>
-<span style="color: #ffa300"><span style="font-size: 12pt"><br/>
-</span></span><span style="font-size: 12pt"><span style="color: #007f00">Prestazioni desiderabili di un sistema di diagnosi guasti</span><span style="color: #ffa300"><br/>
+<span style="font-size: 12pt"><span style="color: #ffa300"><br/>
+</span><span style="color: #007f00">Prestazioni desiderabili di un sistema di diagnosi guasti</span><span style="color: #ffa300"><br/>
 </span></span><br/>
 Un sistema diagnostico dovrebbe possedere le seguenti caratteristiche.<br/>
-<span style="font-size: 12pt"><span style="color: #0000ff">Veloce individuazione| <br/>
+<span style="color: #0000ff"><span style="font-size: 12pt">Veloce individuazione| <br/>
 </span></span><ul><li>Un sistema di individuazione dei guasti dovrebbe <span style="color: #ff0000">rispondere velocemente al comparire di malfunzionamenti. </span></li>
 </ul>
 <ul><li><span style="background-color: #ffff00">Tuttavia una tempo ridotto di individuazione di un guasto e performance accettabili durante il periodo di normale funzionamento sono specifiche contrastanti:</span>&nbsp;un sistema che è progettato per individuare un guasto velocemente è anche molto sensibile ai disturbi in alta frequenza.</li>
@@ -48,7 +48,7 @@ Un sistema diagnostico dovrebbe possedere le seguenti caratteristiche.<br/>
 <ul><li>Il trade-off tra falsi allarmi e tempo di individuazione di un guasto è quindi dipendente dal processo (e di conseguenza dal guasto da diagnosticare).</li>
 </ul>
 <br/>
-<span style="font-size: 12pt"><span style="color: #0000ff">Robustezza|<br/>
+<span style="color: #0000ff"><span style="font-size: 12pt">Robustezza|<br/>
 </span></span><ul><li>Un sistema di individuazione dei guasti <span style="color: #ff0000">deve essere robusto sia ai rumori sia alle incertezze.</span></li>
 <li><span style="background-color: #ffff00">Garantire la robustezza implica scegliere soglie non troppo vicine allo zero, tuttavia ciò introduce ritardo nel tempo di individuazione.</span></li>
 <li>In maniera analoga a quanto visto prima è necessario bilanciare robustezza e velocità di individuazione.</li>
@@ -57,23 +57,23 @@ Un sistema diagnostico dovrebbe possedere le seguenti caratteristiche.<br/>
 <span style="font-size: 12pt"><span style="color: #007f00">Prestazioni desiderabili di un sistema di individuazione guasti</span><span style="color: #ffa300"><br/>
 </span><span style="color: #ffa300"><br/>
 </span><span style="color: #0000ff">Adattabilità|<br/>
-</span></span><ul><span style="color: #000000"><span style="font-size: 10pt"><li>I processi, in generale, cambiano ed evolvono nel tempo a causa di modifiche degli ingressi, dicambiamenti strutturali, ecc ...</li>
+</span></span><ul><span style="font-size: 10pt"><span style="color: #000000"><li>I processi, in generale, cambiano ed evolvono nel tempo a causa di modifiche degli ingressi, dicambiamenti strutturali, ecc ...</li>
 <li>Le condizioni operative dei processi si modificano anch’esse a causa dei disturbi, delle condizioni climatiche, modifiche del carico di lavoro, ecc ...</li>
-</span></span><li><span style="color: #ff0000"><span style="background-color: #ffff00"><span style="font-size: 10pt">Il sistema di individuazione dei guasti deve essere in grado di adattarsi a questi cambiamenti e fornire informazioni diagnostiche corrette man mano che nuove informazioni (i.e. misure) diventano disponibili.</span></span></span></li>
+</span></span><li><span style="font-size: 10pt"><span style="background-color: #ffff00"><span style="color: #ff0000">Il sistema di individuazione dei guasti deve essere in grado di adattarsi a questi cambiamenti e fornire informazioni diagnostiche corrette man mano che nuove informazioni (i.e. misure) diventano disponibili.</span></span></span></li>
 </ul>
 <br/>
 <br/>
-<span style="font-size: 12pt"><span style="color: #0000ff">Requisiti di modellazione|</span></span><ul><li>La quantità di informazioni richieste per lo sviluppo di un modello è una caratteristica importante.</li>
+<span style="color: #0000ff"><span style="font-size: 12pt">Requisiti di modellazione|</span></span><ul><li>La quantità di informazioni richieste per lo sviluppo di un modello è una caratteristica importante.</li>
 <li>Per lo sviluppo di sistemi veloci e facile da implementare per l’individuazione guasti in tempo reale è fondamentale che lo sforzo di modellazione sia minimo.</li>
 </ul>
 <br/>
 <br/>
-<span style="font-size: 12pt"><span style="color: #0000ff">Occupazione memoria e complessità di calcolo|</span></span><ul><li>Tipicamente le soluzioni in tempo reale richiedono algoritmi e implementazionicomputazionalmente leggere, ma che richiedono dall’altro lato un’occupazione notevole della memoria.</li>
+<span style="color: #0000ff"><span style="font-size: 12pt">Occupazione memoria e complessità di calcolo|</span></span><ul><li>Tipicamente le soluzioni in tempo reale richiedono algoritmi e implementazionicomputazionalmente leggere, ma che richiedono dall’altro lato un’occupazione notevole della memoria.</li>
 <li>Un sistema di individuazione dei guasti dovrebbe configurarsi come un buon bilanciamento tra occupazione della memoria e complessità di calcolo.</li>
 </ul>
 <br/>
 <br/>
-<span style="font-size: 12pt"><span style="color: #0000ff">Individuabilità di fault multipli|</span></span><ul><li>L’abilità di individuare fault multipli è un requisito fondamentale ma al tempo stesso molto difficile da soddisfare.</li>
+<span style="color: #0000ff"><span style="font-size: 12pt">Individuabilità di fault multipli|</span></span><ul><li>L’abilità di individuare fault multipli è un requisito fondamentale ma al tempo stesso molto difficile da soddisfare.</li>
 <li><span style="background-color: #ffff00">Ciò è dovuto al fatto che i fault sono di norma interagenti tra di loro: in un sistema generico, infatti, non è sempre possibile capire le relazioni di causa-effetto tra un fault e le variazioni a livello di variabili misurate, in quanto una variabile è influenzata da uno o più parametri e/o ingressi in maniera simile.</span></li>
 <li>Un’analisi esaustiva di tutte le tipologie di fault e dei loro effetti sulle variabili misurate, inoltre, sarebbe proibitivo per un sistema su larga scala.</li>
 <li>L’individuabilità di fault multipli, quindi, è fortemente dipendente dal processo in esame.</li>

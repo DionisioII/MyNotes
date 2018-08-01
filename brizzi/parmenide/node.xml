@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<node>
+<version>6</version>
+<dict>
+  <key>title</key><string>Parmenide</string>
+  <key>nodeid</key><string>97ed5859-cd0e-4637-a85a-498a4dbe63cd</string>
+  <key>modified_time</key><integer>1504876575</integer>
+  <key>version</key><integer>6</integer>
+  <key>content_type</key><string>text/xhtml+xml</string>
+  <key>created_time</key><integer>1504876571</integer>
+  <key>order</key><integer>12</integer>
+</dict>
+</node>

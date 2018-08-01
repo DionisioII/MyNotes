@@ -3,29 +3,68 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Nmap</title>
-</head><body>Nmap Target Selection &nbsp; Scan a single IP nmap 192.168.1.1 &nbsp; Scan a host nmap www.testhostname.com &nbsp;Scan a range of IPs nmap 192.168.1.1-20 &nbsp; Scan a subnet nmap 192.168.1.0/24 &nbsp; Scan targets from a text file nmap -iL list-of-ips.txt &nbsp; <br/>
+</head><body><span style="font-size: 13pt"><span style="color: #00007f">Nmap Target Selection &nbsp;<br/>
+</span></span><br/>
+<span style="color: #0000ff">Scan a single IP</span>&nbsp;<span style="color: #ff0000">nmap 192.168.1.1 &nbsp;</span>&nbsp;<br/>
+<span style="color: #0000ff">Scan a host</span>&nbsp;<span style="color: #ff0000">nmap www.testhostname.com </span>&nbsp;<br/>
+<span style="color: #0000ff">Scan a range of IPs</span>&nbsp;<span style="color: #ff0000">nmap 192.168.1.1-20 </span>&nbsp; <br/>
+<span style="color: #0000ff">Scan a subnet</span>&nbsp;<span style="color: #ff0000">nmap 192.168.1.0/24 &nbsp;</span>&nbsp;<br/>
+<span style="color: #0000ff">Scan targets from a text file</span>&nbsp;<span style="color: #ff0000">nmap -iL list-of-ips.txt &nbsp; </span><br/>
 These are all default scans, which will scan 1000 TCP ports. Host discovery will take place.<br/>
 &nbsp;<br/>
 <br/>
 <br/>
-&nbsp;Nmap Port Selection &nbsp; Scan a single Port nmap -p 22 192.168.1.1 &nbsp; Scan a range of ports nmap -p 1-100 192.168.1.1 &nbsp;Scan 100 most common ports (Fast) nmap -F 192.168.1.1 &nbsp; Scan all 65535 ports nmap -p- 192.168.1.1 &nbsp; <br/>
+&nbsp;<span style="color: #00007f"><span style="font-size: 13pt">Nmap Port Selection &nbsp;</span></span>&nbsp;<br/>
+<br/>
+S<span style="color: #0000ff">can a single Port</span>&nbsp;<span style="color: #ff0000">nmap -p 22 192.168.1.1</span>&nbsp; <br/>
+<span style="color: #0000ff">Scan a range of ports</span>&nbsp;<span style="color: #ff0000">nmap -p 1-100 192.168.1.1 </span>&nbsp;<br/>
+<span style="color: #0000ff">Scan 100 most common ports </span>(Fast) <span style="color: #ff0000">nmap -F 192.168.1.1 &nbsp; </span><br/>
+<span style="color: #0000ff">Scan all 65535 ports</span>&nbsp;<span style="color: #ff0000">nmap -p- 192.168.1.1 </span>&nbsp; <br/>
 <br/>
 <br/>
-&nbsp;Nmap Port Scan types &nbsp; Scan using TCP connect nmap -sT 192.168.1.1 &nbsp; Scan using TCP SYN scan (default) nmap -sS 192.168.1.1 &nbsp;Scan UDP ports nmap -sU -p 123,161,162 192.168.1.1 &nbsp; Scan selected ports - ignore discovery nmap -Pn -F 192.168.1.1 &nbsp; <br/>
+<span style="color: #00007f"><span style="font-size: 13pt">&nbsp;Nmap Port Scan types</span></span>&nbsp;<br/>
+<br/>
+<span style="color: #0000ff">Scan using TCP connect </span><span style="color: #ff0000">nmap -sT 192.168.1.1 &nbsp; </span><br/>
+<span style="color: #0000ff">Scan using TCP SYN scan (default) </span><span style="color: #ff0000">nmap -sS 192.168.1.1 &nbsp;</span><br/>
+<span style="color: #0000ff">Scan UDP ports </span><span style="color: #ff0000">nmap -sU -p 123,161,162 192.168.1.1 &nbsp;</span>&nbsp;<br/>
+<span style="color: #0000ff">Scan selected ports - ignore discovery</span>&nbsp;<span style="color: #ff0000">nmap -Pn -F 192.168.1.1 &nbsp; <br/>
+</span><br/>
 Privileged access is required to perform the default SYN scans. If privileges are insufficient a TCP connect scan will be used. A TCP connect requires a full TCP connection to be established and therefore is a slower scan. Ignoring discovery is often required as many firewalls or hosts will not respond to PING, so could be missed unless you select the -Pn parameter. Of course this can make scan times much longer as you could end up sending scan probes to hosts that are not there.<br/>
 &nbsp;<br/>
 Take a look at the <a href="https://hackertarget.com/nmap-tutorial/">Nmap Tutorial</a>&nbsp;for a detailed look at the scan process.<br/>
 &nbsp;<br/>
 <br/>
 <br/>
-&nbsp;Service and OS Detection &nbsp; Detect OS and Services nmap -A 192.168.1.1 &nbsp; Standard service detection nmap -sV 192.168.1.1 &nbsp;More aggressive Service Detection nmap -sV --version-intensity 5 192.168.1.1 &nbsp; Lighter banner grabbing detection nmap -sV --version-intensity 0 192.168.1.1 &nbsp; <br/>
+<span style="color: #00007f"><span style="font-size: 13pt">Service and OS Detection</span></span><span style="font-size: 13pt"><span style="color: #00ff00">&nbsp;</span></span>&nbsp;<br/>
+<br/>
+<span style="color: #0000ff">Detect OS and Services</span>&nbsp;<span style="color: #ff0000">nmap -A 192.168.1.1</span>&nbsp; &nbsp;<br/>
+<span style="color: #0000ff">Standard service detection</span>&nbsp;<span style="color: #ff0000">nmap -sV 192.168.1.1 &nbsp;</span><br/>
+<span style="color: #0000ff">More aggressive Service Detection</span>&nbsp;<span style="color: #ff0000">nmap -sV --version-intensity 5 192.168.1.1 &nbsp; </span><br/>
+<span style="color: #0000ff">Lighter banner grabbing detection</span>&nbsp;<span style="color: #ff0000">nmap -sV --version-intensity 0 192.168.1.1 &nbsp;</span>&nbsp;<br/>
+<br/>
 Service and OS detection rely on different methods to determine the operating system or service running on a particular port. The more aggressive service detection is often helpful if there are services running on unusual ports. On the other hand the lighter version of the service will be much faster as it does not really attempt to detect the service simply grabbing the banner of the open service.<br/>
 &nbsp;<br/>
 <br/>
 <br/>
-&nbsp;Nmap Output Formats &nbsp; Save default output to file nmap -oN outputfile.txt 192.168.1.1 &nbsp; Save results as XML nmap -oX outputfile.xml 192.168.1.1 &nbsp;Save results in a format for grep nmap -oG outputfile.txt 192.168.1.1 &nbsp; Save in all formats nmap -oA outputfile 192.168.1.1 &nbsp; <br/>
+&nbsp;<span style="color: #00007f"><span style="font-size: 14pt">Nmap Output Formats &nbsp;<br/>
+</span></span><span style="color: #00007f"><span style="font-size: 14pt">&nbsp;</span></span><br/>
+<span style="color: #0000ff">Save default output to file</span>&nbsp;<span style="color: #ff0000">nmap -oN outputfile.txt 192.168.1.1</span>&nbsp; &nbsp;<br/>
+<span style="color: #0000ff">Save results as XML </span><span style="color: #ff0000">nmap -oX outputfile.xml 192.168.1.1</span>&nbsp; <br/>
+<span style="color: #0000ff">Save results in a format for grep</span>&nbsp;<span style="color: #ff0000">nmap -oG outputfile.txt 192.168.1.1 &nbsp;</span>&nbsp;<br/>
+<span style="color: #0000ff">Save in all formats</span><span style="color: #ff0000">&nbsp;nmap -oA outputfile 192.168.1.1 &nbsp;<br/>
+</span><span style="color: #ff0000">&nbsp;</span><br/>
 The default format could also be saved to a file using a simple file redirect command &gt; file. Using the -oN option allows the results to be saved but also can be monitored in the terminal as the scan is under way. <br/>
 &nbsp;<br/>
 <br/>
+<span style="font-size: 13pt"><span style="color: #00007f"><br/>
+</span></span><span style="font-size: 13pt"><span style="color: #00007f">&nbsp;Digging deeper with NSE Scripts &nbsp; </span></span><br/>
 <br/>
-&nbsp;Digging deeper with NSE Scripts &nbsp; Scan using default safe scripts nmap -sV -sC 192.168.1.1 &nbsp; Get help for a script nmap --script-help=ssl-heartbleed &nbsp; Scan using a specific NSE script nmap -sV -p 443 –script=ssl-heartbleed.nse 192.168.1.1 &nbsp;Scan with a set of scripts nmap -sV --script=smb* 192.168.1.1</body></html>
+<span style="color: #0000ff">Scan using default safe scripts</span>&nbsp;<span style="color: #ff0000">nmap -sV -sC 192.168.1.1 &nbsp; </span><br/>
+<span style="color: #0000ff">Get help for a script</span><span style="color: #ff0000">&nbsp;nmap --script-help=ssl-heartbleed &nbsp;</span>&nbsp;<br/>
+<span style="color: #0000ff">Scan using a specific NSE script</span>&nbsp;<span style="color: #ff0000">nmap -sV -p 443 –script=ssl-heartbleed.nse 192.168.1.1 </span>&nbsp;<br/>
+<span style="color: #0000ff">Scan with a set of scripts </span><span style="color: #ff0000">nmap -sV --script=smb* 192.168.1.1</span><br/>
+<br/>
+<br/>
+<br/>
+<br/>
+</body></html>

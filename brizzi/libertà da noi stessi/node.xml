@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<node>
+<version>6</version>
+<dict>
+  <key>title</key><string>Libertà da noi stessi</string>
+  <key>nodeid</key><string>5c7c4c64-6e46-485e-a2a8-d5e252d62681</string>
+  <key>modified_time</key><integer>1512492840</integer>
+  <key>version</key><integer>6</integer>
+  <key>content_type</key><string>text/xhtml+xml</string>
+  <key>created_time</key><integer>1512487309</integer>
+  <key>info_sort_dir</key><integer>1</integer>
+  <key>order</key><integer>19</integer>
+  <key>info_sort</key><string>order</string>
+</dict>
+</node>

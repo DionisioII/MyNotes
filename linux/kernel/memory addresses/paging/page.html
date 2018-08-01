@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Paging</title>
+</head><body>The paging unit translates linear addresses into physical ones. One key task in the<br/>
+unit is to check the requested access type against the access rights of the linear<br/>
+address. If the memory access is not valid, it generates a Page Fault exception<br/>
+For the sake of efficiency, linear addresses are grouped in fixed-length intervals called<br/>
+pages; contiguous linear addresses within a page are mapped into contiguous physi-<br/>
+cal addresses. In this way, the kernel can specify the physical address and the access<br/>
+rights of a page instead of those of all the linear addresses included in it. Following<br/>
+the usual convention, we shall use the term “page” to refer both to a set of linear<br/>
+addresses and to the data contained in this group of addresses.<br/>
+The paging unit thinks of all RAM as partitioned into fixed-length page frames<br/>
+(sometimes referred to as physical pages). Each page frame contains a page—that is,<br/>
+the length of a page frame coincides with that of a page. A page frame is a constitu-<br/>
+ent of main memory, and hence it is a storage area. It is important to distinguish a<br/>
+page from a page frame; the former is just a block of data, which may be stored in<br/>
+any page frame or on disk.<br/>
+The data structures that map linear to physical addresses are called page tables; they<br/>
+are stored in main memory and must be properly initialized by the kernel before<br/>
+enabling the paging unit.<br/>
+Starting with the 80386, all 80 × 86 processors support paging; it is enabled by set-<br/>
+ting the PG flag of a control register named cr0 . When PG = 0 , linear addresses are<br/>
+interpreted as physical addresses.<br/>
+<br/>
+<br/>
+<span style="color: #0000ff"><span style="font-size: 14pt">Regular Paging</span></span><br/>
+Starting with the 80386, the paging unit of Intel processors handles 4 KB pages.<br/>
+The 32 bits of a linear address are divided into three fields:<br/>
+<br/>
+Directory<br/>
+The most significant 10 bits<br/>
+<br/>
+Table<br/>
+The intermediate 10 bits<br/>
+<br/>
+Offset<br/>
+The least significant 12 bits<br/>
+<img src="screenshot.png" /><br/>
+The translation of linear addresses is accomplished in two steps, each based on a<br/>
+type of translation table. The first translation table is called the Page Directory, and<br/>
+the second is called the Page Table<br/>
+<br/>
+The entries of Page Directories and Page Tables have the same structure. Each entry<br/>
+includes the following fields:<br/>
+<br/>
+Present flag<br/>
+If it is set, the referred-to page (or Page Table) is contained in main memory; if<br/>
+the flag is 0, the page is not contained in main memory and the remaining entry<br/>
+bits may be used by the operating system for its own purposes. If the entry of a<br/>
+Page Table or Page Directory needed to perform an address translation has the<br/>
+Present flag cleared, the paging unit stores the linear address in a control register<br/>
+named cr2 and generates exception 14: the Page Fault exception. (We will see in<br/>
+Chapter 17 how Linux uses this field.)<br/>
+Field containing the 20 most significant bits of a page frame physical address<br/>
+Because each page frame has a 4-KB capacity, its physical address must be a mul-<br/>
+tiple of 4096, so the 12 least significant bits of the physical address are always<br/>
+equal to 0. If the field refers to a Page Directory, the page frame contains a Page<br/>
+Table; if it refers to a Page Table, the page frame contains a page of data.<br/>
+<br/>
+Accessed flag<br/>
+Set each time the paging unit addresses the corresponding page frame. This flag<br/>
+may be used by the operating system when selecting pages to be swapped out.<br/>
+The paging unit never resets this flag; this must be done by the operating system.<br/>
+Dirty flag<br/>
+Applies only to the Page Table entries. It is set each time a write operation is per-<br/>
+formed on the page frame. As with the Accessed flag, Dirty may be used by the<br/>
+operating system when selecting pages to be swapped out. The paging unit never<br/>
+resets this flag; this must be done by the operating system.<br/>
+<br/>
+Read/Write flag<br/>
+Contains the access right (Read/Write or Read) of the page or of the Page Table<br/>
+(see the section “Hardware Protection Scheme” later in this chapter).<br/>
+<br/>
+User/Supervisor flag<br/>
+Contains the privilege level required to access the page or Page Table (see the<br/>
+later section “Hardware Protection Scheme”).<br/>
+<br/>
+PCD and PWT flags<br/>
+Controls the way the page or Page Table is handled by the hardware cache (see<br/>
+the section “Hardware Cache” later in this chapter).<br/>
+<br/>
+Page Size flag<br/>
+Applies only to Page Directory entries. If it is set, the entry refers to a 2 MB– or 4<br/>
+MB–long page frame (see the following sections).<br/>
+<br/>
+Global flag<br/>
+Applies only to Page Table entries. This flag was introduced in the Pentium Pro<br/>
+to prevent frequently used pages from being flushed from the TLB cache (see the<br/>
+section “Translation Lookaside Buffers (TLB)” later in this chapter). It works<br/>
+only if the Page Global Enable ( PGE ) flag of register cr4 is set.</body></html>
