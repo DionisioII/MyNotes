@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<node>
+<version>6</version>
+<dict>
+  <key>title</key><string>VPC FLOW Logs</string>
+  <key>nodeid</key><string>c0dd4ff7-6790-4a55-ac7d-14c9b7786553</string>
+  <key>modified_time</key><integer>1680963023</integer>
+  <key>version</key><integer>6</integer>
+  <key>content_type</key><string>text/xhtml+xml</string>
+  <key>created_time</key><integer>1680962824</integer>
+  <key>order</key><integer>5</integer>
+</dict>
+</node>

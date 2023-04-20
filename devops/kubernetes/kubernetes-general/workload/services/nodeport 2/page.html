@@ -1,0 +1,14 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>NodePort</title>
+</head><body><img src="image.png" width="589" height="300" /><br/>
+<br/>
+NodePort services are useful for exposing pods to external traffic where clients have network access to the Kubernetes nodes. For example, if your nodes have the hostnames node1 and node2, the example service above lets clients access http://node1:30007 or http://node2:30007. It doesn't matter which node the external client connects to, as Kubernetes configures the network routing to direct all traffic from port 30007 on <i>any</i>&nbsp;node to the appropriate pods.<br/>
+&nbsp;<br/>
+In practice, I haven't seen NodePort services used much in production systems. Unusual ports are frequently subject to restrictive firewall rules and it's hard to understand what service you're communicating with using a URL like http://node1:30007. NodePort services are great for testing though, as they may not require any additional infrastructure to expose pods to external traffic, making them a quick and easy way to debug a pod.<br/>
+&nbsp; <br/>
+<img src="image 2.png" width="622" height="250" /><br/>
+<img src="image 3.png" width="634" height="350" /><br/>
+<img src="image 4.png" width="704" height="350" /></body></html>

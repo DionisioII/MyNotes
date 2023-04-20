@@ -2,7 +2,7 @@
 <node>
 <version>6</version>
 <dict>
-  <key>expanded</key><false/>
+  <key>expanded</key><true/>
   <key>title</key><string>Intelligenza artificiale</string>
   <key>nodeid</key><string>175938cf-94cb-4c83-bf33-e99f3c1b0c30</string>
   <key>modified_time</key><integer>1500550438</integer>
