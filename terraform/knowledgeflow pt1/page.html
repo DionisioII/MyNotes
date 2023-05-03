@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Workflow</title>
+</head><body><span style="color: #ff0000">providers</span>&nbsp;are plugins that allow Terraform to interact with specific infrastructure resources. They act as an interface between Terraform and the underlying infrastructure, translating the Terraform configuration into the appropriate API calls and allowing Terraform to manage resources across a wide variety of environments &nbsp;<br/>
+<br/>
+<span style="color: #ff0000">Resources</span>&nbsp;in Terraform refer to the components of infrastructure that Terraform is able to manage, such as virtual machines, virtual networks, DNS entries, pods, and others. Each resource is defined by a type, such as “aws_instance” or “google_dns_record”, “kubernetes_pod”, “oci_core_vcn”, and has a set of configurable properties, such as the instance size, vcn cidr, etc. &nbsp; <br/>
+<br/>
+<img src="image.png" /><br/>
+<img src="image 2.png" /><br/>
+<br/>
+<br/>
+A <span style="color: #ff0000">data source</span>&nbsp;is a configuration object that retrieves data from an external source and can be used in resources as arguments when they are created or updated. When I am talking about an external source, I am referring to absolutely anything: manually created infrastructure, resources created from other terraform configurations, and others.<br/>
+<span style="color: #ff0000">Data sources </span>are defined in their respective providers and you can use them with a special block called <span style="color: #ff0000">data</span><br/>
+The documentation of a data source is pretty similar to one of a resource, so if you’ve mastered how to use that one, this will be a piece of cake.<br/>
+<br/>
+An<span style="color: #ff0000">&nbsp;output i</span>s a way to easily view the value of a specific data source, resource, local, or variable after Terraform has finished applying changes to infrastructure. It can be defined in the Terraform configuration file and can be viewed using the terraform output command, but just to reiterate, only after a terraform apply happens. Outputs <span style="color: #0000ff">can be also used to expose different resources inside a module</span>&nbsp; <br/>
+<img src="image 3.png" /><br/>
+<br/>
+<br/>
+Terraform<span style="color: #ff0000">&nbsp;variables </span><span style="color: #000000">and</span><span style="color: #ff0000">&nbsp;locals</span>&nbsp;are used to better organize your code, easily change it, and make your configuration reusable.<br/>
+Before jumping into variables and locals in Terraform, let’s first discuss their supported types.<br/>
+Usually, in any programming language, when we are defining a variable or a constant, we are assigning it, or it infers a type.<br/>
+Supported types in Terraform:<br/>
+<b>Primitive:</b><br/>
+<ul><li>String</li>
+<li>Number</li>
+<li>Bool</li>
+</ul>
+<br/>
+<b>Complex — These types are created from other types</b>:<br/>
+<ul><li>List</li>
+<li>Set</li>
+<li>Map</li>
+<li>Object</li>
+</ul>
+<br/>
+<b>Null — Usually represents absence, really useful in conditional expressions.<br/>
+</b>There is also the "<span style="color: #ff0000">any"</span>&nbsp;type, in which you basically add whatever you want without caring about the type, but I really don’t recommend it as it will make your code harder to maintain. &nbsp;<br/>
+Every variable will be declared with a <span style="color: #0000ff">variable block</span>&nbsp;and we will always use it with<span style="color: #0000ff">&nbsp;var.variable_name</span>&nbsp; <br/>
+&nbsp; <img src="image 4.png" /><br/>
+<br/>
+<br/>
+There are a couple of other ways you can assign values to variables. If you happen to specify a value for a variable in multiple ways, Terraform will use the last value it finds, by taking into consideration their precedence order. I’m going to present these to you now:<br/>
+<ul><li><span style="color: #ff0000">using a <b>default</b>&nbsp;</span>→ as in the example above, this will be overwritten by any other option</li>
+<li>using a <span style="color: #ff0000">terraform.tfvarsfile</span>&nbsp;→ this is a special file in which you can add values to your variables</li>
+</ul>
+<ul><li>using <span style="color: #00007f">a</span><span style="color: #ff0000">&nbsp;*.auto.tfvars</span>&nbsp;file → similar to the terraform.tfvars file, but will take precedence over it. The variables' values will be declared in the same way. The “*” is a placeholder for any name you want to use</li>
+<li>using <span style="color: #ff0000">-var or -var-file</span>&nbsp;when running terraform plan/apply/destroy. When you are using both of them in the same command, the value will be taken from the last option.</li>
+</ul>
+<br/>
+<span style="color: #0000ff">terraform apply -var="instance_type=t3.micro" -var-file="terraform.tfvars"</span>&nbsp;→ This will take the value from the var file, but if we specify the -var option last, it will get the value from there.<br/>
+<br/>
+More examples:<br/>
+<img src="image 5.png" /><img src="image 6.png" /><img src="image 7.png" /><br/>
+<br/>
+<br/>
+<span style="color: #ff0000">list(string)</span>&nbsp;— in this variable, you can declare how many strings you want inside the list. You are going to access an instance of the list by using <span style="color: #ff0000">var.my_list_of_strings[index]</span>. Keep in mind that lists start from 0. var.my_list_of_strings[1] will return string2.<br/>
+<br/>
+<span style="color: #ff0000">map(string)</span>&nbsp;— in this variable, you can declare how many key:value pairs you want. You are going to access an instance of the map by using var.my_map_of_strings[key] where key is on the left-hand side from the equal sign. <span style="color: #ff0000">var.my_map_of_strings["key3"] </span>will return value<br/>
+<br/>
+<span style="color: #ff0000">object({}) </span>— inside of an object, you are declaring parameters as you see fit. You can have simple types inside of it and even complex types and you can declare as many as you want. You can consider an object to be a map having more explicit types defined for the keys. You are going to access instances of an object, by using the same logic as you would for a map.<br/>
+<br/>
+<span style="color: #ff0000">map(object({}))</span>&nbsp;— I’ve specified this complex build, because this is something I am using a lot inside of my code because it works well with for_each (don’t worry, we will talk about this in another post). You are going to access a property of an object in the map by using <span style="color: #ff0000">var.my_map_of_objects["key"]["parameter"]</span>&nbsp;and if there are any other complex parameters defined you will have to go deeper.<span style="color: #ff0000">&nbsp;var.my_map_of_objects["elem1"]["parameter1"]</span>&nbsp;will return value. <span style="color: #ff0000">var.my_map_of_objects["elem1"]["parameter3"]["key1"]</span>&nbsp;will return value1.<br/>
+<br/>
+<span style="color: #ff0000">list(object({}))</span>&nbsp;— This is something I’m using in dynamic blocks(again, we will discuss this in detail in another post). You are going to access a property of an object in the list, by using var.my_list_of_objects[index]["parameter"]. Again, if there are any parameters that are complex, you will have to go deeper. <span style="color: #ff0000">var.my_list_of_objects[0]["parameter1"]</span>&nbsp;will return value.<br/>
+One important thing to note is the fact that you <b>cannot</b>&nbsp;reference other resources or data sources inside a variable, so you cannot say that a variable is equal to a resource attribute by using the type.name.attribute.<br/>
+&nbsp;<br/>
+Locals<br/>
+On the other hand, a <span style="color: #ff0000">local variable</span>&nbsp;assigns a name to an expression, making it easier for you to reference it, without having to write that expression a gazillion times. They are defined in a locals block, and you can have multiple local variables defined in a single local block. <br/>
+<span style="color: #0000ff">Locals values are not set by the user input or values in .tfvars files, instead, they are set ‘locally’ to the configuration (hence the name)</span>. Instead of hardcoding values, local values can produce a more meaningful or readable result &nbsp;Let’s take a look:<br/>
+&nbsp; <img src="image 8.png" /><br/>
+&nbsp; <br/>
+</body></html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Notes</title>
+</head><body>Terraform written in GOLANG (Go) uses HCL(Hashicorp Configuration Language)<br/>
+<br/>
+<span style="background-color: #ffffff"><span style="color: #000000">resource "resource_type" "resource_name" {<br/>
+&nbsp; param1 = "value1"<br/>
+&nbsp; param2 = "value2"<br/>
+&nbsp; param3 = "value3"<br/>
+&nbsp; param4 = "value4"<br/>
+}<br/>
+<br/>
+resource "cat" "british" {<br/>
+&nbsp; color &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = "orange"<br/>
+&nbsp; name &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;= "Garfield"<br/>
+&nbsp; age &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = 5<br/>
+</span></span><span style="background-color: #ffffff"><span style="color: #000000">&nbsp; food_preference = ["Tuna", "Chicken", "Beef"]</span></span><span style="background-color: #3f3f3f"><span style="color: #ffffff"><br/>
+</span></span><span style="background-color: #3f3f3f"><span style="color: #ffffff">}</span></span><br/>
+<br/>
+Terraform keeps its state in a <b>state file </b>and uses it and your configuration, to determine the actions that need to be taken to reach the desired state of the resources. &nbsp; <br/>
+<br/>
+<br/>
+A provider in TerraForm is basically an abstraction for a resources API written in the goaling programming<br/>
+<br/>
+The Docker provider is used to interact with Docker containers and images. It uses the Docker API to manage the lifecycle of Docker containers. Because the Docker provider uses the Docker API, it is immediately compatible not only with single server Docker but Swarm and any additional Docker-compatible API hosts.<br/>
+<br/>
+terraform {<br/>
+&nbsp; required_providers {<br/>
+&nbsp; &nbsp; docker = {<br/>
+&nbsp; &nbsp; &nbsp; source &nbsp;= "kreuzwerker/docker"<br/>
+&nbsp; &nbsp; &nbsp; version = "2.20.0"<br/>
+&nbsp; &nbsp; }<br/>
+&nbsp; }<br/>
+}<br/>
+<br/>
+provider "docker" {<br/>
+&nbsp; host = "unix:///var/run/docker.sock"<br/>
+}<br/>
+<br/>
+# Pulls the image<br/>
+resource "docker_image" "ubuntu" {<br/>
+&nbsp; name = "ubuntu:latest"<br/>
+}<br/>
+<br/>
+# Create a container<br/>
+resource "docker_container" "foo" {<br/>
+&nbsp; image = docker_image.ubuntu.latest<br/>
+&nbsp; name &nbsp;= "foo"<br/>
+}<br/>
+<br/>
+<br/>
+.terraform.lock.hd : something similar<br/>
+<br/>
+to JavaScript's packaged JSON file that allows you to constrain versions.<br/>
+<br/>
+So this terraformed locked ACL file allows you to ensure that everyone who downloads your code from<br/>
+<br/>
+source control, for instance, like Git Lab or GitHub, are constrained to the same provider versions. it contains hashes of binary files of providers<br/>
+<br/>
+terraform init -upgrade + to change version of providers specified in &nbsp;.terraform.lock.hd file<br/>
+version = "~&gt; 2.12.0" &nbsp;-&gt; symbol means that rigth most number can increment but not the first 2<br/>
+<br/>
+<br/>
+terraform.tfstate -&gt; terraformed state is basically the description of all of your resources which have been deployed<br/>
+&#09;<br/>
+&#09;serial - higher number is considered in operations<br/>
+&#09;lineage: is a unique ID assigned to a state when it is created.<br/>
+<br/>
+&nbsp;count -&gt; counter argument. Now, the counter argument is known by TerraForm, it is not special to the random string or any other. The count object can only be used in module resource and data blocks, so you cannot use it in output section<br/>
+<br/>
+terraform.tfvars -. tfvars file put it in gitignore<br/>
+<br/>
+lyfecycle prevent_destroy = true -&gt; prevent a resource from being destroyed<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+</body></html>

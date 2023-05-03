@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>KnowledgeFlow pt2</title>
+</head><body><span style="color: #ff0000"><span style="font-size: 14pt">Terraform</span></span>&nbsp;<span style="color: #ff0000"><span style="font-size: 15pt">provisioners </span></span>have nothing in common with providers. <span style="color: #0000ff">You can use provisioners to run different commands or scripts on your local machine or a remote machine</span>, and also copy files from your local machine to a remote one. <span style="color: #0000ff">Provisioners, exist inside of a resource</span>, so in order to use one, you will simply have to add a <span style="color: #0000ff">provisioner block</span>&nbsp;in that particular resource. &nbsp;<br/>
+<br/>
+One thing worth mentioning is the fact that a provisioner is not able to reference the parent resource by its name, but they can use the <span style="color: #0000ff">self object</span>&nbsp;which actually represents that resource.<br/>
+They are considered a last resort, as they are not a part of the Terraform declarative model<br/>
+<br/>
+<br/>
+There are <span style="color: #0000ff"><span style="font-size: 14pt">3 types </span></span>of provisioners:<br/>
+<ul><li><b><span style="color: #ff0000"><span style="font-size: 13pt">local-exec</span></span></b></li>
+<li><span style="color: #ff0000"><span style="font-size: 13pt"><b>file</b>&nbsp;</span></span>(should be used in conjunction with a connection block)</li>
+<li><b><span style="color: #ff0000"><span style="font-size: 13pt">remote-exec</span></span></b>&nbsp;(should be used in conjunction with a connection block)</li>
+</ul>
+<br/>
+All provisioners support <span style="color: #0000ff">two interesting options</span><span style="color: #ff0000">&nbsp;<b><span style="font-size: 13pt">when</span></b></span><b>&nbsp;</b>and <b><span style="color: #ff0000"><span style="font-size: 13pt">on_failure</span></span></b><span style="color: #ff0000"><span style="font-size: 13pt">.</span></span>You can run provisioners either when the resource is created (which is, of course, the default option) or if your use case asks for it, run it when a resource is destroyed. &nbsp;<br/>
+From experience, I can tell you that sometimes provisioners fail for no reason, or they can even appear to be working and not doing what they are expected to. Still, I believe it is still very important to know how to use them, because, in some of your use cases, you may not have any alternatives. &nbsp;<br/>
+<br/>
+<br/>
+A <span style="color: #ff0000"><span style="font-size: 14pt">null resource </span></span>is basically something that doesn’t create anything on its own, but <span style="color: #0000ff">you can use it to define provisioners blocks</span>. T<span style="background-color: #ffff00">hey also have a “trigger” attribute, which can be used to recreate the resource, hence to rerun the provisioner block if the trigger is hit.</span>&nbsp; <br/>
+&nbsp;<br/>
+<span style="color: #0000ff"><span style="font-size: 17pt">Local-Exec</span></span><br/>
+As its name suggests, a<span style="background-color: #ffff00">&nbsp;local-exec block is going to run a script on your local machine</span>. Nothing too fancy about it. Apart from the when and on_failure options, there are a couple of other options you can specify:<br/>
+<ul><li><b>command</b>&nbsp;— what to run; this is the only required argument.</li>
+<li><b>working_dir</b>&nbsp;— where to run it</li>
+<li><b>interpreter</b>&nbsp;— what interpreter to use (e.g /bin/bash), by default terraform will decide based on your system os</li>
+<li><b>environment</b>&nbsp;— key/value pairs that represent the environment</li>
+</ul>
+<br/>
+Let’s see this in action in a null resource and observe the output of a terraform apply<br/>
+&nbsp;<img src="image.png" /><br/>
+<br/>
+<span style="color: #0000ff"><span style="font-size: 15pt">Connection Block</span></span><br/>
+In order to run or copy something on a remote vm, you will first have to connect to it, right?<br/>
+<span style="background-color: #ffff00">Connection blocks, support both ssh and winrm, so you can easily connect to both your Linux and Windows vms</span>.<br/>
+&nbsp; <img src="image 2.png" /><br/>
+<br/>
+<span style="color: #0000ff"><span style="font-size: 16pt">File</span></span><br/>
+<span style="background-color: #ffff00">The file provisioner is used to copy a file from your local vm to a remote vm</span>. There are three arguments that are supported:<br/>
+<ul><li><b>source</b>&nbsp;(what file to copy)</li>
+<li><b>content</b>&nbsp;(the direct content to copy on the destination)</li>
+<li><b>destination</b>&nbsp;(where to put the file)</li>
+</ul>
+<br/>
+As mentioned before, file needs a connection block to make sure it works properly. Let’s see an example on an ec2 instance. &nbsp;<br/>
+<img src="image 3.png" /><img src="image 4.png" /><br/>
+<br/>
+<span style="color: #0000ff"><span style="font-size: 14pt">Remote-Exec</span></span><br/>
+<span style="background-color: #ffff00">Remote-Exec is used to run a command or a script on a remote-vm.</span><br/>
+It supports the following arguments:<br/>
+<ul><li><b>inline</b>&nbsp;→ list of commands that should run on the vm</li>
+<li><b>script </b>→ a script that runs on the vm</li>
+<li><b>scripts</b>&nbsp;→ multiple scripts to run on the vm</li>
+</ul>
+<br/>
+You have to provide only one of the above arguments as they are not going to work together.<br/>
+Similar to file, you will need to add a connection block.<br/>
+<img src="image 5.png" /><img src="image 6.png" /><br/>
+&nbsp; <br/>
+&nbsp; </body></html>

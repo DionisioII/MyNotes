@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Commands</title>
+</head><body>terraform init<br/>
+terraform init -upgrade change versions of providers specified in lock file .terraform.lock.hd <br/>
+<br/>
+terraform fmt -&gt; formats file( beatufy)<br/>
+<br/>
+terraform fmt -diff -&gt; (format) command is used to rewrite Terraform configuration files to a canonical format and style. By default, fmt scans the current directory for configuration files. If you provide a directory for the target argument, then fmt will scan that directory instead. If you provide a file, then fmt will process just that file. If you provide a single dash (-), then fmt will read from standard input<br/>
+&#09;&#09;-diff - Display diffs of formatting changes<br/>
+<br/>
+terraform plan -&gt; command creates an execution plan, which lets you preview the changes that Terraform plans to make to your infrastructure. By default, when Terraform creates a plan it:<br/>
+<br/>
+&nbsp; &nbsp; Reads the current state of any already-existing remote objects to make sure that the Terraform state is up-to-date.<br/>
+&nbsp; &nbsp; Compares the current configuration to the prior state and noting any differences.<br/>
+<br/>
+&nbsp; &nbsp; -out=filename saves the plan in a file<br/>
+<br/>
+&nbsp; &nbsp; -destroy destroy the resources specified in the plan<br/>
+<br/>
+terraform apply -&gt; &nbsp;command executes the actions proposed in a Terraform plan.<br/>
+<br/>
+terraform destroy -&gt; command is a convenient way to destroy all remote objects managed by a particular Terraform configuration.<br/>
+&#09;--auto-approve<br/>
+<br/>
+terraform show -json : &nbsp;command is used to provide human-readable output from a state or plan file. This can be used to inspect a plan to ensure that the planned operations are expected, or to inspect the current state as Terraform sees it.<br/>
+<br/>
+terraform state list -&gt; &nbsp;that shows us all of the resources within our state<br/>
+<br/>
+terraform output -&gt; prints output values in terminal<br/>
+<br/>
+terraform taint -&gt; command informs Terraform that a particular object has become degraded or damaged. Terraform represents this by marking the object as "tainted" in the Terraform state, and Terraform will propose to replace it in the next plan you create<br/>
+<br/>
+terraform graph [options] -&gt; Outputs the visual execution graph of Terraform resources according to either the current configuration or an execution plan.<br/>
+<br/>
+<br/>
+&nbsp; &nbsp; -plan=tfplan - Render graph using the specified plan file instead of the configuration in the current directory.<br/>
+<br/>
+&nbsp; &nbsp; -draw-cycles - Highlight any cycles in the graph with colored edges. This helps when diagnosing cycle errors.<br/>
+<br/>
+&nbsp; &nbsp; -type=plan - Type of graph to output. Can be: plan, plan-destroy, apply, validate, input, refresh.<br/>
+<br/>
+&nbsp; &nbsp; -module-depth=n - (deprecated) In prior versions of Terraform, specified the depth of modules to show in the output.<br/>
+</body></html>
