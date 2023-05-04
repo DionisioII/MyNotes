@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>KnowledgeFlow pt7 - Depends_on,Lyfecycle_Block,Dynamic Block</title>
+</head><body><b><span style="color: #0000ff"><span style="font-size: 12pt">Depends_on</span></span></b><br/>
+The depends_on meta-argument in Terraform is used to specify dependencies between resources. When Terraform creates your infrastructure, it automatically determines the order in which to create resources based on their dependencies. However, in some cases, you may need to manually specify the order in which resources are created, and that's where depends_on comes in<br/>
+&nbsp; <img src="image.png" /><br/>
+<br/>
+<b><span style="font-size: 13pt"><span style="color: #0000ff">Lifecycle Block</span></span></b><br/>
+In Terraform, a lifecycle block is used to define specific behaviors for a resource during its lifecycle. This block is used to <span style="background-color: #ffff00">manage the lifecycle of a resource in Terraform, including creating, updating, and deleting resources</span>.<br/>
+The lifecycle block can be added to a resource block and includes the following arguments:<br/>
+<ul><li><b>create_before_destroy</b>: When set to true, <span style="background-color: #ffff00">this argument ensures that a new resource is created before the old one is destroyed</span>. This can help avoid downtime during a resource update.</li>
+<li><b>prevent_destroy</b>: When set to true, this argument <span style="background-color: #ffff00">prevents a resource from being destroyed.</span>&nbsp;This can be useful when you want to protect important resources from being accidentally deleted.</li>
+<li><b>ignore_changes</b>: T<span style="background-color: #ffff00">his argument specifies certain attributes of a resource that Terraform should ignore when checking for changes</span>. This can be useful when you want to prevent Terraform from unnecessarily updating a resource.</li>
+<li><b>replace_triggered_by: </b>This is relatively new, came up in Terraform 1.2, and it is <span style="background-color: #ffff00">used to replace a resource if any attributes of that resource have changed</span>, or even other resources have changed. Also, if you use count or for_each on the resource, you can even retrigger the recreation if there is a change to an instance of that resource (using count.index or each.key)</li>
+</ul>
+<br/>
+<br/>
+<span style="color: #0000ff"><span style="font-size: 12pt"><b>Dynamic Blocks<br/>
+</b></span></span><br/>
+&nbsp;Dynamic Blocks in Terraform <span style="background-color: #ffff00">let you repeat configuration blocks inside of a resource based on a variable/local/expression that you are using inside of them</span>. They make your configuration DRY (Don’t Repeat Yourself). &nbsp;<br/>
+<br/>
+<br/>
+In a dynamic block, you can use the following parameters:<br/>
+<ul><li><span style="color: #0000ff"><span style="font-size: 12pt"><b>for_each (required)</b></span></span>&nbsp;→ iterates over the value you are providing</li>
+<li><span style="color: #0000ff"><span style="font-size: 12pt"><b>content (required)</b></span></span>&nbsp;→ block containing the body of each block that you are going to create</li>
+<li><span style="color: #0000ff"><span style="font-size: 12pt"><b>iterator (optional)</b></span></span>&nbsp;→ temporary variable used as an iterator</li>
+<li><span style="color: #0000ff"><span style="font-size: 12pt"><b>labels (optional)</b></span></span>&nbsp;→ list of strings that define the block labels. Never used them, tbh.</li>
+</ul>
+<br/>
+You can have nested dynamic blocks, or you can use dynamic blocks to avoid generating an optional block inside configurations.<br/>
+<br/>
+<img src="image 2.png" />===&gt;<img src="image 3.png" /><br/>
+<br/>
+The above code accomplishes the same thing, as the one that was repeating the blocks three times. Since we are using the for_each on the local variable, we are going to create the block three times.<br/>
+When you are not defining an iterator, your iterator name will be exactly the name of the block, in our case is set.<br/>
+Let’s use an iterator to make this clear. The dynamic block will change to:<br/>
+&nbsp; <img src="image 4.png" /><br/>
+As mentioned before, you can use dynamic blocks to avoid generating blocks altogether, so to achieve this in our example, what we can do is just make the local variable empty :<br/>
+&nbsp; <img src="image 5.png" /></body></html>

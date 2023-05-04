@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<node>
+<version>6</version>
+<dict>
+  <key>title</key><string>KnowledgeFlow pt5 Files</string>
+  <key>nodeid</key><string>561e2ae6-f296-4d72-817f-ebca5e285a3c</string>
+  <key>modified_time</key><integer>1683203285</integer>
+  <key>version</key><integer>6</integer>
+  <key>content_type</key><string>text/xhtml+xml</string>
+  <key>created_time</key><integer>1683195709</integer>
+  <key>order</key><integer>6</integer>
+</dict>
+</node>

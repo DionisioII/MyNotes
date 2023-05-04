@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>KnowledgeFlow pt 6 - State</title>
+</head><body><b><span style="color: #0000ff"><span style="font-size: 14pt">STATE </span></span></b>is a json file that tracks the state of infrastructure resources managed by Terraform. By default, the name of the file is <span style="background-color: #ffff00">terraform.tfstate</span>&nbsp;and whenever you update the first state, a backup is generated called <span style="background-color: #ffff00">terraform.tfstate.backup</span>. &nbsp;<br/>
+This state file is stored locally by default, but <span style="background-color: #ffff00">can also be stored remotely using a remote backend such as Amazon S3</span>, Azure Blob Storage, Google Cloud Storage, or HashiCorp Consul. The Terraform state file includes the <span style="background-color: #ffa300">current configuration of resources, their dependencies, and metadata such as resource IDs and resource types</span>. There are a couple of products that help with managing state and provide a sophisticated workflow around Terraform like <a href="https://spacelift.io">Spacelift</a>&nbsp;or Terraform Cloud &nbsp;<br/>
+<br/>
+How does it work?<br/>
+<span style="background-color: #ffff00">When Terraform is executed, it reads the configuration files and the current state file to determine the changes required to bring the infrastructure to the desired state</span>. Terraform then creates an <span style="color: #0000ff"><b>execution plan</b></span>&nbsp;that <span style="background-color: #ffa300">outlines the changes to be made to the infrastructure.</span>&nbsp;If the plan is accepted, Terraform applies the changes to the infrastructure and updates the state file with the new state of the resources.<br/>
+<br/>
+<br/>
+You can use the terraform state command to manage your state.<br/>
+<ul><li><b><span style="font-size: 12pt"><span style="color: #0000ff">terraform state list</span></span></b>: This command lists all the resources that are currently tracked by Terraform state.</li>
+<li><span style="color: #0000ff"><span style="font-size: 12pt"><b>terraform state show:</b></span></span>&nbsp;This command displays the details of a specific resource in the Terraform state. The output includes all the attributes of the resource.</li>
+<li><span style="color: #0000ff"><span style="font-size: 12pt"><b>terraform state pull</b></span></span>: This command retrieves the current Terraform state from a remote backend and saves it to a local file. This command is useful when you want to make manual operations in a remote state.</li>
+<li><span style="color: #0000ff"><span style="font-size: 12pt"><b>terraform state push</b></span></span>: This command uploads the local Terraform state file to the remote backend. This command is useful after you made manual changes to your remote state.</li>
+<li><span style="color: #0000ff"><span style="font-size: 12pt"><b>terraform state rm</b></span></span>: This command removes a resource from the Terraform state. This doesn’t mean the resource will be destroyed, it won’t be managed by Terraform after you’ve removed it.</li>
+<li><span style="color: #0000ff"><span style="font-size: 12pt"><b>terraform state mv</b></span></span>: This command renames a resource in the Terraform state.</li>
+<li><span style="color: #0000ff"><span style="font-size: 12pt"><b>terraform state replace-provider</b></span></span>: This command replaces the provider configuration for a specific resource in the Terraform state. This command is useful when switching from one provider to another or upgrading to a new provider version.</li>
+</ul>
+&nbsp;<br/>
+<br/>
+<br/>
+<b>Amazon S3 Backend</b><br/>
+The Amazon S3 backend is a popular choice for remote state storage. To configure the Amazon S3 backend, you will need to create an S3 bucket and an IAM user with permissions to access the bucket. Here is an example of how to configure the Amazon S3 backend in Terraform:<br/>
+&nbsp; <br/>
+&nbsp; <img src="image.png" /><br/>
+<br/>
+<span style="background-color: #ffff00">The S3 backend supports locking, but to do that you will need also need a <span style="color: #0000ff"><span style="font-size: 12pt"><b>dynamodb table</b></span></span></span>. The table must have a partition key named LockID as a string. If this is not configured, state locking will be disabled. &nbsp;<br/>
+<img src="image 2.png" /><br/>
+<br/>
+<br/>
+<span style="color: #0000ff"><span style="font-size: 12pt"><b>Remote State Data Source</b></span></span><br/>
+The Terraform Remote State Data Source, like any other data source, <span style="background-color: #ffff00">retrieves existing information</span>. This special data source, doesn’t depend on any provider, <span style="background-color: #ffff00">this allows you to retrieve state data from a previously deployed Terraform infrastructure</span>. <span style="background-color: #ffa300">This can be useful if you need to reference information from one infrastructure to another.</span><br/>
+To use a remote state data source in Terraform, you first need to configure the remote state backend for the infrastructure you want to retrieve data from. This is done in the backend block in your Terraform configuration as specified above. After you create your infrastructure for the first configuration, you can reference it in the second one using the remote data source.<br/>
+<br/>
+<img src="image 3.png" /><br/>
+In the above example, we are supposing that we have a configuration in the directory “../config1” that has some Terraform code up and running. In that code, we have declared a “var1” output, that we are referencing in our null resource. &nbsp;<br/>
+<span style="color: #0000ff"><span style="font-size: 13pt"><b><br/>
+</b></span></span><span style="color: #0000ff"><span style="font-size: 13pt"><b>Best Practices</b></span></span><br/>
+There are several best practices for managing Terraform state, including:<br/>
+<ul><li><b>Use a remote backend</b>: Storing the Terraform state file remotely provides several benefits, including better collaboration, easier access control, and improved resilience. Remote backends such as Amazon S3 or HashiCorp Consul can be used to store the state file securely and reliably.</li>
+<li><b>Use locking</b>: <span style="background-color: #ffff00">When multiple users are working on the same Terraform project, locking is necessary to prevent conflicts.</span>&nbsp;<span style="background-color: #ffff00">Locking ensures that only one user can modify the state file at a time, preventing conflicts and ensuring changes are applied correctly.</span>&nbsp;As shown before, there are many backends that support locking.</li>
+<li><b>Use versioning: </b>Your configuration should always be versioned, as this will make it easier to achieve an older version of the infrastructure if something goes wrong with the changes you are making.</li>
+<li><b>Isolate state:</b></li>
+</ul>
+<ul><li><b>Don’t add hundreds of resources in the same state</b>: Making a mistake with one resource can potentially hurt all your infrastructure</li>
+<li><b>Have a single state file per environment</b>: When making changes, it is usually a best practice to first make the change on a lower environment and after that promote it to the higher one</li>
+<li><b>Use Terraform workspaces</b>: Terraform workspaces allow users to manage multiple environments, such as development, staging, and production, with a single Terraform configuration file. Each workspace has its own state file, allowing changes to be made to each of them</li>
+</ul>
+<br/>
+5. <b>Use modules</b>: Versioned modules will make it easier to make changes to your code, hence changes will be easier to promote across environments, making operations to the state less<br/>
+&nbsp; <br/>
+&nbsp; </body></html>

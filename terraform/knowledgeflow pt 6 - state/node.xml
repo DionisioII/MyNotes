@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<node>
+<version>6</version>
+<dict>
+  <key>title</key><string>KnowledgeFlow pt 6 - State</string>
+  <key>nodeid</key><string>00effcfa-0d32-40dc-b55d-33e329d03c21</string>
+  <key>modified_time</key><integer>1683204436</integer>
+  <key>version</key><integer>6</integer>
+  <key>content_type</key><string>text/xhtml+xml</string>
+  <key>created_time</key><integer>1683203881</integer>
+  <key>order</key><integer>7</integer>
+</dict>
+</node>

@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>KnowledgeFlow pt8 - Modules</title>
+</head><body><b><span style="color: #0000ff"><span style="font-size: 13pt">Minimal module structure</span></span></b><br/>
+A typical module should contain the following files:<br/>
+<ul><li><span style="color: #0000ff"><span style="font-size: 12pt"><b>main.tf</b></span></span>: Contains the core resource declarations and configurations for the module.</li>
+<li><span style="color: #0000ff"><span style="font-size: 12pt"><b>variables.tf</b></span></span>: Defines input variables that allow users to customize the module's behavior.</li>
+<li><span style="color: #0000ff"><span style="font-size: 12pt"><b>outputs.tf</b></span></span>: Specifies output values that the module returns to the caller, providing information about the created resources.</li>
+<li><span style="color: #0000ff"><b><span style="font-size: 12pt">README.md</span></b></span>: Offers documentation on how to use the module, including descriptions of input variables and outputs.</li>
+</ul>
+<br/>
+What I also like to do, when I’m building modules, is to create examples for those modules.<br/>
+So in each module, what I typically do, is create an examples folder in which I define at least a main.tf in which I create an object for that module.<br/>
+For the Readme file, I usually leverage <a href="https://terraform-docs.io">terraform-docs</a>&nbsp;to get the documentation automated, but nevertheless, I also explain what the module does, how to leverage the examples and deep dive into why I took some decisions related to the code.<br/>
+&nbsp;<br/>
+<br/>
+<span style="color: #0000ff"><span style="font-size: 12pt"><b>Module Example</b></span></span><br/>
+Let’s create a simple module for generating config maps in Kubernetes.<br/>
+&nbsp; </body></html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>KnowledgeFlow pt5 Files</title>
+</head><body>For the following examples, let’s suppose we are using this yaml file: &nbsp;<br/>
+<img src="image.png" /><img src="image 2.png" /><br/>
+<br/>
+In the example below, we are checking if the file exists, and if it does we are going to load the namespaces from the yaml file, otherwise use a variable for that. As the file exists, we are using yamldecode on the loaded string to create a map variable and we are passing it to for_each. This can be extremely useful in some use cases. &nbsp;<br/>
+<img src="image 3.png" /><br/>
+<br/>
+<br/>
+<span style="color: #0000ff"><span style="font-size: 13pt">We can change values overriding them</span></span><br/>
+<br/>
+locals {<br/>
+&nbsp;namespaces = fileexists("./my_file.yaml") ? yamldecode(templatefile("./my_file.yaml",<span style="background-color: #ffff00">&nbsp;{ image_registry_ns1 = "ghcr.io", color_ns2 = "black" }</span>)).namespaces : var.namespaces<br/>
+} &nbsp;<br/>
+<br/>
+<br/>
+<b><span style="font-size: 19pt"><span style="color: #0000ff">Fileset</span></span></b><br/>
+The fileset function helps with identifying all files inside a directory that respect a pattern.<br/>
+&nbsp; <img src="image 4.png" /><br/>
+<br/>
+The above will show all the yaml files, inside the current directory. This output will be a list of all those files. Not very useful on its own, right?<br/>
+Well, you can use the file function to load the content of these files as strings. You can take them one by one, using list indexes, but if you want to take it up a notch, what you can do is use a for loop and group them together in something that makes sense.<br/>
+<br/>
+<br/>
+<br/>
+You can get filesystem-related information using these key expressions:<br/>
+<ul><li><span style="color: #0000ff">path.module</span>&nbsp;— This function returns the path of the current module being executed. This is useful for accessing files or directories that are relative to the module being executed.</li>
+<li><span style="color: #0000ff">path.root</span>&nbsp;— This function returns the root directory of the current Terraform project. This is useful for accessing files or directories located at the project's root.</li>
+<li><span style="color: #0000ff">path.cwd</span>&nbsp;— This function returns the current working directory where Terraform is being executed before any chdir operations happened. This is useful for accessing files or directories that are relative to the directory where Terraform is running from.</li>
+</ul>
+<br/>
+There are some other file functions that can be leveraged in order to accommodate some use cases, but to be honest I’ve used them only once or twice.<br/>
+Still, I believe mentioning them, will bring some value.<br/>
+<span style="color: #0000ff">basename</span>&nbsp;— takes a path and returns everything apart from the last part of it<br/>
+E.G: basename("/Users/user1/hello.txt") will return hello.txt.<br/>
+<span style="color: #0000ff">dirname</span>&nbsp;— behaves exactly opposite to basename, returns all the directories until the file<br/>
+E.G: dirname("/Users/user1/hello.txt") will return /Users/user1<br/>
+<span style="color: #0000ff">pathexpand</span>&nbsp;— takes a path that starts with a ~ and expands this path adding the home of the logged in user. If the path, doesn’t use a ~ this function will not do anything<br/>
+E.G: You are logged in as user1 on a Mac: pathexpand("~/hello.txt") will return /Users/user1/hello.txt<br/>
+<span style="color: #0000ff">filebase64</span>&nbsp;— reads the content of a file and returns it as base64 encoded text.<br/>
+<span style="color: #0000ff">abspath</span>&nbsp;— takes a string containing a filesystem path and returns the absolute path<br/>
+&nbsp; <br/>
+&nbsp; <br/>
+</body></html>
