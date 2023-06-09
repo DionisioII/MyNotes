@@ -2,7 +2,7 @@
 <node>
 <version>6</version>
 <dict>
-  <key>expanded</key><true/>
+  <key>expanded</key><false/>
   <key>title</key><string>Kubernetes</string>
   <key>nodeid</key><string>b380723c-1ed0-43f5-b62c-42f34028fc9c</string>
   <key>modified_time</key><integer>1680168947</integer>

@@ -3,12 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>KnowledgeFlow pt8 - Modules</title>
-</head><body><b><span style="color: #0000ff"><span style="font-size: 13pt">Minimal module structure</span></span></b><br/>
+</head><body><b><span style="font-size: 13pt"><span style="color: #0000ff">Minimal module structure</span></span></b><br/>
 A typical module should contain the following files:<br/>
-<ul><li><span style="color: #0000ff"><span style="font-size: 12pt"><b>main.tf</b></span></span>: Contains the core resource declarations and configurations for the module.</li>
-<li><span style="color: #0000ff"><span style="font-size: 12pt"><b>variables.tf</b></span></span>: Defines input variables that allow users to customize the module's behavior.</li>
-<li><span style="color: #0000ff"><span style="font-size: 12pt"><b>outputs.tf</b></span></span>: Specifies output values that the module returns to the caller, providing information about the created resources.</li>
-<li><span style="color: #0000ff"><b><span style="font-size: 12pt">README.md</span></b></span>: Offers documentation on how to use the module, including descriptions of input variables and outputs.</li>
+<ul><li><b><span style="font-size: 12pt"><span style="color: #0000ff">main.tf</span></span></b>: Contains the core resource declarations and configurations for the module.</li>
+<li><b><span style="font-size: 12pt"><span style="color: #0000ff">variables.tf</span></span></b>: Defines input variables that allow users to customize the module's behavior.</li>
+<li><b><span style="font-size: 12pt"><span style="color: #0000ff">outputs.tf</span></span></b>: Specifies output values that the module returns to the caller, providing information about the created resources.</li>
+<li><span style="font-size: 12pt"><b><span style="color: #0000ff">README.md</span></b></span>: Offers documentation on how to use the module, including descriptions of input variables and outputs.</li>
 </ul>
 <br/>
 What I also like to do, when I’m building modules, is to create examples for those modules.<br/>
@@ -16,6 +16,21 @@ So in each module, what I typically do, is create an examples folder in which I 
 For the Readme file, I usually leverage <a href="https://terraform-docs.io">terraform-docs</a>&nbsp;to get the documentation automated, but nevertheless, I also explain what the module does, how to leverage the examples and deep dive into why I took some decisions related to the code.<br/>
 &nbsp;<br/>
 <br/>
-<span style="color: #0000ff"><span style="font-size: 12pt"><b>Module Example</b></span></span><br/>
+<b><span style="font-size: 12pt"><span style="color: #0000ff">Module Example</span></span></b><br/>
 Let’s create a simple module for generating config maps in Kubernetes.<br/>
-&nbsp; </body></html>
+&nbsp; <img src="image.png" /><img src="image 2.png" /><br/>
+<img src="image 3.png" /><br/>
+The above module code <span style="background-color: #ffff00">will create how many namespaces and config maps you want in your Kubernetes cluster</span>. You can even create your config maps in existing namespaces, as you are not required to create namespaces if you don’t want to &nbsp;<br/>
+<img src="image 4.png" /><img src="image 5.png" /><br/>
+<br/>
+<br/>
+In order to build reusable Terraform modules that can be easily leveraged to achieve almost any architecture, I believe that at least the following best practices should be put in place:<br/>
+<ul><li>Each Terraform module should exist in its own repository</li>
+<li>Use <i>for_each </i>and<i>&nbsp;map variables</i></li>
+<li>Use <i>dynamic blocks</i></li>
+<li>Use <i>ternary operators </i>and take advantage of terraform built-in functions, especially <i>lookup, merge, try, can</i></li>
+<li>Build <i>outputs</i></li>
+<li><b>Optional: </b>Use <i>pre-commit</i></li>
+</ul>
+&nbsp;<br/>
+</body></html>
