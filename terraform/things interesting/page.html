@@ -3,4 +3,35 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>things interesting</title>
-</head><body><img src="image.png" /></body></html>
+</head><body><img src="image.png" width="484" height="250" /><img src="image 2.png" /><br/>
+<br/>
+<img src="image 3.png" /><br/>
+<br/>
+Terraform Core<br/>
+Terraform Core is a <a href="https://en.wikipedia.org/wiki/Static_build#Static_building">statically-compiled binary</a>&nbsp;written in the <a href="https://golang.org/">Go programming language</a>. The compiled binary is the command line tool (CLI) terraform, the entrypoint for anyone using Terraform. The code is open source and hosted at github.com/hashicorp/terraform.<br/>
+&nbsp;<br/>
+The primary responsibilities of Terraform Core are:<ul><li>Infrastructure as code: reading and interpolating configuration files and modules</li>
+<li>Resource state management</li>
+<li>Construction of the <a href="https://developer.hashicorp.com/terraform/internals/graph">Resource Graph</a></li>
+<li>Plan execution</li>
+<li>Communication with plugins over RPC</li>
+<li></li>
+</ul>
+<br/>
+Terraform Plugins<br/>
+Terraform Plugins are written in Go and are executable binaries invoked by Terraform Core over RPC. Each plugin exposes an implementation for a specific service, such as AWS, or provisioner, such as bash. All Providers and Provisioners used in Terraform configurations are plugins. They are executed as a separate process and communicate with the main Terraform binary over an RPC interface. Terraform has several Provisioners built-in, while Providers are discovered dynamically as needed (See <b>Discovery</b>&nbsp;below). Terraform Core provides a high-level framework that abstracts away the details of plugin discovery and RPC communication so developers do not need to manage either.<br/>
+&nbsp; <br/>
+<span style="font-size: 18pt"><span style="color: #0000ff"><br/>
+</span></span><span style="font-size: 18pt"><span style="color: #0000ff">Providers aliases</span></span><br/>
+<img src="image 4.png" /><img src="image 5.png" /><br/>
+<img src="image 6.png" /><br/>
+<br/>
+Notice that instead of installing the latest version of the AWS provider that conforms with the configured version constraints, Terraform installed the version specified in the lock file. While initializing your workspace, Terraform read the dependency lock file and downloaded the specified versions of the AWS and random providers.<br/>
+If Terraform did not find a lock file, it would download the latest versions of the providers that fulfill the version constraints you defined in the required_providers block<br/>
+<br/>
+By default, Terraform will attempt to download the provider version specified by the lock file (.terraform.lock.hcl). If the lock file does not exist, Terraform will use the required_providers block to determine the provider version. If neither exists, Terraform will download the latest provider version. &nbsp;<br/>
+&nbsp; <br/>
+<br/>
+&nbsp;<br/>
+<br/>
+</body></html>

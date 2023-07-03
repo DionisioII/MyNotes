@@ -43,4 +43,55 @@ terraform graph [options] -&gt; Outputs the visual execution graph of Terraform 
 &nbsp; &nbsp; -type=plan - Type of graph to output. Can be: plan, plan-destroy, apply, validate, input, refresh.<br/>
 <br/>
 &nbsp; &nbsp; -module-depth=n - (deprecated) In prior versions of Terraform, specified the depth of modules to show in the output.<br/>
+<br/>
+Command: validate<br/>
+The <span style="font-size: 15pt"><span style="color: #0000ff">terraform validate command </span></span>v<span style="background-color: #ffff00">alidates the configuration files in a directory, referring only to the configuration and not accessing any remote services</span>&nbsp;such as remote state, provider APIs, etc.<br/>
+Validate runs checks that verify whether a configuration is syntactically valid and internally consistent, regardless of any provided variables or existing state. It is thus primarily useful for general verification of reusable modules, including correctness of attribute names and value types.<br/>
+It is safe to run this command automatically, for example as a post-save check in a text editor or as a test step for a re-usable module in a CI system.<br/>
+Validation requires an initialized working directory with any referenced plugins and modules installed. To initialize a working directory for validation without accessing any configured backend, use:<br/>
+$ terraform init -backend=false To verify configuration in the context of a particular run (a particular target workspace, input variable values, etc), use the terraform plan command instead, which includes an implied &nbsp; <br/>
+<br/>
+Command: plan<br/>
+The <span style="color: #0000ff"><span style="font-size: 14pt">terraform plan command </span></span>creates an execution plan, which lets you preview the changes that Terraform plans to make to your infrastructure. By default, when Terraform creates a plan it:<br/>
+<ul><li>Reads the current state of any already-existing remote objects to make sure that the Terraform state is up-to-date.</li>
+<li>Compares the current configuration to the prior state and noting any differences.</li>
+<li>Proposes a set of change actions that should, if applied, make the remote objects match the configuration</li>
+</ul>
+The plan command alone will not actually carry out the proposed changes, and so you can use this command to check whether the proposed changes match what you expected before you apply the changes or share your changes with your team for broader review &nbsp;<br/>
+&nbsp; <br/>
+Planning Modes<br/>
+The previous section describes Terraform's default planning behavior, which changes the remote system to match the changes you make to your configuration. Terraform has two alternative planning modes, each of which creates a plan with a different intended outcome. These options are available for both terraform plan and <a href="https://developer.hashicorp.com/terraform/cli/v1.1.x/commands/apply">terraform apply</a>.<br/>
+<br/>
+<ul><li><b><span style="color: #0000ff"><span style="background-color: #ffff00">Destroy mode</span></span><span style="background-color: #ffff00">:</span></b><span style="background-color: #ffff00">&nbsp;</span>creates a plan whose goal is to destroy all remote objects that currently exist, leaving an empty Terraform state. This can be useful for situations like transient development environments, where the managed objects cease to be useful once the development task is complete.</li>
+</ul>
+&nbsp; &nbsp; &nbsp; &nbsp; Activate destroy mode using the -destroy command line option.<br/>
+<br/>
+<ul><li><b><span style="color: #0000ff"><span style="background-color: #ffff00">Refresh-only mode</span></span>:</b>&nbsp;creates a plan whose goal is only to update the Terraform state and any root module output values to match changes made to remote objects outside of Terraform. This can be useful if you've intentionally changed one or more remote objects outside of the usual workflow (e.g. while responding to an incident) and you now need to reconcile Terraform's records with those changes.</li>
+</ul>
+&nbsp; &nbsp; &nbsp; &nbsp; Activate refresh-only mode using the -refresh-only command line option<br/>
+<br/>
+Planning Options<br/>
+In addition to alternate <a href="https://developer.hashicorp.com/terraform/cli/v1.1.x/commands/plan#planning-modes">planning modes</a>, there are several options that can modify planning behavior. These options are available for both terraform plan and <a href="https://developer.hashicorp.com/terraform/cli/v1.1.x/commands/apply">terraform apply</a>.<br/>
+<br/>
+<ul><li><a href="https://developer.hashicorp.com/terraform/cli/v1.1.x/commands/plan#refresh-false">-refresh=false</a>&nbsp;- Disables the default behavior of synchronizing the Terraform state with remote objects before checking for configuration changes. This can make the planning operation faster by reducing the number of remote API requests. However, setting refresh=false causes Terraform to ignore external changes, which could result in an incomplete or incorrect plan. You cannot use refresh=false in refresh-only planning mode because it would effectively disable the entirety of the planning operation.</li>
+</ul>
+<br/>
+<ul><li><a href="https://developer.hashicorp.com/terraform/cli/v1.1.x/commands/plan#replace-address">-replace=ADDRESS</a>&nbsp;- Instructs Terraform to plan to replace the resource instance with the given address. This is helpful when one or more remote objects have become degraded, and you can use replacement objects with the same configuratation to align with immutable infrastructure patterns. Terraform will use a "replace" action if the specified resource would normally cause an "update" action or no action at all. Include this option multiple times to replace several objects at once. You cannot use -replace with the -destroy option, and it is only available from Terraform v0.15.2 onwards. For earlier versions, use <a href="https://developer.hashicorp.com/terraform/cli/v1.1.x/commands/taint">terraform taint</a>&nbsp;to achieve a similar result.</li>
+</ul>
+<ul><li><a href="https://developer.hashicorp.com/terraform/cli/v1.1.x/commands/plan#target-address">-target=ADDRESS</a>&nbsp;- Instructs Terraform to focus its planning efforts only on resource instances which match the given address and on any objects that those instances depend on.</li>
+<li><b>Note:</b>&nbsp;Use -target=ADDRESS in exceptional circumstances only, such as recovering from mistakes or working around Terraform limitations. Refer to <a href="https://developer.hashicorp.com/terraform/cli/v1.1.x/commands/plan#resource-targeting">Resource Targeting</a>&nbsp;for more details.</li>
+</ul>
+<br/>
+<ul><li><a href="https://developer.hashicorp.com/terraform/cli/v1.1.x/commands/plan#var-name-value">-var 'NAME=VALUE'</a>&nbsp;- Sets a value for a single <a href="https://developer.hashicorp.com/terraform/language/v1.1.x/values/variables">input variable</a>&nbsp;declared in the root module of the configuration. Use this option multiple times to set more than one variable. Refer to <a href="https://developer.hashicorp.com/terraform/cli/v1.1.x/commands/plan#input-variables-on-the-command-line">Input Variables on the Command Line</a>&nbsp;for more information.</li>
+</ul>
+<br/>
+<ul><li><a href="https://developer.hashicorp.com/terraform/cli/v1.1.x/commands/plan#var-file-filename">-var-file=FILENAME</a>&nbsp;- Sets values for potentially many <a href="https://developer.hashicorp.com/terraform/language/v1.1.x/values/variables">input variables</a>&nbsp;declared in the root module of the configuration, using definitions from a <a href="https://developer.hashicorp.com/terraform/language/v1.1.x/values/variables#variable-definitions-tfvars-files">"tfvars" file</a>. Use this option multiple times to include values from more than one file.</li>
+</ul>
+<br/>
+<br/>
+There are several other ways to set values for input variables in the root module, aside from the -var and -var-file options. Refer to <a href="https://developer.hashicorp.com/terraform/language/v1.1.x/values/variables#assigning-values-to-root-module-variables">Assigning Values to Root Module Variables</a>&nbsp;for more information.<br/>
+<br/>
+&nbsp; <br/>
+<br/>
+&nbsp;<br/>
 </body></html>
