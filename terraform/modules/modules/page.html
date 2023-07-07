@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Modules</title>
+</head><body><span style="color: #0000ff">A Terraform module is a set of Terraform configuration files in a single directory</span>. Even a simple configuration consisting of a single directory with one or more .tf files is a module. <span style="color: #ff0000">When you run Terraform commands directly from such a directory, it is considered the root module</span>. So in this sense, every Terraform configuration is part of a module. You may have a simple set of Terraform configuration files such as:<br/>
+<br/>
+.<br/>
+├── LICENSE<br/>
+├── README.md<br/>
+├── main.tf<br/>
+├── variables.tf<br/>
+├── outputs.tf<br/>
+<br/>
+Modules can either be loaded from <span style="background-color: #ffff00">the local filesystem, or a remote source </span>&nbsp;<br/>
+<br/>
+module from remote source,Example:<br/>
+<img src="image.png" /><img src="image 2.png" /><br/>
+<br/>
+Set values for module input variables<br/>
+Modules can contain both required and optional arguments. You must specify all required arguments to use the module. Most module arguments correspond to the module's input variables<br/>
+<br/>
+<br/>
+<span style="color: #0000ff"><span style="font-size: 13pt">Root variables for examples above:<br/>
+</span></span><img src="image 3.png" /><img src="image 4.png" /><br/>
+<br/>
+&nbsp;Outputs:<br/>
+<img src="image 5.png" /><br/>
+<br/>
+When using a new module for the first time, <span style="background-color: #ffff00">you must run either terraform init or terraform get to install the module</span>. When you run these commands, Terraform will install any new modules in the <span style="background-color: #ffff00">.terraform/modules</span>&nbsp;directory within your configuration's working directory.<span style="color: #ff0000">&nbsp;For local modules, Terraform will create a symlink to the module's directory &nbsp;</span><br/>
+</body></html>

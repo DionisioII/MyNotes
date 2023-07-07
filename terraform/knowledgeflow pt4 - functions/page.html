@@ -3,7 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>KnowledgeFlow pt4 - Functions</title>
-</head><body><br/>
+</head><body>from <a href="">unknown source</a>:<br/>
+<img src="image 30.png" /><br/>
 functions are split into multiple categories:<br/>
 <ul><li>String</li>
 <li>Numeric</li>
@@ -16,7 +17,7 @@ functions are split into multiple categories:<br/>
 <li>Type Conversion</li>
 </ul>
 <br/>
-<span style="color: #0000ff"><span style="font-size: 15pt">ToType Functions</span></span><br/>
+<span style="font-size: 15pt"><span style="color: #0000ff">ToType Functions</span></span><br/>
 ToType is not an actual function; rather, many functions can help you change the type of a variable to another type.<br/>
 <span style="color: #ff0000">tonumber(argument) </span>→ With this function you can change a string to a number, anything else apart from another number and null will result in an error<br/>
 <span style="color: #ff0000">tostring(argument)</span>&nbsp;→ Changes a number/bool/string/null to a string<br/>
@@ -25,97 +26,97 @@ ToType is not an actual function; rather, many functions can help you change the
 <span style="color: #ff0000">toset(argument)</span>&nbsp;→ Changes a list to a set<br/>
 <span style="color: #ff0000">tomap(argument)</span>&nbsp;→ Converts its argument to a map<br/>
 <br/>
-<span style="color: #0000ff"><span style="font-size: 16pt">format(string_format, unformatted_string)</span></span><br/>
+<span style="font-size: 16pt"><span style="color: #0000ff">format(string_format, unformatted_string)</span></span><br/>
 The format function <span style="background-color: #ffff00">is similar to the printf function in C</span>&nbsp;and works by formatting a number of values according to a specification string. It can be used to build different strings that may be used in conjunction with other variables. Here is an example of how to use this function:<br/>
 &nbsp; <br/>
 &nbsp; <br/>
 <img src="image.png" /><img src="image 2.png" /><br/>
 <br/>
-<span style="color: #0000ff"><span style="font-size: 16pt">formatlist(string_format, unformatted_list)</span></span><br/>
+<span style="font-size: 16pt"><span style="color: #0000ff">formatlist(string_format, unformatted_list)</span></span><br/>
 The formatlist function uses the same syntax as the format function but changes the elements in a list. Here is an example of how to use this function:<br/>
 <img src="image 3.png" /><img src="image 4.png" /><br/>
 <br/>
 <br/>
-<span style="color: #0000ff"><span style="font-size: 17pt">length(list / string / map)</span></span><br/>
+<span style="font-size: 17pt"><span style="color: #0000ff">length(list / string / map)</span></span><br/>
 Returns the length of a string, list, or map.<br/>
 &nbsp; <br/>
 &nbsp; <img src="image 5.png" /><img src="image 6.png" /><br/>
-<span style="color: #0000ff"><span style="font-size: 16pt">join(separator, list)</span></span><br/>
+<span style="font-size: 16pt"><span style="color: #0000ff">join(separator, list)</span></span><br/>
 Another useful function in Terraform is “join”. This function creates a string by concatenating together all elements of a list and a separator. For example, consider the following code:<br/>
 &nbsp; <img src="image 7.png" /><br/>
 <br/>
-<span style="color: #0000ff"><span style="font-size: 15pt">try(value, fallback)</span></span><br/>
+<span style="font-size: 15pt"><span style="color: #0000ff">try(value, fallback)</span></span><br/>
 Sometimes, you may want to use a value if it is usable, but fall back to another value if the first one is unusable. This can be achieved using the “try” function. For example:<br/>
 &nbsp; <br/>
 <img src="image 8.png" /><br/>
 <br/>
-<span style="color: #0000ff"><span style="font-size: 15pt">can(expression)</span></span><br/>
+<span style="font-size: 15pt"><span style="color: #0000ff">can(expression)</span></span><br/>
 A useful function for validating variables is “can”. It evaluates an expression and returns a boolean indicating if there is a problem with the expression. For example:<br/>
 <img src="image 9.png" /><br/>
 <br/>
-<span style="color: #0000ff"><span style="font-size: 14pt">flatten(list)</span></span><br/>
+<span style="font-size: 14pt"><span style="color: #0000ff">flatten(list)</span></span><br/>
 In Terraform, you may work with complex data types to manage your infrastructure. In these cases, you may want to <span style="background-color: #ffff00">flatten a list of lists into a single list</span>. This can be achieved using the “flatten” function, as in this example:<br/>
 &nbsp; <br/>
 &nbsp; <img src="image 10.png" />[1, 2, 3, 4, 5, 6] &nbsp;<br/>
 <br/>
-<b><span style="color: #0000ff"><span style="font-size: 15pt">keys(map) &amp; values(map)</span></span></b><br/>
+<span style="font-size: 15pt"><span style="color: #0000ff"><b>keys(map) &amp; values(map)</b></span></span><br/>
 It may be useful to extract the keys or values from a map as a list. This can be achieved using the “keys” or “values” functions, respectively. For example:<br/>
 &nbsp; <img src="image 11.png" /><img src="image 12.png" /><br/>
 <br/>
 <br/>
-<span style="color: #0000ff"><span style="font-size: 14pt">slice(list, startindex, endindex)</span></span><br/>
+<span style="font-size: 14pt"><span style="color: #0000ff">slice(list, startindex, endindex)</span></span><br/>
 Slice returns consecutive elements from a list from a startindex (inclusive) to an endindex (exclusive).<br/>
 &nbsp; <br/>
 <img src="image 13.png" />slice_list = [3] &nbsp;<br/>
 <br/>
-<span style="color: #0000ff"><span style="font-size: 15pt">range</span></span><br/>
+<span style="font-size: 15pt"><span style="color: #0000ff">range</span></span><br/>
 Creates a range of numbers:<br/>
 <ul><li>one argument(limit)</li>
 <li>two arguments(initial_value, limit)</li>
 <li>three arguments(initial_value, limit, step)</li>
 </ul>
 <br/>
-<span style="color: #0000ff"><span style="font-size: 14pt">lookup(map, key, fallback_value)</span></span><br/>
+<span style="font-size: 14pt"><span style="color: #0000ff">lookup(map, key, fallback_value)</span></span><br/>
 Retrieves a value from a map using its key. If the value is not found, it will return the default value instead<br/>
 <img src="image 14.png" />This will return: lookup_in_a_map = "key1" &nbsp;<br/>
 <br/>
-<span style="color: #0000ff"><span style="font-size: 15pt">concat(lists)</span></span><br/>
+<span style="font-size: 15pt"><span style="color: #0000ff">concat(lists)</span></span><br/>
 Takes two or more lists and combines them in a single one<br/>
 &nbsp; <img src="image 15.png" />This will return: concat_list = [1, 2, 3, 4, 5, 6] &nbsp;<br/>
 <br/>
-<span style="color: #0000ff"><span style="font-size: 14pt">merge(maps)</span></span><br/>
+<span style="font-size: 14pt"><span style="color: #0000ff">merge(maps)</span></span><br/>
 The merge function takes one or more maps and returns a single map that contains all of the elements from the input maps. The function can also take objects as input, but the output will always be a map.<br/>
 Let’s take a look at an example:<br/>
 &nbsp; <br/>
 &nbsp; <img src="image 16.png" /><img src="image 17.png" /><br/>
 <br/>
-<span style="color: #0000ff"><span style="font-size: 15pt">zipmap(key_list, value_list)</span></span><br/>
+<span style="font-size: 15pt"><span style="color: #0000ff">zipmap(key_list, value_list)</span></span><br/>
 Constructs a map from a list of keys and a list of values<br/>
 &nbsp; <br/>
 &nbsp;<img src="image 18.png" /><img src="image 19.png" /><br/>
 <br/>
-<span style="color: #0000ff"><span style="font-size: 15pt"><b>expanding function argument …</b></span></span><br/>
+<b><span style="font-size: 15pt"><span style="color: #0000ff">expanding function argument …</span></span></b><br/>
 T<span style="background-color: #ffff00">his special argument works only in function calls and expands a list into separate arguments</span>. Useful when you want to merge all maps from a list of maps<br/>
 &nbsp; <img src="image 20.png" /><img src="image 21.png" /><br/>
 <br/>
-<span style="color: #0000ff"><span style="font-size: 14pt">file(path_to_file)</span></span><br/>
+<span style="font-size: 14pt"><span style="color: #0000ff">file(path_to_file)</span></span><br/>
 Reads the content of a file as a string and <span style="background-color: #ffff00">can be used in conjunction with other functions like jsondecode / yamldecode.</span><br/>
 &nbsp; <img src="image 22.png" /><br/>
 <br/>
-<span style="color: #0000ff"><span style="font-size: 15pt">templatefile(path, vars)</span></span><br/>
+<span style="font-size: 15pt"><span style="color: #0000ff">templatefile(path, vars)</span></span><br/>
 Reads the file from the specified path and changes the variables specified in the file between the interpolation syntax ${ … } with the ones from the vars map.<br/>
 &nbsp; <img src="image 23.png" />This will change the ${change_me} variable to awesome_value. &nbsp;<br/>
 <br/>
-<span style="color: #0000ff"><span style="font-size: 15pt">jsondecode(string)</span></span><br/>
+<span style="font-size: 15pt"><span style="color: #0000ff">jsondecode(string)</span></span><br/>
 Interprets a string as json.<br/>
 &nbsp; <img src="image 24.png" /><img src="image 25.png" /><br/>
 <br/>
-<span style="color: #0000ff"><span style="font-size: 14pt">jsonencode(string)</span></span><br/>
+<span style="font-size: 14pt"><span style="color: #0000ff">jsonencode(string)</span></span><br/>
 Encodes a value to a string using json<br/>
 &nbsp; <img src="image 26.png" /><img src="image 27.png" /><br/>
 <br/>
-<span style="color: #0000ff"><span style="font-size: 16pt">yamlencode(value)</span></span><br/>
+<span style="font-size: 16pt"><span style="color: #0000ff">yamlencode(value)</span></span><br/>
 Encodes a given value to a string using YAML.<br/>
 <img src="image 28.png" /><img src="image 29.png" /><br/>
 &nbsp; <br/>
-<span style="color: #0000ff"><span style="font-size: 14pt">element, base64encode, base64decode, formatdate, uuid, and distinct &nbsp;</span></span></body></html>
+<span style="font-size: 14pt"><span style="color: #0000ff">element, base64encode, base64decode, formatdate, uuid, and distinct &nbsp;</span></span></body></html>

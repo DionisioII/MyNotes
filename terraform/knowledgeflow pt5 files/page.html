@@ -10,14 +10,14 @@ In the example below, we are checking if the file exists, and if it does we are 
 <img src="image 3.png" /><br/>
 <br/>
 <br/>
-<span style="color: #0000ff"><span style="font-size: 13pt">We can change values overriding them</span></span><br/>
+<span style="font-size: 13pt"><span style="color: #0000ff">We can change values overriding them</span></span><br/>
 <br/>
 locals {<br/>
 &nbsp;namespaces = fileexists("./my_file.yaml") ? yamldecode(templatefile("./my_file.yaml",<span style="background-color: #ffff00">&nbsp;{ image_registry_ns1 = "ghcr.io", color_ns2 = "black" }</span>)).namespaces : var.namespaces<br/>
 } &nbsp;<br/>
 <br/>
 <br/>
-<b><span style="font-size: 19pt"><span style="color: #0000ff">Fileset</span></span></b><br/>
+<span style="color: #0000ff"><span style="font-size: 19pt"><b>Fileset</b></span></span><br/>
 The fileset function helps with identifying all files inside a directory that respect a pattern.<br/>
 &nbsp; <img src="image 4.png" /><br/>
 <br/>
@@ -42,6 +42,17 @@ E.G: dirname("/Users/user1/hello.txt") will return /Users/user1<br/>
 E.G: You are logged in as user1 on a Mac: pathexpand("~/hello.txt") will return /Users/user1/hello.txt<br/>
 <span style="color: #0000ff">filebase64</span>&nbsp;— reads the content of a file and returns it as base64 encoded text.<br/>
 <span style="color: #0000ff">abspath</span>&nbsp;— takes a string containing a filesystem path and returns the absolute path<br/>
+<br/>
+<span style="color: #0000ff">templatefile(path, vars) </span>&nbsp;path to a file, and vars to be replaced in text file. example:<br/>
+resource "aws_instance" "web" {<br/>
+&nbsp; ami &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = data.aws_ami.ubuntu.id<br/>
+&nbsp; instance_type &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = "t2.micro"<br/>
+&nbsp; subnet_id &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = aws_subnet.subnet_public.id<br/>
+&nbsp; vpc_security_group_ids &nbsp; &nbsp; &nbsp;= [aws_security_group.sg_8080.id]<br/>
+&nbsp; associate_public_ip_address = true<br/>
+&nbsp; user_data &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = templatefile("user_data.tftpl", { department = var.user_department, name = var.user_name })<br/>
+}<br/>
+<img src="image 5.png" /><br/>
 &nbsp; <br/>
 &nbsp; <br/>
 </body></html>

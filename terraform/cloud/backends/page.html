@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Backends</title>
+</head><body><span style="color: #0000ff"><span style="font-size: 14pt">Backends</span></span><br/>
+Backends define where Terraform's <a href="https://developer.hashicorp.com/terraform/language/v1.1.x/state">state</a>&nbsp;snapshots are stored<br/>
+<br/>
+<br/>
+Backends primarily determine where Terraform stores its <a href="https://developer.hashicorp.com/terraform/language/v1.1.x/state">state</a>. Terraform uses this persisted <a href="https://developer.hashicorp.com/terraform/language/v1.1.x/state">state</a>&nbsp;data to keep track of the resources it manages. Since it needs the state in order to know which real-world infrastructure objects correspond to the resources in a configuration, everyone working with a given collection of infrastructure resources must be able to access the same state data.<br/>
+<span style="background-color: #ffff00">By default, Terraform implicitly uses a backend called <a href="https://developer.hashicorp.com/terraform/language/v1.1.x/settings/backends/local">local</a>&nbsp;to store state as a local file on disk. </span>Every other backend stores state in a remote service of some kind, which allows multiple people to access it. Accessing state in a remote service generally requires some kind of access credentials, since state data contains extremely sensitive information.<br/>
+<span style="background-color: #ffff00">Some backends act like plain "remote disks" for state files; others support <i>locking</i>&nbsp;the state while operations are being performed, which helps prevent conflicts and inconsistencies.<br/>
+<br/>
+</span><br/>
+&nbsp;Terraform has a built-in selection of backends, and the configured backend must be available in the version of Terraform you are using.<br/>
+The arguments used in the block's body are specific to the chosen backend type; they configure where and how the backend will store the configuration's state, and in some cases configure other behavior.<br/>
+Some backends allow providing access credentials directly as part of the configuration for use in unusual situations, for pragmatic reasons. However, in normal use we <i>do not</i>&nbsp;recommend including access credentials as part of the backend configuration. Instead, leave those arguments completely unset and provide credentials via the credentials files or environment variables that are conventional for the target system, as described in the documentation for each backend.<br/>
+<br/>
+<span style="color: #ff0000">ps: If your configuration includes <a href="https://developer.hashicorp.com/terraform/language/v1.1.x/settings/terraform-cloud">a cloud block</a>, it cannot include a backend block. &nbsp;</span><br/>
+&nbsp; <br/>
+&nbsp; <br/>
+<span style="font-size: 14pt"><span style="color: #0000ff">&nbsp; LOCAL</span></span><br/>
+The local backend stores state on the local filesystem, locks that state using system APIs, and performs operations locally.<br/>
+<br/>
+<br/>
+The following configuration options are supported:<br/>
+<ul><li><a href="https://developer.hashicorp.com/terraform/language/v1.1.x/settings/backends/local#path">path</a>&nbsp;- (Optional) The path to the tfstate file. This defaults to "terraform.tfstate" relative to the root module by default.</li>
+<li><a href="https://developer.hashicorp.com/terraform/language/v1.1.x/settings/backends/local#workspace_dir">workspace_dir</a>&nbsp;- (Optional) The path to non-default workspaces.</li>
+</ul>
+&nbsp;<br/>
+<br/>
+terraform {<br/>
+&nbsp; backend "local" {<br/>
+&nbsp; &nbsp; path = "relative/path/to/terraform.tfstate"<br/>
+&nbsp; }<br/>
+}<br/>
+<br/>
+data "terraform_remote_state" "foo" {<br/>
+&nbsp; backend = "local"<br/>
+<br/>
+&nbsp; config = {<br/>
+&nbsp; &nbsp; path = "${path.module}/../../terraform.tfstate"<br/>
+&nbsp; }<br/>
+}<br/>
+<br/>
+<span style="font-size: 13pt"><span style="color: #0000ff">&nbsp;REMOTE<br/>
+</span></span>Each Terraform configuration can specify a backend, which defines where <a href="https://developer.hashicorp.com/terraform/language/v1.1.x/state">state</a>&nbsp;snapshots are stored. &nbsp;<br/>
+<br/>
+terraform {<br/>
+&nbsp; backend "remote" {<br/>
+&nbsp; &nbsp; organization = "example_corp"<br/>
+<br/>
+&nbsp; &nbsp; workspaces {<br/>
+&nbsp; &nbsp; &nbsp; name = "my-app-prod"<br/>
+&nbsp; &nbsp; }<br/>
+&nbsp; }<br/>
+}<br/>
+<br/>
+<span style="font-size: 13pt"><span style="color: #0000ff">CONSUL</span></span><br/>
+<br/>
+<span style="color: #000000"><span style="font-size: 13pt">terraform {<br/>
+&nbsp; backend "consul" {<br/>
+&nbsp; &nbsp; address = "consul.example.com"<br/>
+&nbsp; &nbsp; scheme &nbsp;= "https"<br/>
+&nbsp; &nbsp; path &nbsp; &nbsp;= "full/path"<br/>
+&nbsp; }<br/>
+}<br/>
+<br/>
+</span></span><span style="color: #ff0000">The Consul backend also requires a Consul access token. Per the recommendation above of omitting credentials from the configuration and using other mechanisms, the Consul token would be provided by setting either the CONSUL_HTTP_TOKEN or CONSUL_HTTP_AUTH environment variables </span>&nbsp;<span style="font-size: 13pt"><br/>
+</span><span style="font-size: 13pt"><br/>
+</span><span style="font-size: 15pt"><span style="color: #0000ff">File</span></span><br/>
+A backend configuration file has the contents of the backend block as top-level attributes, without the need to wrap it in another terraform or backend block:<br/>
+address = "demo.consul.io"<br/>
+path &nbsp; &nbsp;= "example_app/terraform_state"<br/>
+scheme &nbsp;= "https"<span style="color: #0000ff"><span style="font-size: 13pt"><br/>
+</span></span><br/>
+Command-line key/value pairs<br/>
+<br/>
+The same settings can alternatively be specified on the command line as follows:<br/>
+<br/>
+$ terraform init \<br/>
+&nbsp; &nbsp; -backend-config="address=demo.consul.io" \<br/>
+&nbsp; &nbsp; -backend-config="path=example_app/terraform_state" \<br/>
+&nbsp; &nbsp; -backend-config="scheme=https"<br/>
+<br/>
+<br/>
+</body></html>

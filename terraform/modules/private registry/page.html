@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Private registry</title>
+</head><body>Terraform Cloud allows users to create and confidentially <span style="background-color: #ffff00">share infrastructure modules within an organization using the private registry.</span><br/>
+&nbsp;<span style="color: #ff0000">With Terraform Enterprise, the private registry allows you to share modules within or across organizations &nbsp;<br/>
+</span><span style="color: #ff0000"><br/>
+</span><img src="image.png" /><br/>
+<br/>
+terraform {<br/>
+&nbsp; required_providers {<br/>
+&nbsp; &nbsp; aws = {<br/>
+&nbsp; &nbsp; &nbsp; source &nbsp;= "hashicorp/aws"<br/>
+&nbsp; &nbsp; &nbsp; version = "~&gt; 4.0.0"<br/>
+&nbsp; &nbsp; }<br/>
+&nbsp; }<br/>
+}<br/>
+<br/>
+provider "aws" {<br/>
+&nbsp; region = var.region<br/>
+}<br/>
+<br/>
+module "s3-webapp" {<br/>
+&nbsp;<span style="background-color: #ffff00">&nbsp;source &nbsp;= "app.terraform.io<span style="color: #ff0000">/[ORGANIZATION_NAME]/</span>s3-webapp/aws"</span><br/>
+&nbsp; name &nbsp; = var.name<br/>
+&nbsp; region = var.region<br/>
+&nbsp; prefix = var.prefix<br/>
+&nbsp; version = "1.0.0"<br/>
+}<br/>
+<br/>
+<br/>
+<span style="color: #0000ff"><span style="font-size: 16pt">Add public provider to private registry &nbsp;<br/>
+</span></span>Curating public modules and providers in your private registry lets you define a list of approved components for your organization to use. It also lets your team find all documentation related to those components in one place, and makes it easier to track new releases and changes. &nbsp;<br/>
+<br/>
+<span style="color: #0000ff"><span style="font-size: 17pt">Use Configuration to Move Resources</span></span><span style="font-size: 17pt">&nbsp; </span><br/>
+<br/>
+When you move existing resources from a parent to a child module, your Terraform resource IDs will change. Because of this, y<span style="background-color: #ffff00">ou must let Terraform know that you intend to move resources rather than replace them, or Terraform will destroy and recreate your resources with the new ID</span>&nbsp; <br/>
+<br/>
+The <span style="color: #ff0000">moved configuration block</span>&nbsp;lets you track your resource moves in the configuration itself. With the moved configuration block, you can plan, preview, and validate resource moves, enabling you to safely refactor your configuration. &nbsp;<br/>
+<br/>
+moved {<br/>
+&nbsp; from = aws_instance.example<br/>
+&nbsp; to = module.ec2_instance.aws_instance.example<br/>
+}<br/>
+<br/>
+You can also use the moved configuration block to rename existing resources &nbsp;<br/>
+<br/>
+<br/>
+Removing a moved block is a generally breaking change because any configurations that refer to the old address will plan to delete that existing object instead of move it. We strongly recommend that you retain all historical moved blocks from earlier versions of your modules to preserve the upgrade path for users of any previous version.<br/>
+<span style="background-color: #ffff00">If you do decide to remove moved blocks, proceed with caution. It can be safe to remove moved blocks when you are maintaining private modules within an organization and you are certain that all users have successfully run terraform apply with your new module version.</span><br/>
+&nbsp; <br/>
+<span style="color: #0000ff"><span style="font-size: 14pt">Create and Use No-Code Modules &nbsp;<br/>
+</span></span>No-code provisioning lets users deploy infrastructure in modules without writing any Terraform configuration, which makes your standards even easier to comply with, and removes the dependency on infrastructure teams or ticketing systems to give developers their required resources. &nbsp;<br/>
+<br/>
+<br/>
+The main difference between no-code modules and ordinary modules is that the no-code workflow <b>requires</b>&nbsp;declaring provider configuration within the module itself. Authors of standard modules usually avoid including the provider configuration within the module because it makes the module incompatible with the for_each, count, and depends_on meta-arguments. Since users will not reference no-code modules in written configuration, there is no risk of this conflict. <br/>
+When users provision infrastructure with a no-code module, Terraform Cloud will automatically launch a new workspace to manage the module's resources. Because no-code modules contain their provider configuration, organization administrators must also enable automatic access to provider credentials<br/>
+<img src="image 2.png" /><img src="image 3.png" /><br/>
+&nbsp; </body></html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Team Rules</title>
+</head><body><span style="font-size: 15pt"><span style="color: #0000ff">Teams</span></span><br/>
+Teams are groups of Terraform Cloud <a href="https://developer.hashicorp.com/terraform/cloud-docs/users-teams-organizations/users">users</a>&nbsp;within an <a href="https://developer.hashicorp.com/terraform/cloud-docs/users-teams-organizations/organizations">organization .</a>If a user belongs to at least one team in an organization, they are considered a member of that organization. &nbsp;<br/>
+<br/>
+<span style="color: #0000ff"><span style="font-size: 15pt">The Owners Team</span></span><br/>
+Every organization has a team named <b>owners</b>, and members of the owners team are sometimes called organization owners. An organization's creator is the first member of its owners team, you can add and remove other members in the same way as other teams. In free organizations, the owners team is limited to five members. In paid organizations, the size of the owners team is not limited.<br/>
+<br/>
+Unlike other teams, you cannot delete the owners team or leave it empty. If there is only one member in an owners team, you must add another user before you can remove the current member. &nbsp;<br/>
+<br/>
+<br/>
+<span style="color: #0000ff"><span style="font-size: 15pt">API Tokens</span></span><br/>
+Each team can have an<span style="background-color: #ffff00">&nbsp;API token that is not associated with a specific user</span>. You can manage this API token from the team's settings page under <b>Team API Token</b>&nbsp;. Refer to <a href="https://developer.hashicorp.com/terraform/cloud-docs/users-teams-organizations/api-tokens#team-api-tokens">Team API Tokens</a>&nbsp;for details.<br/>
+<br/>
+<span style="color: #0000ff"><span style="font-size: 15pt">Managing Workspace Access</span></span><br/>
+You can grant teams various permissions on workspaces. Refer to <a href="https://developer.hashicorp.com/terraform/cloud-docs/users-teams-organizations/permissions#workspace-permissions">Workspace Permissions</a>&nbsp;for details.<br/>
+&nbsp;Terraform Cloud uses the highest permission level from your teams to determine what actions you can take on a particular resource. For example, if you belong to a team that only has permission to read runs for a workspace and another team with admin access to that workspace, Terraform Cloud grants you admin access.<br/>
+<br/>
+<br/>
+<span style="color: #0000ff"><span style="font-size: 13pt">Defining Sentinel Policies</span></span><br/>
+Policies are rules that Terraform Cloud enforces on runs<br/>
+You use the <a href="https://docs.hashicorp.com/sentinel/language">Sentinel policy language</a>&nbsp;to define Sentinel policies. After you define policies, you must add them to <a href="https://developer.hashicorp.com/terraform/cloud-docs/policy-enforcement/manage-policy-sets">policy sets</a>&nbsp;that Terraform Cloud can enforce on workspaces. &nbsp;<br/>
+<br/>
+<br/>
+Terraform Cloud provides <span style="background-color: #00ffff">four imports</span>&nbsp;to define policy rules for the plan, configuration, state, and run associated with a policy check. &nbsp;<br/>
+<ul><li><a href="https://developer.hashicorp.com/terraform/cloud-docs/policy-enforcement/sentinel/import/tfplan">tfplan</a>&nbsp;- Access a Terraform plan, which is the file created as a result of the <a href="https://developer.hashicorp.com/terraform/cli/commands/plan">terraform plan command</a>. The plan represents the changes that Terraform must make to reach the desired infrastructure state described in the configuration.</li>
+<li><a href="https://developer.hashicorp.com/terraform/cloud-docs/policy-enforcement/sentinel/import/tfconfig">tfconfig</a>&nbsp;- Access a Terraform configuration. The configuration is the set of .tf files that describe the desired infrastructure state.</li>
+<li><a href="https://developer.hashicorp.com/terraform/cloud-docs/policy-enforcement/sentinel/import/tfstate">tfstate</a>&nbsp;- Access the Terraform <a href="https://developer.hashicorp.com/terraform/language/state">state</a>. Terraform uses state to map real-world resources to your configuration.</li>
+<li><a href="https://developer.hashicorp.com/terraform/cloud-docs/policy-enforcement/sentinel/import/tfrun">tfrun</a>&nbsp;- Access data associated with a <a href="https://developer.hashicorp.com/terraform/cloud-docs/run/remote-operations">run in Terraform Cloud</a>. For example, you could retrieve the run's workspace.</li>
+</ul>
+<br/>
+Example:<br/>
+<span style="color: #0000ff"><span style="font-size: 13pt">Iterate over Modules and Find Resources</span></span><br/>
+The most basic Sentinel task for Terraform is to enforce a rule on all resources of a given type. Before you can do that, you need to get a collection of all the relevant resources from all modules. The easiest way to do that is to copy and use a function like the following into your policies:<br/>
+&nbsp; import "tfplan"<br/>
+import "strings"<br/>
+<br/>
+# Find all resources of specific type from all modules using the tfplan import<br/>
+find_resources_from_plan = func(type) {<br/>
+&nbsp; &nbsp; resources = {}<br/>
+&nbsp; &nbsp; for tfplan.module_paths as path {<br/>
+&nbsp; &nbsp; &nbsp; &nbsp; for tfplan.module(path).resources[type] else {} as name, instances {<br/>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; for instances as index, r {<br/>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # Get the address of the resource instance<br/>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if length(path) == 0 {<br/>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # root module<br/>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; address = type + "." + name + "[" + string(index) + "]"<br/>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; } else {<br/>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # non-root module<br/>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; address = "module." + strings.join(path, ".module.") + "." +<br/>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; type + "." + name + "[" + string(index) + "]"<br/>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br/>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; # Add the instance to resources, setting the key to the address<br/>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; resources[address] = r<br/>
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br/>
+&nbsp; &nbsp; &nbsp; &nbsp; }<br/>
+&nbsp; &nbsp; }<br/>
+&nbsp; &nbsp; return resources<br/>
+}<br/>
+<br/>
+<span style="color: #0000ff"><span style="font-size: 15pt">Enforce a policy - Sentinel<br/>
+<br/>
+</span></span><br/>
+<a href="https://www.hashicorp.com/sentinel">Sentinel</a>&nbsp;is an <span style="background-color: #ffff00">embedded policy-as-code framework</span>&nbsp;integrated with various HashiCorp products. It enables fine-grained, logic-based policy decisions, and can use information from external sources. Terraform Cloud lets users enforce Sentinel policies as part of the run workflow.<br/>
+A policy consists of:<br/>
+<ul><li>The policy controls defined as code.</li>
+<li>An enforcement level that determines run behavior in the event of policy failure.</li>
+</ul>
+<br/>
+<span style="background-color: #ffff00">You usually set up a github repo with definition of policies and then create a policy set on terraform cloud linked to the repo. you assign the policy set to a specific workset<br/>
+<span style="background-color: #ffffff"><br/>
+</span></span><span style="background-color: #ffff00"><span style="background-color: #ffffff">For ecample github repo with 2 files : </span></span><span style="background-color: #00ff00">sentinel.hcl</span>&nbsp;and<span style="background-color: #00ff00">&nbsp;allowed-terraform-version.sentinel.</span>&nbsp; <span style="background-color: #ffff00"><br/>
+</span><br/>
+<span style="font-size: 14pt"><span style="color: #0000ff">sentinel.hcl</span></span><br/>
+<br/>
+<span style="background-color: #ff99ff">policy "allowed-terraform-version" {<br/>
+&nbsp; &nbsp; enforcement_level = "soft-mandatory"<br/>
+}<br/>
+</span><br/>
+<a href="https://github.com/hashicorp/learn-terraform-enforce-policies/blob/main/sentinel.hcl"><span style="background-color: #00ff00">sentinel.hcl</span></a><span style="background-color: #00ff00">&nbsp;defines the policy set</span>. This configuration declares a policy named allowed-terraform-version and sets a soft-mandatory enforcement level. You can define multiple policy blocks in the sentinel.hcl file to configure more policies. &nbsp;<br/>
+<br/>
+<span style="color: #0000ff">Enforcement levels</span>&nbsp;establish whether or not an operation can proceed if a policy fails. Sentinel provides three enforcement levels:<br/>
+<ul><li>&nbsp; &nbsp; <span style="background-color: #00ff00">Hard-mandatory</span>&nbsp;requires that the policy passes. If a policy fails, the run stops. You must resolve the failure to proceed.</li>
+</ul>
+<ul><li>&nbsp; &nbsp; <span style="background-color: #00ff00">Soft-mandatory</span>&nbsp;lets an organization owner or a user with override privileges proceed with the run in the event of failure. Terraform Cloud logs all overrides.</li>
+</ul>
+<ul><li>&nbsp; &nbsp; <span style="background-color: #00ff00">Advisory</span>&nbsp;will notify you of policy failures, but proceed with the operation. </li>
+</ul>
+<br/>
+<br/>
+<span style="color: #0000ff"><span style="font-size: 17pt">allowed-terraform-version.sentinel<br/>
+</span></span><br/>
+<span style="background-color: #ff99ff">import "tfplan"<br/>
+import "version"<br/>
+<br/>
+main = rule {<br/>
+&nbsp; version.new(tfplan.terraform_version).greater_than("1.1.0")<br/>
+</span><span style="background-color: #ff99ff">}</span><br/>
+<br/>
+</body></html>
