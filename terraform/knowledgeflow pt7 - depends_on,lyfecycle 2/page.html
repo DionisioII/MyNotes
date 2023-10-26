@@ -7,7 +7,7 @@
 The depends_on meta-argument in Terraform is used to specify dependencies between resources. When Terraform creates your infrastructure, it automatically determines the order in which to create resources based on their dependencies. However, in some cases, you may need to manually specify the order in which resources are created, and that's where depends_on comes in<br/>
 &nbsp; <img src="image.png" /><br/>
 <br/>
-<b><span style="font-size: 13pt"><span style="color: #0000ff">Lifecycle Block</span></span></b><br/>
+<span style="color: #0000ff"><span style="font-size: 13pt"><b>Lifecycle Block</b></span></span><br/>
 In Terraform, a lifecycle block is used to define specific behaviors for a resource during its lifecycle. This block is used to <span style="background-color: #ffff00">manage the lifecycle of a resource in Terraform, including creating, updating, and deleting resources</span>.<br/>
 The lifecycle block can be added to a resource block and includes the following arguments:<br/>
 <ul><li><b>create_before_destroy</b>: When set to true, <span style="background-color: #ffff00">this argument ensures that a new resource is created before the old one is destroyed</span>. This can help avoid downtime during a resource update.</li>
@@ -17,16 +17,16 @@ The lifecycle block can be added to a resource block and includes the following 
 </ul>
 <br/>
 <br/>
-<span style="color: #0000ff"><span style="font-size: 12pt"><b>Dynamic Blocks<br/>
-</b></span></span><br/>
+<b><span style="font-size: 12pt"><span style="color: #0000ff">Dynamic Blocks<br/>
+</span></span></b><br/>
 &nbsp;Dynamic Blocks in Terraform <span style="background-color: #ffff00">let you repeat configuration blocks inside of a resource based on a variable/local/expression that you are using inside of them</span>. They make your configuration DRY (Don’t Repeat Yourself). &nbsp;<br/>
 <br/>
 <br/>
 In a dynamic block, you can use the following parameters:<br/>
-<ul><li><span style="color: #0000ff"><span style="font-size: 12pt"><b>for_each (required)</b></span></span>&nbsp;→ iterates over the value you are providing</li>
-<li><span style="color: #0000ff"><span style="font-size: 12pt"><b>content (required)</b></span></span>&nbsp;→ block containing the body of each block that you are going to create</li>
-<li><span style="color: #0000ff"><span style="font-size: 12pt"><b>iterator (optional)</b></span></span>&nbsp;→ temporary variable used as an iterator</li>
-<li><span style="color: #0000ff"><span style="font-size: 12pt"><b>labels (optional)</b></span></span>&nbsp;→ list of strings that define the block labels. Never used them, tbh.</li>
+<ul><li><b><span style="font-size: 12pt"><span style="color: #0000ff">for_each (required)</span></span></b>&nbsp;→ iterates over the value you are providing</li>
+<li><b><span style="font-size: 12pt"><span style="color: #0000ff">content (required)</span></span></b>&nbsp;→ block containing the body of each block that you are going to create</li>
+<li><b><span style="font-size: 12pt"><span style="color: #0000ff">iterator (optional)</span></span></b>&nbsp;→ temporary variable used as an iterator</li>
+<li><b><span style="font-size: 12pt"><span style="color: #0000ff">labels (optional)</span></span></b>&nbsp;→ list of strings that define the block labels. Never used them, tbh.</li>
 </ul>
 <br/>
 You can have nested dynamic blocks, or you can use dynamic blocks to avoid generating an optional block inside configurations.<br/>
@@ -38,4 +38,9 @@ When you are not defining an iterator, your iterator name will be exactly the na
 Let’s use an iterator to make this clear. The dynamic block will change to:<br/>
 &nbsp; <img src="image 4.png" /><br/>
 As mentioned before, you can use dynamic blocks to avoid generating blocks altogether, so to achieve this in our example, what we can do is just make the local variable empty :<br/>
-&nbsp; <img src="image 5.png" /></body></html>
+&nbsp; <img src="image 5.png" /><br/>
+<br/>
+<span style="background-color: #ffff00"><span style="font-size: 13pt">Overuse of dynamic blocks can make configuration hard to read and maintain, so we recommend using them only when you need to hide details in order to build a clean user interface for a re-usable module. Always write nested blocks out literally where possible. &nbsp;<br/>
+<br/>
+<br/>
+</span></span></body></html>

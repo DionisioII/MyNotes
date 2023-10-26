@@ -2,8 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Workflow</title>
-</head><body><span style="color: #ff0000">providers</span>&nbsp;are plugins that allow Terraform to interact with specific infrastructure resources. They act as an interface between Terraform and the underlying infrastructure, translating the Terraform configuration into the appropriate API calls and allowing Terraform to manage resources across a wide variety of environments &nbsp;<br/>
+<title>KnowledgeFlow pt1</title>
+</head><body>A Terraform provider is responsible for <ul><li>understanding API interactions with a specific service, </li>
+<li>provisioning infrastructure in a specific cloud, and </li>
+<li>exposing resources and data sources based on an API.</li>
+</ul>
+&nbsp;However, <span style="background-color: #ffff00">managing actions to take based on resource differences is the responsibility of Terraform's core engine</span>, not the provider itself. The core engine compares the desired state declared in the Terraform configuration with the current state stored in the Terraform state file and determines the actions needed to achieve the desired state, such as creating, updating, or deleting resources. &nbsp;<span style="color: #ff0000"><br/>
+</span><span style="color: #ff0000"><br/>
+</span><span style="color: #ff0000">providers</span>&nbsp;are plugins that allow Terraform to interact with specific infrastructure resources. They act as an interface between Terraform and the underlying infrastructure, translating the Terraform configuration into the appropriate API calls and allowing Terraform to manage resources across a wide variety of environments &nbsp;<br/>
 <br/>
 <span style="color: #ff0000">Resources</span>&nbsp;in Terraform refer to the components of infrastructure that Terraform is able to manage, such as virtual machines, virtual networks, DNS entries, pods, and others. Each resource is defined by a type, such as “aws_instance” or “google_dns_record”, “kubernetes_pod”, “oci_core_vcn”, and has a set of configurable properties, such as the instance size, vcn cidr, etc. &nbsp; <br/>
 <br/>
@@ -11,7 +17,7 @@
 <img src="image 2.png" /><br/>
 <br/>
 <br/>
-A <span style="color: #ff0000">data source</span>&nbsp;is a configuration object that retrieves data from an external source and can be used in resources as arguments when they are created or updated. When I am talking about an external source, I am referring to absolutely anything: manually created infrastructure, resources created from other terraform configurations, and others.<br/>
+A <span style="color: #ff0000">data source</span>&nbsp;is a <span style="background-color: #ffff00">configuration object that retrieves data from an external source and can be used in resources as arguments</span>&nbsp;when they are created or updated. When I am talking about an external source, I am referring to absolutely anything: manually created infrastructure, resources created from other terraform configurations, and others.<br/>
 <span style="color: #ff0000">Data sources </span>are defined in their respective providers and you can use them with a special block called <span style="color: #ff0000">data</span><br/>
 The documentation of a data source is pretty similar to one of a resource, so if you’ve mastered how to use that one, this will be a piece of cake.<br/>
 <br/>
@@ -40,6 +46,8 @@ Supported types in Terraform:<br/>
 </b>There is also the "<span style="color: #ff0000">any"</span>&nbsp;type, in which you basically add whatever you want without caring about the type, but I really don’t recommend it as it will make your code harder to maintain. &nbsp;<br/>
 Every variable will be declared with a <span style="color: #0000ff">variable block</span>&nbsp;and we will always use it with<span style="color: #0000ff">&nbsp;var.variable_name</span>&nbsp; <br/>
 &nbsp; <img src="image 4.png" /><br/>
+<br/>
+The type argument in a variable block allows you to restrict the type of value that will be accepted as the value for a variable. <span style="background-color: #ffff00">If no type constraint is set then a value of any type is accepted.</span>&nbsp; <br/>
 <br/>
 <br/>
 There are a couple of other ways you can assign values to variables. If you happen to specify a value for a variable in multiple ways, Terraform will use the last value it finds, by taking into consideration their precedence order. I’m going to present these to you now:<br/>

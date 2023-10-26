@@ -3,13 +3,23 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Commands</title>
-</head><body>terraform init<br/>
-terraform init -upgrade change versions of providers specified in lock file .terraform.lock.hd <br/>
+</head><body><span style="font-size: 17pt"><span style="color: #0000ff">&nbsp;Terraform is an <span style="background-color: #ffa300">immutable, declarative</span>, Infrastructure as Code <span style="background-color: #ffa300">provisioning</span>&nbsp;language </span></span><br/>
+&nbsp; <span style="font-size: 14pt"><span style="color: #0000ff"><br/>
+</span></span><span style="font-size: 14pt"><span style="color: #0000ff"><br/>
+</span></span><span style="font-size: 14pt"><span style="color: #0000ff">terraform init</span></span><br/>
+<span style="font-size: 15pt"><span style="color: #0000ff">terraform init -upgrade</span></span>&nbsp;<span style="background-color: #ffff00">change versions of providers</span>&nbsp;specified in lock file .terraform.lock.hd <br/>
+<br/>
+<span style="color: #0000ff"><span style="font-size: 13pt">&nbsp;terraform init</span></span>&nbsp;is a command that initializes a new or existing Terraform configuration. When you run terraform init, Terraform performs several tasks to set up the configuration for use, including: <span style="background-color: #ffff00">Sources all providers present in the configuration and ensures they are downloaded and available locally Connects to the backend, if one is configured, and performs any necessary setup steps Sources any modules referenced in the configuration and copies their contents locally Initializes the backend configuration and performs any necessary setup steps</span>&nbsp; <br/>
+<img src="image 2.png" /><img src="image 3.png" /><br/>
 <br/>
 terraform fmt -&gt; formats file( beatufy)<br/>
 <br/>
 terraform fmt -diff -&gt; (format) command is used to rewrite Terraform configuration files to a canonical format and style. By default, fmt scans the current directory for configuration files. If you provide a directory for the target argument, then fmt will scan that directory instead. If you provide a file, then fmt will process just that file. If you provide a single dash (-), then fmt will read from standard input<br/>
 &#09;&#09;-diff - Display diffs of formatting changes<br/>
+<ul><li style="list-style-type: none"><ul><li style="list-style-type: none">N.B. indentation is by default of 2 spaces</li>
+</ul>
+</li>
+</ul>
 <br/>
 terraform plan -&gt; command creates an execution plan, which lets you preview the changes that Terraform plans to make to your infrastructure. By default, when Terraform creates a plan it:<br/>
 <br/>
@@ -25,13 +35,15 @@ terraform apply -&gt; &nbsp;command executes the actions proposed in a Terraform
 terraform destroy -&gt; command is a convenient way to destroy all remote objects managed by a particular Terraform configuration.<br/>
 &#09;--auto-approve<br/>
 <br/>
-terraform show -json : &nbsp;command is used to provide human-readable output from a state or plan file. This can be used to inspect a plan to ensure that the planned operations are expected, or to inspect the current state as Terraform sees it.<br/>
+<span style="background-color: #ffff00">terraform show -json</span>&nbsp;: &nbsp;command is used to provide human-readable output from a state or plan file. This can be used to inspect a plan to ensure that the planned operations are expected, or to inspect the current state as Terraform sees it.<br/>
+<br/>
+terraform state show [name of resource] --&gt; shows resource block of only 1 resource<br/>
 <br/>
 terraform state list -&gt; &nbsp;that shows us all of the resources within our state<br/>
 <br/>
 terraform output -&gt; prints output values in terminal<br/>
 <br/>
-terraform taint -&gt; command informs Terraform that a particular object has become degraded or damaged. Terraform represents this by marking the object as "tainted" in the Terraform state, and Terraform will propose to replace it in the next plan you create<br/>
+terraform taint -&gt; command informs Terraform that a particular object has become degraded or damaged. Terraform represents this by marking the object as "tainted" in the Terraform state, and Terraform will propose to replace it in the next plan you create -&gt;<span style="color: #ff0000">&nbsp;deprecated now use terraform apply -replace e.g. terraform apply -replace="aws_instance.example[0]"</span><br/>
 <br/>
 terraform graph [options] -&gt; Outputs the visual execution graph of Terraform resources according to either the current configuration or an execution plan.<br/>
 <br/>
@@ -45,14 +57,14 @@ terraform graph [options] -&gt; Outputs the visual execution graph of Terraform 
 &nbsp; &nbsp; -module-depth=n - (deprecated) In prior versions of Terraform, specified the depth of modules to show in the output.<br/>
 <br/>
 Command: validate<br/>
-The <span style="color: #0000ff"><span style="font-size: 15pt">terraform validate command </span></span>v<span style="background-color: #ffff00">alidates the configuration files in a directory, referring only to the configuration and not accessing any remote services</span>&nbsp;such as remote state, provider APIs, etc.<br/>
+The <span style="font-size: 15pt"><span style="color: #0000ff">terraform validate command </span></span>v<span style="background-color: #ffff00">alidates the configuration files in a directory, referring only to the configuration and not accessing any remote services</span>&nbsp;such as remote state, provider APIs, etc.<br/>
 Validate runs checks that verify whether a configuration is syntactically valid and internally consistent, regardless of any provided variables or existing state. It is thus primarily useful for general verification of reusable modules, including correctness of attribute names and value types.<br/>
 It is safe to run this command automatically, for example as a post-save check in a text editor or as a test step for a re-usable module in a CI system.<br/>
 Validation requires an initialized working directory with any referenced plugins and modules installed. To initialize a working directory for validation without accessing any configured backend, use:<br/>
 $ terraform init -backend=false To verify configuration in the context of a particular run (a particular target workspace, input variable values, etc), use the terraform plan command instead, which includes an implied &nbsp; <br/>
 <br/>
 Command: plan<br/>
-The <span style="font-size: 14pt"><span style="color: #0000ff">terraform plan command </span></span>creates an execution plan, which lets you preview the changes that Terraform plans to make to your infrastructure. By default, when Terraform creates a plan it:<br/>
+The <span style="color: #0000ff"><span style="font-size: 14pt">terraform plan command </span></span>creates an execution plan, which lets you preview the changes that Terraform plans to make to your infrastructure. By default, when Terraform creates a plan it:<br/>
 <ul><li>Reads the current state of any already-existing remote objects to make sure that the Terraform state is up-to-date.</li>
 <li>Compares the current configuration to the prior state and noting any differences.</li>
 <li>Proposes a set of change actions that should, if applied, make the remote objects match the configuration</li>
@@ -64,20 +76,22 @@ Terraform plan and apply operations run an implicit in-memory refresh as part of
 In previous versions of Terraform, the only way to refresh your state file was by using the terraform refresh subcommand. However, this was less safe than the -refresh-only plan and apply mode since it would automatically overwrite your state file without giving you the option to review the modifications first. In this case, that would mean automatically dropping all of your resources from your state file.<br/>
 The -refresh-only mode for terraform plan and terraform apply operations makes it safer to check Terraform state against real infrastructure by letting you review proposed changes to the state file. It lets you avoid mistakenly removing an existing resource from state and gives you a chance to correct your configuration.<br/>
 <br/>
-<span style="color: #0000ff"><span style="font-size: 14pt">Run a refresh-only plan</span></span><br/>
+<span style="font-size: 15pt"><span style="color: #0000ff">terraform refresh &nbsp;</span></span>reads the current settings from all managed remote objects and updates the Terraform state to match. &nbsp; This command is deprecated, because its default behavior is unsafe if you have misconfigured credentials for any of your providers. See below for more information and recommended alternatives &nbsp;;This command is effectively an alias for the following command: &nbsp;<br/>
+<span style="color: #ff0000">terraform apply -refresh-only -auto-approve &nbsp;</span><br/>
+<span style="font-size: 14pt"><span style="color: #0000ff">Run a refresh-only plan</span></span><br/>
 By default, Terraform compares your state file to real infrastructure whenever you invoke terraform plan or terraform apply. The refresh updates your state file in-memory to reflect the actual configuration of your infrastructure. This ensures that Terraform determines the correct changes to make to your resources.<br/>
 If you suspect that your infrastructure configuration changed outside of the Terraform workflow, you can use a -refresh-only flag to inspect what the changes to your state file would be. This is safer than the <a href="https://developer.hashicorp.com/terraform/cli/commands/refresh">refresh subcommand</a>, which automatically overwrites your state file without displaying the updates.<br/>
-&nbsp; <br/>
+&nbsp; <img src="image.png" width="407" height="300" /><br/>
 &nbsp; . &nbsp;<br/>
 &nbsp; <br/>
 Planning Modes<br/>
 The previous section describes Terraform's default planning behavior, which changes the remote system to match the changes you make to your configuration. Terraform has two alternative planning modes, each of which creates a plan with a different intended outcome. These options are available for both terraform plan and <a href="https://developer.hashicorp.com/terraform/cli/v1.1.x/commands/apply">terraform apply</a>.<br/>
 <br/>
-<ul><li><span style="background-color: #ffff00"><span style="color: #0000ff"><b>Destroy mode</b></span><b>:</b>&nbsp;</span>creates a plan whose goal is to destroy all remote objects that currently exist, leaving an empty Terraform state. This can be useful for situations like transient development environments, where the managed objects cease to be useful once the development task is complete.</li>
+<ul><li><b><span style="color: #0000ff"><span style="background-color: #ffff00">Destroy mode</span></span><span style="background-color: #ffff00">:</span></b><span style="background-color: #ffff00">&nbsp; terraform plan -destroy </span>creates a plan whose goal is to destroy all remote objects that currently exist, leaving an empty Terraform state. This can be useful for situations like transient development environments, where the managed objects cease to be useful once the development task is complete.</li>
 </ul>
 &nbsp; &nbsp; &nbsp; &nbsp; Activate destroy mode using the -destroy command line option.<br/>
 <br/>
-<ul><li><span style="background-color: #ffff00"><span style="color: #0000ff"><b>Refresh-only mode</b></span></span><b>:</b>&nbsp;creates a plan whose goal is only to update the Terraform state and any root module output values to match changes made to remote objects outside of Terraform. This can be useful if you've intentionally changed one or more remote objects outside of the usual workflow (e.g. while responding to an incident) and you now need to reconcile Terraform's records with those changes.</li>
+<ul><li><b><span style="color: #0000ff"><span style="background-color: #ffff00">Refresh-only mode</span></span>:</b>&nbsp;creates a plan whose goal is only to update the Terraform state and any root module output values to match changes made to remote objects outside of Terraform. This can be useful if you've intentionally changed one or more remote objects outside of the usual workflow (e.g. while responding to an incident) and you now need to reconcile Terraform's records with those changes.</li>
 </ul>
 &nbsp; &nbsp; &nbsp; &nbsp; Activate refresh-only mode using the -refresh-only command line option<br/>
 <br/>
@@ -103,6 +117,7 @@ In addition to alternate <a href="https://developer.hashicorp.com/terraform/cli/
 There are several other ways to set values for input variables in the root module, aside from the -var and -var-file options. Refer to <a href="https://developer.hashicorp.com/terraform/language/v1.1.x/values/variables#assigning-values-to-root-module-variables">Assigning Values to Root Module Variables</a>&nbsp;for more information.<br/>
 <br/>
 &nbsp; <br/>
+<span style="color: #0000ff"><span style="font-size: 16pt">terraform force-unlock</span></span><span style="font-size: 16pt">&nbsp;</span>Force unlock should only be used to unlock your own lock in the situation where automatic unlocking failed. Source: https://www.terraform.io/language/state/locking &nbsp;<br/>
 <br/>
 &nbsp;<br/>
 </body></html>

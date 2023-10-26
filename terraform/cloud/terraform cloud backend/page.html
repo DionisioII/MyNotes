@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Terraform cloud backend</title>
-</head><body><span style="font-size: 15pt"><span style="color: #0000ff">Terraform Cloud Configuration &nbsp;<br/>
+</head><body><span style="color: #0000ff"><span style="font-size: 15pt">Terraform Cloud Configuration &nbsp;<br/>
 <br/>
 </span></span>The main module of a Terraform configuration can integrate with Terraform Cloud to enable its <a href="https://developer.hashicorp.com/terraform/cloud-docs/run/cli">CLI-driven run workflow</a>. You only need to configure these settings when you want to use Terraform CLI to interact with Terraform Cloud. Terraform Cloud ignores them when interacting with Terraform through version control or the API. &nbsp;<br/>
 <br/>
@@ -23,9 +23,9 @@ terraform {<br/>
 }<br/>
 <img src="image.png" /><img src="image 2.png" /><br/>
 <br/>
-<span style="background-color: #ffff00">Every Terraform Cloud workspace belongs to a project</span>, which is a group of workspaces. <span style="background-color: #ffff00">When you create your workspace using this automated CLI workflow, Terraform Cloud adds the workspace to your organization's <b>Default</b>&nbsp;<b>project</b></span>. Projects help you organize your workspaces into groups, making it easier to find workspaces in large Terraform Cloud organizations. &nbsp;<br/>
+<span style="background-color: #ffff00">Every Terraform Cloud workspace belongs to a <span style="color: #0000ff"><span style="font-size: 18pt"><b>project</b></span></span></span>, which is a group of workspaces. <span style="background-color: #ffff00">When you create your workspace using this automated CLI workflow, Terraform Cloud adds the workspace to your organization's <b>Default</b>&nbsp;<b>project</b></span>. Projects help you organize your workspaces into groups, making it easier to find workspaces in large Terraform Cloud organizations. &nbsp;<br/>
 <br/>
-<span style="color: #0000ff"><span style="font-size: 14pt">Assign variable set to workspace</span></span><br/>
+<span style="font-size: 14pt"><span style="color: #0000ff">Assign variable set to workspace</span></span><br/>
 If you are not using a global variable set with your <span style="background-color: #ffff00">AWS credentials </span>in your Terraform Cloud organization, <span style="background-color: #00ff00">assign the variable set to your new workspace</span>.<br/>
 Navigate to your new learn-terraform-cloud workspace. Select <b>Variables</b>&nbsp;in the workspace's menu. Under <b>Variable sets</b>, click <b>Apply variable set</b>.<br/>
 <img src="image 3.png" /><img src="image 4.png" /><br/>
@@ -38,7 +38,7 @@ Terraform Cloud runs <a href="https://developer.hashicorp.com/terraform/cli">Ter
 <br/>
 Terraform Cloud also enables you to share information between workspaces with root-level <a href="https://developer.hashicorp.com/terraform/language/values/outputs">outputs</a>. Separate groups of infrastructure resources often need to share a small amount of information, and workspace outputs are an ideal interface for these dependencies. &nbsp;<br/>
 &nbsp; <br/>
-<span style="color: #0000ff"><span style="font-size: 13pt">Version Control Integration</span></span><br/>
+<span style="font-size: 13pt"><span style="color: #0000ff">Version Control Integration</span></span><br/>
 Like other kinds of code, infrastructure-as-code belongs in version control, so <span style="background-color: #00ff00">Terraform Cloud is designed to work directly with your version control system </span>(VCS) provider.<br/>
 <span style="background-color: #ffff00">Each workspace can be linked to a VCS repository that contains its Terraform configuration, optionally specifying a branch and subdirectory.</span>&nbsp;Terraform Cloud automatically retrieves configuration content from the repository, and will <span style="background-color: #00ff00">also watch the repository for changes</span>:<br/>
 <br/>
@@ -48,17 +48,17 @@ Like other kinds of code, infrastructure-as-code belongs in version control, so 
 If you don want to use a VCS provider you can &nbsp;periodically upload configuration files via API/CLI &nbsp;<br/>
 <br/>
 <br/>
-<span style="color: #0000ff"><span style="font-size: 14pt">Command Line Integration</span></span><br/>
+<span style="font-size: 14pt"><span style="color: #0000ff">Command Line Integration</span></span><br/>
 <br/>
 Remote execution offers major benefits to a team, but local execution offers major benefits to individual developers; for example, most Terraform users run terraform plan to interactively check their work while editing configurations.<br/>
 <br/>
 Terraform Cloud offers the best of both worlds, allowing you to run remote plans from your local command line. <span style="background-color: #ffff00">Configure the Terraform Cloud CLI integration, and the terraform plan command will start a remote run in the configured Terraform Cloud workspace</span>. <span style="background-color: #00ffff">The output of the run streams directly to your terminal, and you can also share a link to the remote run with your teammates</span>.<br/>
 <br/>
-<span style="color: #0000ff"><span style="font-size: 17pt"><br/>
-</span></span><span style="color: #0000ff"><span style="font-size: 17pt">Workspaces </span></span>&nbsp;<br/>
+<span style="font-size: 17pt"><span style="color: #0000ff"><br/>
+</span></span><span style="font-size: 17pt"><span style="color: #0000ff">Workspaces </span></span>&nbsp;<br/>
 Terraform Cloud manages infrastructure collections with <i>workspaces</i>&nbsp;<span style="background-color: #ffff00">A workspace contains everything Terraform needs to manage a given collection of infrastructure</span>, and separate workspaces function like completely separate working directories. &nbsp;<br/>
 <br/>
-<span style="color: #0000ff"><span style="font-size: 15pt">Terraform Cloud vs. Terraform CLI Workspaces</span></span><br/>
+<span style="font-size: 15pt"><span style="color: #0000ff">Terraform Cloud vs. Terraform CLI Workspaces</span></span><br/>
 <br/>
 Both Terraform Cloud and Terraform CLI have features called workspaces, but they function differently.<br/>
 <ul><li>&nbsp;<span style="background-color: #ffff00">Terraform Cloud workspaces are required</span>. <span style="background-color: #00ffff">They represent all of the collections of infrastructure in an organization.</span>&nbsp;They are also a major component of role-based access in Terraform Cloud. You can grant individual users and user groups permissions for one or more workspaces that dictate whether they can manage variables, perform runs, etc. You cannot manage resources in Terraform Cloud without creating at least one workspace.</li>

@@ -30,7 +30,7 @@ terraform {<br/>
 &nbsp; required_providers {<br/>
 &nbsp; &nbsp; docker = {<br/>
 &nbsp; &nbsp; &nbsp; source &nbsp;= "kreuzwerker/docker"<br/>
-&nbsp; &nbsp; &nbsp; version = "2.20.0"<br/>
+&nbsp; &nbsp; &nbsp; version = "2.20.0" <br/>
 &nbsp; &nbsp; }<br/>
 &nbsp; }<br/>
 }<br/>
@@ -50,6 +50,7 @@ resource "docker_container" "foo" {<br/>
 &nbsp; name &nbsp;= "foo"<br/>
 }<br/>
 <br/>
+<i>Resource type must always start with their containing provider’s name followed by an underscore, so a resource type from the provider aws might be named aws_vpc.</i>&nbsp; <br/>
 <br/>
 .terraform.lock.hd : something similar<br/>
 <br/>

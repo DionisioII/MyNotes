@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>KnowledgeFlow pt3- Count_ForEach_Ternary Operators</title>
-</head><body><b><span style="font-size: 18pt"><span style="color: #0000ff">COUNT<br/>
+</head><body><b><span style="color: #0000ff"><span style="font-size: 18pt">COUNT<br/>
 </span></span></b>Using count we can, you guessed it,<span style="background-color: #ffff00">&nbsp;create multiple resources of the same typ</span>e. Every terraform resource supports the count block. <span style="background-color: #ffff00">Count exposes a count.index object, which can be used in the same way you would use an iterator in any programming language</span>. &nbsp;<br/>
 <img src="image.png" /><br/>
 The above block will create 5 namespaces in Kubernetes with the following names: ns1, ns2, ns3, ns4, ns5. All fun and games until now. If you change the count to 4, the last namespace, ns5 will be deleted if you re-apply the code. &nbsp;<br/>
@@ -16,32 +16,37 @@ Let’s suppose you want to customize, a little bit the names of the namespaces.
 Also, let’s suppose you are creating a hundred ec2 instances and you are using a list for that to better configure them. For some reason, let’s suppose you want to remove the instance with index 13 (see what I did there?), what’ going to happen with the ones from index 14 to 100? They will be recreated because all of them are going to change their index to what it was minus 1.<br/>
 <span style="background-color: #ffff00">And that’s why I hate count. It doesn’t give you the flexibility to create very generic resources and in my book, that’s a hard pass<br/>
 <b><br/>
-</b></span><b><span style="font-size: 16pt"><span style="color: #0000ff"><span style="background-color: #ffffff">FOR_EACH<br/>
+</b></span><b><span style="background-color: #ffffff"><span style="color: #0000ff"><span style="font-size: 16pt">FOR_EACH<br/>
 </span></span></span></b><br/>
 For_Each can be used with map and set variables, but I don’t remember a use case in which I used a set. So what I’m always doing is using for_each on maps, and more specifically on <span style="color: #ff0000">map(object)</span>. I’ll show you what that looks like in a bit.<br/>
 <span style="background-color: #ffff00">For_each exposes one attribute called <span style="color: #ff0000">each</span></span>. This attribute contains a key and value which can be used with <span style="color: #0000ff">each.key</span>&nbsp;and<span style="color: #0000ff">&nbsp;each.value</span>.<br/>
 With for_each, you will reference an instance of your resource with type.name[key]<br/>
 <img src="image 3.png" /><br/>
-We have defined a variable called namespaces and we are going to iterate through it on the kubernetes_namespace resource. This variable has a map(object) type and inside of it, we’ve defined two optional properties: annotations and labels. <span style="background-color: #ffff00"><b>Optional</b>&nbsp;can be used on parameters inside object variables to give the possibility to omit that particular parameter and to provide a default value for it instead</span>. As this feature is available from Terraform 1.3.0, I believe it will soon be embraced by the community as a best practice (for me, it is already). Inside this variable, we have added a default value, just for demo purposes, in the real world, you are going to anyway separate resources from variables in their own files, and you are going to provide default values as empty maps if you are using the above approach with optionals on your parameters, but that’s a completely different story &nbsp;<br/>
+We have defined a variable called namespaces and we are going to iterate through it on the kubernetes_namespace resource. This variable has a map(object) type and inside of it, we’ve defined two optional properties: annotations and labels. <b><span style="background-color: #ffff00">Optional</span></b><span style="background-color: #ffff00">&nbsp;can be used on parameters inside object variables to give the possibility to omit that particular parameter and to provide a default value for it instead</span>. As this feature is available from Terraform 1.3.0, I believe it will soon be embraced by the community as a best practice (for me, it is already). Inside this variable, we have added a default value, just for demo purposes, in the real world, you are going to anyway separate resources from variables in their own files, and you are going to provide default values as empty maps if you are using the above approach with optionals on your parameters, but that’s a completely different story &nbsp;<br/>
 If I want to remove namespace2 for whatever reason, what is going to happen to namespace3 and namespace4? Absolutely <b>nothing</b>&nbsp; <br/>
 <br/>
-<b><span style="font-size: 14pt"><span style="color: #0000ff">Ternary Operators<br/>
+<span style="color: #0000ff"><span style="font-size: 14pt"><b>Ternary Operators<br/>
 <br/>
-</span></span></b><br/>
+</b></span></span><br/>
 you have ternary operators and the syntax is:<br/>
 condition ? val1 : val2<br/>
 The above means if the condition is true, use val1, if the condition is false, use val2. Let’s see it in action:<br/>
 &nbsp; <img src="image 4.png" /><br/>
 nested conditional example: nested_conditional = local.val2 &gt; local.val1 ? local.val3 &gt; local.val2 ? local.val3 : local.val2 : local.val1 &nbsp;<br/>
 <br/>
-<span style="font-size: 14pt"><span style="color: #0000ff"><b>FOOR LOOPS AND IFs<br/>
-</b></span></span><img src="image 5.png" /><img src="image 6.png" /><br/>
+<b><span style="color: #0000ff"><span style="font-size: 14pt">FOOR LOOPS AND IFs<br/>
+</span></span></b><img src="image 5.png" /><img src="image 6.png" /><br/>
 <br/>
 &nbsp; <br/>
 We’ve defined a list variable that generates numbers from 0 to 4 list_var and a map variable with two elements map_var. As you can see, for the other 6 locals defined in the code snippet, you can build both lists and maps by using this type of loop. <span style="background-color: #ffff00">By starting the value with [ you are creating a list, and by starting the value with { you are creating a map</span>.<br/>
 The difference from a syntax standpoint is that <span style="background-color: #ffff00">when you are building a map you have to provide the =&gt; attribute</span>. The sky is the limit when it comes to these expressions, you can nest them on how many levels you want depending on the structure you are iterating through, but this will become, again, very hard to maintain.<br/>
 If you are cycling through a map variable, and you are using a single iterator, you will actually cycle only through the values of the map, by using two, you will cycle through both keys and variables (the first iterator will be the key, the second iterator will be the value).<br/>
 &nbsp; <br/>
-&nbsp; <span style="color: #0000ff"><span style="font-size: 14pt">SPLAT OPERATOR (*)<br/>
+&nbsp; <span style="font-size: 14pt"><span style="color: #0000ff">SPLAT OPERATOR (*)<br/>
 </span></span>There is another operator called splat(*) that can help with providing a more concise way to reference some common operations that you would usually do with a for. This operator works only on lists, sets, and tuples. &nbsp;<br/>
-&nbsp; <img src="image 7.png" /></body></html>
+&nbsp; <img src="image 7.png" /><br/>
+<br/>
+<span style="color: #ff0000"><span style="font-size: 15pt">aws_instance.example.ebs_block_device.*.volume_id</span></span>&nbsp;<br/>
+and <br/>
+<span style="color: #ff0000"><span style="font-size: 16pt">aws_instance.example.ebs_block_device[*]</span><span style="font-size: 15pt">.volume_id</span></span>&nbsp;are equivalent &nbsp;<br/>
+</body></html>

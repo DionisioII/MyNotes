@@ -40,7 +40,7 @@ from <a href="https://developer.hashicorp.com/terraform/tutorials/state/state-cl
 MODE = Managed | data ---&gt; managed means that terraform creates and manage a resource, data is usually something to readonly e.g. AMI resource is data, ec2 instance is managed<br/>
 <br/>
 <br/>
-<span style="color: #0000ff"><span style="font-size: 15pt">terraform show</span></span><br/>
+<span style="font-size: 15pt"><span style="color: #0000ff">terraform show</span></span><br/>
 The Terraform CLI allows you to review resources in the state file without interacting with the .tfstate file itself. This is how you should interact with your state.<br/>
 Run terraform show to get a human-friendly output of the resources contained in your state<br/>
 <br/>
@@ -72,7 +72,7 @@ data "aws_ami" "ubuntu" {<br/>
 &nbsp; &nbsp; arn &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; = "arn:aws:ec2:us-east-1::image/ami-0b287e7832eb862f8"<br/>
 <br/>
 <br/>
-<span style="color: #0000ff"><span style="font-size: 15pt">terraform state list</span></span><br/>
+<span style="font-size: 15pt"><span style="color: #0000ff">terraform state list</span></span><br/>
 Run terraform state list to get the list of resource names and local identifiers in your state file. This command is useful for more complex configurations where you need to find a specific resource without parsing state with terraform show &nbsp;<br/>
 <br/>
 terraform state list<br/>
@@ -80,7 +80,7 @@ data.aws_ami.ubuntu<br/>
 aws_instance.example<br/>
 aws_security_group.sg_8080<br/>
 <br/>
-<span style="color: #0000ff"><span style="font-size: 14pt">Replace a resource with CLI</span></span><br/>
+<span style="font-size: 14pt"><span style="color: #0000ff">Replace a resource with CLI</span></span><br/>
 Terraform usually only updates your infrastructure if it does not match your configuration. You can use the <span style="background-color: #ffff00">-replace flag for terraform plan and terraform apply</span>&nbsp;operations to safely recreate resources in your environment even if you have not edited the configuration, which can be useful in cases of system malfunction<br/>
 <br/>
 EXAMPLE:<br/>
@@ -90,16 +90,16 @@ terraform apply -replace="aws_instance.example" &nbsp;<br/>
 <br/>
 <span style="color: #ff0000">Using the terraform apply command with the -replace flag is the HashiCorp-recommended process for managing resources without manually editing your state file.</span>&nbsp; <br/>
 &nbsp; <br/>
-<span style="color: #0000ff"><span style="font-size: 16pt">terraform state mv <br/>
+<span style="font-size: 16pt"><span style="color: #0000ff">terraform state mv <br/>
 <br/>
-</span></span>The terraform state mv command moves resources from one state file to another. You can also rename resources with mv. The move command will update the resource in state, but not in your configuration file. Moving resources is useful when you want to combine modules or resources from other states, but do not want to destroy and recreate the infrastructure. &nbsp;<br/>
+</span></span>The terraform state mv command <span style="background-color: #ffff00">moves resources from one state file to another. You can also rename resources with mv</span>. The move command will update the resource in state, but not in your configuration file. Moving resources is useful when you want to combine modules or resources from other states, but do not want to destroy and recreate the infrastructure. &nbsp;<br/>
 <br/>
 example:<br/>
 terraform state mv -state-out=../terraform.tfstate aws_instance.example_new aws_instance.example_new<br/>
 Move "aws_instance.example_new" to "aws_instance.example_new"<br/>
 Successfully moved 1 object(s).<br/>
 <br/>
-<span style="color: #0000ff"><span style="font-size: 15pt">terraform state rm &nbsp;<br/>
+<span style="font-size: 15pt"><span style="color: #0000ff">terraform state rm &nbsp;<br/>
 </span></span>The terraform state rm subcommand removes specific resources from your state file. <span style="background-color: #ffff00">This does not remove the resource from your configuration or destroy the infrastructure itself. </span>&nbsp;<br/>
 <br/>
 example:<br/>
@@ -127,7 +127,7 @@ aws_security_group.sg_8080: Refreshing state... [id=sg-0096a764b1e76f7fd]<br/>
 <br/>
 Import successful!<br/>
 <br/>
-<span style="color: #0000ff"><span style="font-size: 15pt">terraform import [options] ADDRESS ID &nbsp;<br/>
+<span style="font-size: 15pt"><span style="color: #0000ff">terraform import [options] ADDRESS ID &nbsp;<br/>
 </span></span><br/>
 Import will find the existing resource from ID and import it into your Terraform state at the given ADDRESS.<br/>
 ADDRESS must be a valid <a href="https://developer.hashicorp.com/terraform/cli/v1.1.x/state/resource-addressing">resource address</a>. Because any resource address is valid, the import command can import resources into modules as well as directly into the root of your state.<br/>
@@ -148,9 +148,9 @@ $<span style="color: #ff0000">&nbsp;terraform import aws_instance.example i-abcd
 <br/>
 This command locates the AWS EC2 instance with ID i-abcd1234.<br/>
 <br/>
-&nbsp; <span style="color: #0000ff"><span style="font-size: 15pt"><br/>
+&nbsp; <span style="font-size: 15pt"><span style="color: #0000ff"><br/>
 </span></span><br/>
-<span style="color: #0000ff"><span style="font-size: 16pt">terraform refresh ::: Refresh modified infrastructure &nbsp;<br/>
+<span style="font-size: 16pt"><span style="color: #0000ff">terraform refresh ::: Refresh modified infrastructure &nbsp;<br/>
 <br/>
 </span></span><br/>
 The terraform refresh command updates the state file when physical resources change outside of the Terraform workflow.<br/>

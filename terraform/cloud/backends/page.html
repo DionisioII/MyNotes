@@ -5,6 +5,7 @@
 <title>Backends</title>
 </head><body><span style="color: #0000ff"><span style="font-size: 14pt">Backends</span></span><br/>
 Backends define where Terraform's <a href="https://developer.hashicorp.com/terraform/language/v1.1.x/state">state</a>&nbsp;snapshots are stored<br/>
+<img src="image.png" /><br/>
 <br/>
 <br/>
 Backends primarily determine where Terraform stores its <a href="https://developer.hashicorp.com/terraform/language/v1.1.x/state">state</a>. Terraform uses this persisted <a href="https://developer.hashicorp.com/terraform/language/v1.1.x/state">state</a>&nbsp;data to keep track of the resources it manages. Since it needs the state in order to know which real-world infrastructure objects correspond to the resources in a configuration, everyone working with a given collection of infrastructure resources must be able to access the same state data.<br/>
@@ -14,12 +15,12 @@ Backends primarily determine where Terraform stores its <a href="https://develop
 </span><br/>
 &nbsp;Terraform has a built-in selection of backends, and the configured backend must be available in the version of Terraform you are using.<br/>
 The arguments used in the block's body are specific to the chosen backend type; they configure where and how the backend will store the configuration's state, and in some cases configure other behavior.<br/>
-Some backends allow providing access credentials directly as part of the configuration for use in unusual situations, for pragmatic reasons. However, in normal use we <i>do not</i>&nbsp;recommend including access credentials as part of the backend configuration. Instead, leave those arguments completely unset and provide credentials via the credentials files or environment variables that are conventional for the target system, as described in the documentation for each backend.<br/>
+Some backends allow providing access credentials directly as part of the configuration for use in unusual situations, for pragmatic reasons. However, <span style="background-color: #ffa300">in normal use we <i>do not</i>&nbsp;recommend including access credentials as part of the backend configuration. Instead, leave those arguments completely unset and provide credentials via the credentials files or environment variables that are conventional for the target system,</span>&nbsp;as described in the documentation for each backend.<br/>
 <br/>
 <span style="color: #ff0000">ps: If your configuration includes <a href="https://developer.hashicorp.com/terraform/language/v1.1.x/settings/terraform-cloud">a cloud block</a>, it cannot include a backend block. &nbsp;</span><br/>
 &nbsp; <br/>
 &nbsp; <br/>
-<span style="font-size: 14pt"><span style="color: #0000ff">&nbsp; LOCAL</span></span><br/>
+<span style="color: #0000ff"><span style="font-size: 14pt">&nbsp; LOCAL</span></span><br/>
 The local backend stores state on the local filesystem, locks that state using system APIs, and performs operations locally.<br/>
 <br/>
 <br/>
@@ -43,7 +44,7 @@ data "terraform_remote_state" "foo" {<br/>
 &nbsp; }<br/>
 }<br/>
 <br/>
-<span style="font-size: 13pt"><span style="color: #0000ff">&nbsp;REMOTE<br/>
+<span style="color: #0000ff"><span style="font-size: 13pt">&nbsp;REMOTE<br/>
 </span></span>Each Terraform configuration can specify a backend, which defines where <a href="https://developer.hashicorp.com/terraform/language/v1.1.x/state">state</a>&nbsp;snapshots are stored. &nbsp;<br/>
 <br/>
 terraform {<br/>
@@ -56,9 +57,12 @@ terraform {<br/>
 &nbsp; }<br/>
 }<br/>
 <br/>
-<span style="font-size: 13pt"><span style="color: #0000ff">CONSUL</span></span><br/>
+&nbsp;The remote backend <span style="background-color: #ffff00">can work with either a single remote Terraform Cloud workspace, or with multiple similarly-named remote workspaces</span>&nbsp;(like networking-dev and networking-prod). The workspaces block of the backend configuration determines which mode it uses: To use a single remote Terraform Cloud workspace, set workspaces.name to the remote workspace's full name (like networking-prod). <span style="background-color: #00ff00">To use multiple remote workspaces, set workspaces.prefix to a prefix</span>&nbsp;used in all of the desired remote workspace names. For example, set prefix = "networking-" to use Terraform cloud workspaces with names like networking-dev and networking-prod &nbsp;<br/>
 <br/>
-<span style="color: #000000"><span style="font-size: 13pt">terraform {<br/>
+<br/>
+<span style="color: #0000ff"><span style="font-size: 13pt">CONSUL</span></span><br/>
+<br/>
+<span style="font-size: 13pt"><span style="color: #000000">terraform {<br/>
 &nbsp; backend "consul" {<br/>
 &nbsp; &nbsp; address = "consul.example.com"<br/>
 &nbsp; &nbsp; scheme &nbsp;= "https"<br/>
@@ -68,11 +72,11 @@ terraform {<br/>
 <br/>
 </span></span><span style="color: #ff0000">The Consul backend also requires a Consul access token. Per the recommendation above of omitting credentials from the configuration and using other mechanisms, the Consul token would be provided by setting either the CONSUL_HTTP_TOKEN or CONSUL_HTTP_AUTH environment variables </span>&nbsp;<span style="font-size: 13pt"><br/>
 </span><span style="font-size: 13pt"><br/>
-</span><span style="font-size: 15pt"><span style="color: #0000ff">File</span></span><br/>
+</span><span style="color: #0000ff"><span style="font-size: 15pt">File</span></span><br/>
 A backend configuration file has the contents of the backend block as top-level attributes, without the need to wrap it in another terraform or backend block:<br/>
 address = "demo.consul.io"<br/>
 path &nbsp; &nbsp;= "example_app/terraform_state"<br/>
-scheme &nbsp;= "https"<span style="color: #0000ff"><span style="font-size: 13pt"><br/>
+scheme &nbsp;= "https"<span style="font-size: 13pt"><span style="color: #0000ff"><br/>
 </span></span><br/>
 Command-line key/value pairs<br/>
 <br/>

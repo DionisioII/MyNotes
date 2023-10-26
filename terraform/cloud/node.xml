@@ -2,6 +2,7 @@
 <node>
 <version>6</version>
 <dict>
+  <key>expanded</key><true/>
   <key>title</key><string>Cloud</string>
   <key>nodeid</key><string>4af71a29-5c56-4c21-9200-0b2d1c4cf87d</string>
   <key>modified_time</key><integer>1688723964</integer>

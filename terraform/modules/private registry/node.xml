@@ -4,10 +4,12 @@
 <dict>
   <key>title</key><string>Private registry</string>
   <key>nodeid</key><string>d617765d-2b66-4423-89cd-fa9934dd4d1c</string>
-  <key>modified_time</key><integer>1688564493</integer>
+  <key>modified_time</key><integer>1692968231</integer>
   <key>version</key><integer>6</integer>
   <key>content_type</key><string>text/xhtml+xml</string>
   <key>created_time</key><integer>1688562563</integer>
+  <key>info_sort_dir</key><integer>1</integer>
   <key>order</key><integer>2</integer>
+  <key>info_sort</key><string>order</string>
 </dict>
 </node>

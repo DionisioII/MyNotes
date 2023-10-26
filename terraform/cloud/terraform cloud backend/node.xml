@@ -4,10 +4,12 @@
 <dict>
   <key>title</key><string>Terraform cloud backend</string>
   <key>nodeid</key><string>cfef3d40-c3fa-461c-8ce4-d306b34c5bf9</string>
-  <key>modified_time</key><integer>1688731786</integer>
+  <key>modified_time</key><integer>1692882983</integer>
   <key>version</key><integer>6</integer>
   <key>content_type</key><string>text/xhtml+xml</string>
   <key>created_time</key><integer>1688730717</integer>
+  <key>info_sort_dir</key><integer>1</integer>
   <key>order</key><integer>2</integer>
+  <key>info_sort</key><string>order</string>
 </dict>
 </node>
